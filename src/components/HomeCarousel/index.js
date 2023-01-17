@@ -29,7 +29,7 @@ export default function HomeCarousel() {
 					>
 						<div>
 							<h1 style={{ fontWeight: "900", textAlign: "center" }}>
-								Rare Find Then Funddddsssss
+								Rare Find Then Fundddkkkk
 							</h1>
 							<br />
 							<br />
