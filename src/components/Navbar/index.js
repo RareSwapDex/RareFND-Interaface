@@ -1,21 +1,25 @@
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
 import "bootstrap/dist/css/bootstrap.css";
-import Image from "react-bootstrap/Image";
-import rarefnd_logo from "../../assets/logos/rarefnd_logo.png";
+// import Image from "react-bootstrap/Image";
+// import rarefnd_logo from "../../assets/logos/rarefnd_logo.png";
 import "./index.css";
-import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
-import Web3ConnectButton from "../Web3ConnectButton/index";
+// import Button from "react-bootstrap/Button";
+import { Link, useNavigate } from "react-router-dom";
+// import Web3ConnectButton from "../Web3ConnectButton/index";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import AuthContext from "../../Context/AuthContext";
-import avatar from "../../assets/logos/user.png";
-import ReactSlick from "../../components/ReactSlick";
+// import avatar from "../../assets/logos/user.png";
+// import ReactSlick from "../../components/ReactSlick";
+import { Col, Container, Row, Navbar, Nav } from 'react-bootstrap';
+import dollarTop from '../../assets/home-images/dollar_top.png'
+import MainLogo from '../../assets/home-images/main_logo.png';
 
 function NavBar() {
+
+	const navigate = useNavigate();
 	const [categoriesData, setCategoriesData] = useState({});
 	const { user, logOut } = useContext(AuthContext);
+
 	useEffect(() => {
 		axios
 			.get(process.env.REACT_APP_BASE_URL + "/api/category/")
@@ -24,244 +28,58 @@ function NavBar() {
 
 	return (
 		<div>
-			<div
-				style={{
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "center",
-				}}
-			>
-				<div className="main-nav-bar">
-					<div className="home-nav--bar">
-						<div
-							style={{
-								display: "flex",
-								width: "100%",
-							}}
-						>
-							<div
-								style={{
-									display: "flex",
-									gap: "1rem",
-									padding: "0 1rem 0 1rem",
-								}}
-							>
-								<div className="nav-bar-btn-wrapper nav-bar-btn">
-									<Web3ConnectButton />
-								</div>
-								<div className="nav-bar-btn-wrapper">
-									<Link to="/dashboard/projects">
-										<Button
-											className="nav-bar-btn"
-											variant="warning"
-											onMouseDown={(e) => e.preventDefault()}
-											style={{
-												whiteSpace: "nowrap",
-												textAlign: "center",
-												width: "155px",
-											}}
-											// onClick={props.nextTabFunction}
-										>
-											Start Project
-										</Button>
-									</Link>
-								</div>
-							</div>
-
-							<div className="w-100 text-center">
-								<Link to="/home">
-									<Image src={rarefnd_logo} className="logo" />
-								</Link>
-							</div>
-
-							<div
-								style={{
-									display: "flex",
-									gap: "1rem",
-									padding: "0 1rem 0 1rem",
-								}}
-							>
-								{user ? (
-									<>
-										<div className="nav-bar-btn-wrapper">
-											<Button
-												className="nav-bar-btn"
-												variant="outline-warning"
-												as={Link}
-												to="/logout"
-												style={{
-													whiteSpace: "nowrap",
-													textAlign: "center",
-													width: "155px",
-												}}
-												onMouseDown={logOut}
-											>
-												Log Out
-											</Button>
+			<div>
+				<div className='header_top'>
+					<Container>
+						<Row className='align-items-center'>
+							<Col md={8}>
+								<p className='header_top_text'> <img src={dollarTop} alt='top' />
+									<a href="https://rarefnd.zendesk.com/hc/en-gb/articles/7408695124125-Introducing-Give2Earn" alt=''>
+										Donate now and benefit from Give2Earn at Rare FND
+									</a>
+								</p>
+							</Col>
+							<Col md={4}>
+								{
+									user ?
+										<div className='d-flex justify-content-end'>
+											<button className='login' onMouseDown={logOut} onClick={() => navigate('/logout')}>Log Out</button>
+											<button className='sign_up' onMouseDown={(e) => e.preventDefault()} onClick={() => navigate('/dashboard')}>Dashboard</button>
+										</div> :
+										<div className='d-flex justify-content-end'>
+											<button className='login' onClick={() => navigate('/login')}>Login</button>
+											<button className='sign_up' onClick={() => navigate('/signup')}>Sign Up</button>
 										</div>
-										<div className="nav-bar-btn-wrapper">
-											<Button
-												className="nav-bar-btn"
-												variant="outline-warning"
-												as={Link}
-												to="/dashboard"
-												onMouseDown={(e) => e.preventDefault()}
-												style={{
-													whiteSpace: "nowrap",
-													textAlign: "center",
-													width: "155px",
-												}}
-											>
-												Dashboard
-											</Button>
-										</div>
-									</>
-								) : (
-									<>
-										<div className="nav-bar-btn-wrapper">
-											<Button
-												className="nav-bar-btn"
-												variant="outline-warning"
-												as={Link}
-												to="/login"
-												style={{
-													whiteSpace: "nowrap",
-													textAlign: "center",
-													width: "155px",
-												}}
-												onMouseDown={(e) => e.preventDefault()}
-											>
-												Login
-											</Button>
-										</div>
-										<div className="nav-bar-btn-wrapper">
-											<Button
-												className="nav-bar-btn"
-												variant="warning"
-												as={Link}
-												to="/signup"
-												style={{
-													whiteSpace: "nowrap",
-													textAlign: "center",
-													width: "155px",
-												}}
-												onMouseDown={(e) => e.preventDefault()}
-											>
-												Sign Up
-											</Button>
-										</div>
-									</>
-								)}
-							</div>
-						</div>
-						<div>
-							<img
-								src="https://assets-global.website-files.com/612f5131b9c94ecd0fe9c722/612f5131b9c94e2c0ee9ca3d_drops.svg"
-								className="decor"
-							/>
-						</div>
-					</div>
-					<div className="control-btns-menu">
-						<hr className="separator-line mx-auto" />
-						<div className="control-btns-menu-content">
-							<div className="control-menu-sub-btns">
-								{user ? (
-									<>
-										<div className="nav-bar-btn-wrapper">
-											<Button
-												className="nav-bar-btn-mob"
-												variant="outline-warning"
-												as={Link}
-												to="/logout"
-												style={{
-													whiteSpace: "nowrap",
-													textAlign: "center",
-													// width: "155px",
-												}}
-												onMouseDown={logOut}
-											>
-												Log Out
-											</Button>
-										</div>
-										<div className="nav-bar-btn-wrapper">
-											<Button
-												className="nav-bar-btn-mob"
-												variant="outline-warning"
-												as={Link}
-												onMouseDown={(e) => e.preventDefault()}
-												to="/dashboard"
-												style={{
-													whiteSpace: "nowrap",
-													textAlign: "center",
-												}}
-											>
-												Dashboard
-											</Button>
-										</div>
-									</>
-								) : (
-									<>
-										<div className="nav-bar-btn-wrapper">
-											<Button
-												className="nav-bar-btn-mob"
-												variant="outline-warning"
-												as={Link}
-												to="/login"
-												style={{
-													whiteSpace: "nowrap",
-													textAlign: "center",
-													// width: "155px",
-												}}
-												onMouseDown={(e) => e.preventDefault()}
-											>
-												Login
-											</Button>
-										</div>
-										<div className="nav-bar-btn-wrapper">
-											<Button
-												className="nav-bar-btn-mob"
-												variant="warning"
-												as={Link}
-												to="/signup"
-												style={{
-													whiteSpace: "nowrap",
-													textAlign: "center",
-													// width: "155px",
-												}}
-												onMouseDown={(e) => e.preventDefault()}
-											>
-												Sign Up
-											</Button>
-										</div>
-									</>
-								)}
-							</div>
-							<div className="control-menu-sub-btns">
-								<Link to="/dashboard/projects">
-									<Button
-										className="nav-bar-btn-mob"
-										variant="warning"
-										onMouseDown={(e) => e.preventDefault()}
-										style={{
-											whiteSpace: "nowrap",
-											textAlign: "center",
-										}}
-									>
-										Start Project
-									</Button>
-								</Link>
-								<div className="nav-bar-btn-wrapper nav-bar-btn-mob">
-									<Web3ConnectButton />
-								</div>
-							</div>
-						</div>
-						<hr className="separator-line mx-auto" />
-					</div>
+								}
+							</Col>
+						</Row>
+					</Container>
 				</div>
+
+				<Navbar expand="lg">
+					<Container className='align-items-start'>
+						<Navbar.Brand onClick={() => navigate('/')}><img src={MainLogo} alt='logo' /></Navbar.Brand>
+						<Navbar.Toggle aria-controls="basic-navbar-nav" />
+						<Navbar.Collapse id="basic-navbar-nav" className='nav_bar'>
+							<Nav className="ms-auto">
+								<Nav.Link href="#home" className='active'>Home</Nav.Link>
+								<Nav.Link onClick={() => navigate('/category/Art')}>Art</Nav.Link>
+								<Nav.Link onClick={() => navigate('/category/Design-&-Tech')}>Design & Tech</Nav.Link>
+								<Nav.Link onClick={() => navigate('/category/Films')}>Films</Nav.Link>
+								<Nav.Link onClick={() => navigate('/category/Food-&-Craft')}>Food & Crafts</Nav.Link>
+								<Nav.Link onClick={() => navigate('/category/Games')}>Games</Nav.Link>
+								<Nav.Link onClick={() => navigate('/category/Music')}>Music</Nav.Link>
+								<Nav.Link onClick={() => navigate('/category/Non-Profit')}>Non Profit</Nav.Link>
+								<button className='connect_btn'>Connect Wallet</button>
+							</Nav>
+						</Navbar.Collapse>
+					</Container>
+				</Navbar>
 			</div>
-			<div className="ResponsiveNav">
+
+			{/* <div className="ResponsiveNav">
 				<ReactSlick categoriesData={categoriesData} />
-			</div>
+			</div> */}
 		</div>
 	);
 }

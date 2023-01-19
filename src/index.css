@@ -1,8 +1,12 @@
+img{
+	max-width: 100%;
+}
+
 #root {
 	margin: 0;
 	font-family: "Poppins", sans-serif;
 	font-smooth: always;
-	background-image: linear-gradient(to left top, #bfb7ec 0%, #fef9d7 100%);
+	/* background-image: linear-gradient(to left top, #bfb7ec 0%, #fef9d7 100%); */
 }
 
 ::-webkit-scrollbar {
