@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import HiringImg1 from '../../assets/home-images/hiring_img1.png';
 import HiringImg2 from '../../assets/home-images/hiring_img2.png';
 import HiringImg3 from '../../assets/home-images/hiring_img3.png';
-import RightArrow from '../../assets/home-images/right_arrow.png';
-import HireArrow from '../../assets/home-images/hiring_arrow.png';
 import './Hiring.css';
 
 const Hiring = () => {
@@ -29,10 +27,6 @@ const Hiring = () => {
                                     to launch your fundraising campaign
                                     n Rare FND!
                                 </Card.Text>
-
-                                <div className='text-end'>
-                                    <button> <img src={HireArrow} alt='' style={{ marginTop: "50px" }} /> </button>
-                                </div>
                             </Card.Body>
                         </Card>
                     </Col>
@@ -47,10 +41,6 @@ const Hiring = () => {
                                     allow you to better fund your project and opens up
                                     the usefulness of the reward to a worldwide audience
                                 </Card.Text>
-
-                                <div className='text-end'>
-                                    <button> <img src={RightArrow} alt='' /> </button>
-                                </div>
                             </Card.Body>
                         </Card>
                     </Col>
@@ -65,18 +55,14 @@ const Hiring = () => {
                                     campaign fails to reach its fundraising goal, the funds are returned to the contributor
                                     PLUS any staking rewards that were earned during the campaign!
                                 </Card.Text>
-
-                                <div className='text-end'>
-                                    <button> <img src={HireArrow} alt='' /> </button>
-                                </div>
                             </Card.Body>
                         </Card>
                     </Col>
 
                     <Col md={12}>
                         <div className='text-center mt-3'>
-                            <button className='work_together' onClick={() => navigate('https://t.me/RareFnd')}>Work Better, Together</button>
-                            <button className='hire_rare' onClick={() => navigate('https://t.me/RareFnd')}>Hire a Rare Fund Expert</button>
+                            <a className='work_together' href='https://t.me/RareFnd' target='_blank' rel="noreferrer" >Work Better, Together</a>
+                            <a className='hire_rare' href='https://t.me/RareFnd' target='_blank' rel="noreferrer" >Hire a Rare Fund Expert</a>
                         </div>
                     </Col>
                 </Row>

@@ -34,7 +34,9 @@ function NavBar() {
 						<Row className='align-items-center'>
 							<Col md={8}>
 								<p className='header_top_text'> <img src={dollarTop} alt='top' />
-									<a href="https://rarefnd.zendesk.com/hc/en-gb/articles/7408695124125-Introducing-Give2Earn" alt=''>
+									<a href="https://rarefnd.zendesk.com/hc/en-gb/articles/7408695124125-Introducing-Give2Earn"
+										target='_blank' rel="noreferrer"
+										alt=''>
 										Donate now and benefit from Give2Earn at Rare FND
 									</a>
 								</p>
@@ -58,18 +60,20 @@ function NavBar() {
 
 				<Navbar expand="lg">
 					<Container className='align-items-start'>
-						<Navbar.Brand onClick={() => navigate('/')}><img src={MainLogo} alt='logo' /></Navbar.Brand>
+						<Navbar.Brand onClick={() => navigate('/home')}><img src={MainLogo} alt='logo' /></Navbar.Brand>
 						<Navbar.Toggle aria-controls="basic-navbar-nav" />
 						<Navbar.Collapse id="basic-navbar-nav" className='nav_bar'>
 							<Nav className="ms-auto">
-								<Nav.Link href="#home" className='active'>Home</Nav.Link>
+								<Nav.Link onClick={() => navigate('/home')} className='active'>Home</Nav.Link>
 								<Nav.Link onClick={() => navigate('/category/Art')}>Art</Nav.Link>
 								<Nav.Link onClick={() => navigate('/category/Design-&-Tech')}>Design & Tech</Nav.Link>
 								<Nav.Link onClick={() => navigate('/category/Films')}>Films</Nav.Link>
 								<Nav.Link onClick={() => navigate('/category/Food-&-Craft')}>Food & Crafts</Nav.Link>
 								<Nav.Link onClick={() => navigate('/category/Games')}>Games</Nav.Link>
 								<Nav.Link onClick={() => navigate('/category/Music')}>Music</Nav.Link>
+								<Nav.Link onClick={() => navigate('/category/Publishing')}>Publishing</Nav.Link>
 								<Nav.Link onClick={() => navigate('/category/Non-Profit')}>Non Profit</Nav.Link>
+								<Nav.Link onClick={() => navigate('/category/Politics')}>Politics</Nav.Link>
 								<button className='connect_btn'>Connect Wallet</button>
 							</Nav>
 						</Navbar.Collapse>

@@ -60,6 +60,13 @@
     color: #6d7783 !important;
 }
 
+.right_reserved p span{
+    margin-right: 5px;
+    margin-left: 5px;
+    color: #fff !important;
+    cursor: pointer;
+}
+
 @media (max-width: 767px) {
     .footer_main .footer_logo p {
         font-size: 15px;

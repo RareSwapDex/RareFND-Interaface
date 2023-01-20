@@ -11,8 +11,10 @@ import "bootstrap/dist/css/bootstrap.css";
 import AuthContext from "../../Context/AuthContext";
 import { useContext } from "react";
 import "./index.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Footer() {
+	const navigate = useNavigate();
 	const { user, logOut } = useContext(AuthContext);
 	return (
 		<div className='footer_main'>
@@ -43,7 +45,7 @@ export default function Footer() {
 							</p>
 
 							<div className='d-flex justify-content-between'>
-								<p style={{ fontSize: "15px", color: '#6d7783' }}><img src={email} alt='' /> Contact@mail.com</p>
+								<p style={{ fontSize: "15px", color: '#6d7783' }}><img src={email} alt='' /> <a href="mailto:help@rarefnd.com"> help@rarefnd.com </a> </p>
 								<p style={{ fontSize: "15px", color: '#6d7783' }}><img src={phone} alt='' /> 00000-000-00</p>
 							</div>
 						</div>
@@ -97,7 +99,7 @@ export default function Footer() {
 							<p>© RareFnd, 2022. All rights reserved.</p>
 						</Col>
 						<Col md={6}>
-							<p className='d-flex justify-content-end'>Legal Disclaimer | Privacy Policy | Terms of Service</p>
+							<p className='d-flex justify-content-end'> <span onClick={() => navigate('/legal')}> Legal Disclaimer </span> | <span onClick={() => navigate('/privacy-policy')}> Privacy Policy </span> | <span onClick={() => navigate('/terms-of-service')}> Terms of Service </span> </p>
 						</Col>
 					</Row>
 				</Container>

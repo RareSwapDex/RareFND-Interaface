@@ -178,7 +178,7 @@
 }
 
 .nav-link {
-    margin-right: 15px;
+    margin-right: 8px;
     font-size: 13px !important;
     text-transform: uppercase;
     font-weight: 700 !important;
@@ -197,12 +197,16 @@
     color: #fff;
     padding: 10px 20px;
     font-weight: 700;
-    margin-left: 20px;
 }
 
 @media (max-width: 1200px) {
     .nav-link {
-        margin-right: 4px;
+        margin-right: 3px;
+        font-size: 10px !important;
+    }
+
+    .navbar-brand img {
+        width: 55px;
     }
 }
 
