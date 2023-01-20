@@ -24,10 +24,15 @@ function ModalDialog(props) {
 				</Modal.Body>
 				<Modal.Footer>
 					<Button
-						variant="warning"
 						onMouseDown={(e) => e.preventDefault()}
 						size="md"
-						style={{ borderRadius: "0px" }}
+						style={{
+							background:
+								"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+							border: "none",
+							color: "white",
+							borderRadius: "0px",
+						}}
 						onClick={initModal}
 					>
 						Close

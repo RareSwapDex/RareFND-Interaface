@@ -55,7 +55,7 @@ const UploadButton = (props) => {
 							onClick={() => inputRef.current.click()}
 							style={{
 								backgroundColor: "transparent",
-								border: "1.5px solid #fad02c",
+								border: "1.5px solid #cd77d3",
 							}}
 						>
 							{props.title}

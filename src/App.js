@@ -1,6 +1,6 @@
 import Main from "./Main.js";
 import NavBar from "./components/Navbar";
-import Footer from "./components/Footer";
+import Footer from "./components/Footer/Footer";
 import TopBanner from "./components/TopBanner";
 import { useState } from "react";
 import { ProviderContext } from "./web3/ProviderContext";
@@ -14,10 +14,10 @@ export default function App() {
 			<ScrollToTop />
 			<AuthProvider>
 				<ProviderContext.Provider value={{ provider, setProvider }}>
-					<TopBanner
+					{/* <TopBanner
 						text="Donate now and benefit from Give2Earn at Rare FND"
 						href="https://rarefnd.zendesk.com/hc/en-gb/articles/7408695124125-Introducing-Give2Earn"
-					/>
+					/> */}
 
 					<NavBar />
 					<Main />

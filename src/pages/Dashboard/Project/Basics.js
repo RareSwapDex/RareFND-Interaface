@@ -498,15 +498,19 @@ export default function Basics(props) {
 			<Row style={{ padding: "3vw", marginLeft: "0px", marginRight: "0px" }}>
 				<div style={{ textAlign: "right" }}>
 					<Button
-						variant="warning"
-						onMouseDown={(e) => e.preventDefault()}
-						size="md"
-						onClick={props.nextTabFunction}
+						// variant="warning"
 						style={{
+							background:
+								"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+							border: "none",
+							color: "white",
 							borderRadius: "0px",
 							width: "8vw",
 							minWidth: "100px",
 						}}
+						onMouseDown={(e) => e.preventDefault()}
+						size="md"
+						onClick={props.nextTabFunction}
 					>
 						Next
 					</Button>

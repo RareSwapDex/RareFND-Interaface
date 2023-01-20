@@ -32,16 +32,20 @@ export default function ProjectCurrentContributions(props) {
 	}, []);
 
 	return (
-		<div className="project-current-contributions bg-warning p-5">
+		<div
+			className="project-current-contributions p-5"
+			style={{
+				background:
+					"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+				color: "white",
+			}}
+		>
 			{projectData ? (
 				<div>
 					<Row className="justify-content-md-center">
-						<Col md={12} className="text-center" style={{ color: "black" }}>
-							<h1
-								className="display-6 fw-bold"
-								style={{ fontFamily: "'Kaisei Opti', sans-serif" }}
-							>
-								{`US$ ${Number(usdRaisedAmount).toFixed(
+						<Col md={12} className="text-center" style={{ color: "white" }}>
+							<h1 className="display-6 fw-bold" style={{ color: "white" }}>
+								{`$ ${Number(usdRaisedAmount).toFixed(
 									2
 								)} / ${projectData.fund_amount.toLocaleString()}`}
 							</h1>
@@ -64,7 +68,7 @@ export default function ProjectCurrentContributions(props) {
 							<div
 								className="h3 fw-bold text-light fw-bold"
 								style={{
-									fontFamily: "'Kaisei Opti', sans-serif",
+									// fontFamily: "'Kaisei Opti', sans-serif",
 									whiteSpace: "pre-line",
 								}}
 							>
@@ -73,28 +77,33 @@ export default function ProjectCurrentContributions(props) {
 							<div
 								className="display-6 fw-bold"
 								style={{
-									fontFamily: "'Kaisei Opti', sans-serif",
+									// fontFamily: "'Kaisei Opti', sans-serif",
 									whiteSpace: "pre-line",
+									color: "white",
 								}}
 							>
-								{`US$ ${Number(projectData.current_reward).toFixed(2)}`}
+								{`$ ${Number(projectData.current_reward).toFixed(2)}`}
 							</div>
 						</Col>
 						<Col md={6} className="text-center mt-1" style={{ color: "black" }}>
 							<div
 								className="h3 fw-bold text-white fw-bold"
-								style={{ fontFamily: "'Kaisei Opti', sans-serif" }}
+								style={{
+									// fontFamily: "'Kaisei Opti', sans-serif",
+									color: "white",
+								}}
 							>
 								Rare FuND Reward
 							</div>
 							<div
 								className="display-6 fw-bold"
 								style={{
-									fontFamily: "'Kaisei Opti', sans-serif",
+									// fontFamily: "'Kaisei Opti', sans-serif",
 									whiteSpace: "pre-line",
+									color: "white",
 								}}
 							>
-								US$ {Number(projectData.rewarded_amount).toLocaleString()}
+								$ {Number(projectData.rewarded_amount).toLocaleString()}
 							</div>
 						</Col>
 					</Row>

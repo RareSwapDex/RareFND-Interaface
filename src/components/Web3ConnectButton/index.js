@@ -106,7 +106,11 @@ export default function Web3ConnectButton() {
 	}
 
 	async function handelConnectWallet() {
-		if (walletAddress && walletAddress.includes("0x")) {
+		if (
+			walletAddress &&
+			walletAddress.includes("0x") &&
+			buttonText !== "Connect to BSC"
+		) {
 			await disconnect();
 		} else {
 			await connectWallet();
@@ -177,24 +181,32 @@ export default function Web3ConnectButton() {
 	return (
 		<Button
 			id="connect-btn"
-			variant={
-				buttonText === "Connect Wallet"
-					? "light"
-					: buttonText === "Connect to BSC"
-					? "danger"
-					: "outline-light"
-			}
+			// variant={
+			// 	buttonText === "Connect Wallet"
+			// 		? "light"
+			// 		: buttonText === "Connect to BSC"
+			// 		? "danger"
+			// 		: "outline-light"
+			// }
 			className={`connect-wallet-btn${
-				walletAddress && walletAddress.includes("0x")
+				walletAddress &&
+				walletAddress.includes("0x") &&
+				buttonText !== "Connect to BSC"
 					? " disconnect-option"
 					: ""
 			}`}
 			onClick={handelConnectWallet}
 			style={{
-				whiteSpace: "nowrap",
-				textAlign: "center",
-				color: "black",
-				cursor: "pointer",
+				borderRadius: "35px 35px 35px 9.77px",
+				background:
+					buttonText === "Connect to BSC"
+						? "linear-gradient( to right, #ff4646 0%, #ff4646 44.09%, #ffffff 100%)"
+						: "linear-gradient( to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+				border: "none",
+				boxShadow: "0px 3px 20px rgba(0, 0, 0, 0.16)",
+				color: "#fff",
+				padding: "10px 20px",
+				fontWeight: "700",
 			}}
 		>
 			<span>{buttonText}</span>

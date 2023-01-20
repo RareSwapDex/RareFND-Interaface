@@ -8,7 +8,7 @@ import { ConfigProvider } from "antd";
 import "antd/dist/antd.variable.min.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-ConfigProvider.config({ theme: { primaryColor: "#FFC115" } });
+ConfigProvider.config({ theme: { primaryColor: "#cd77d3" } });
 root.render(
 	<React.StrictMode>
 		<Router>

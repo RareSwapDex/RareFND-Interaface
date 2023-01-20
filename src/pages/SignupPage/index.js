@@ -299,7 +299,17 @@ export default function () {
 					</div> */}
 
 					<div className="d-grid gap-2 mt-3">
-						<button type="submit" className="btn btn-warning" id="sign-up-btn">
+						<button
+							type="submit"
+							className="btn"
+							id="sign-up-btn"
+							style={{
+								background:
+									"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+								border: "none",
+								color: "white",
+							}}
+						>
 							Sign up
 						</button>
 					</div>

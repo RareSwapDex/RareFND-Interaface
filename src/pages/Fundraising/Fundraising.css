@@ -1,0 +1,35 @@
+.fundraising_main {
+    background: linear-gradient(to left, #321f37 0%, #260b4a 2.02%, #293271 29.29%, #8d7cda 100%);
+    margin-top: 30px;
+    padding: 35px 0;
+    color: #fff;
+}
+
+.fundraising_main h1 {
+    font-size: 60px;
+    font-weight: 900;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.fundraising_main p {
+    font-weight: 500;
+    margin-bottom: 30px;
+    font-size: 15px;
+}
+
+.fundraising_main button {
+    border-radius: 35.5px 35.5px 35.5px 9.91px;
+    background: #fff;
+    box-shadow: 0px 3px 30px rgba(0, 0, 0, 0.25);
+    padding: 10px 30px;
+    font-weight: 700;
+    border: none;
+    color: #d088d3;
+}
+
+@media (max-width: 767px) {
+    .fundraising_main h1 {
+        font-size: 45px;
+    }
+}

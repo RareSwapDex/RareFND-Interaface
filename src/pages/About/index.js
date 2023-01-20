@@ -62,7 +62,7 @@ export default function About() {
 				<div
 					className="mt-5"
 					style={{
-						border: " 2px solid #FAD02C",
+						border: " 2px solid #cd77d3",
 						width: "10%",
 						minWidth: "60px",
 					}}
@@ -84,7 +84,7 @@ export default function About() {
 							<h6 style={{ color: "#3d3d3d" }} className="ml-3 mt-3 pl-5">
 								<i
 									className="bi bi-pin-map-fill"
-									style={{ color: "#FAD02C", fontSize: "1.5em" }}
+									style={{ color: "#cd77d3", fontSize: "1.5em" }}
 								></i>
 								DMCC Crypto Centre, 48th Floor, Almas Tower, JLT, UAE PO BOX
 								48800.
@@ -101,7 +101,7 @@ export default function About() {
 								{" "}
 								<i
 									className="bi bi-telegram"
-									style={{ color: "#FAD02C", fontSize: "1.5em" }}
+									style={{ color: "#cd77d3", fontSize: "1.5em" }}
 								></i>{" "}
 								RareFnd Telegram Comunity
 							</h6>
@@ -116,7 +116,7 @@ export default function About() {
 								{" "}
 								<i
 									className="bi bi-twitter"
-									style={{ color: "#FAD02C", fontSize: "1.5em" }}
+									style={{ color: "#cd77d3", fontSize: "1.5em" }}
 								></i>{" "}
 								RareFnd Twitter Account
 							</h6>
@@ -179,7 +179,7 @@ export default function About() {
 									<Button
 										className="mt-3 text-center mx-auto"
 										style={{ fontWeight: "bold", color: "#3d3d3d" }}
-										variant="warning"
+										// variant="warning"
 										type="submit"
 									>
 										Submit

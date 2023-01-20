@@ -423,8 +423,8 @@ export default function ContributeBtn(props) {
 						<div
 							style={{
 								border: "3px solid",
-								borderColor: "#FEC008",
-								borderRadius: "12px",
+								borderColor: "#cd77d3",
+								borderRadius: "35px",
 								maxWidth: "500px",
 							}}
 						>
@@ -444,10 +444,10 @@ export default function ContributeBtn(props) {
 											style={{
 												padding: "0",
 												margin: "0",
-												fontSize: "1.5rem",
+												fontSize: "1.2rem",
 												borderRight: "1px solid",
 												paddingRight: "10px",
-												borderColor: "#FEC008",
+												borderColor: "#cd77d3",
 											}}
 										>
 											$
@@ -483,7 +483,7 @@ export default function ContributeBtn(props) {
 													!allowance || allowance <= 0 ? "1 rem" : "1.2rem",
 												// color: !allowance || allowance <= 0 ? "red" : "black",
 												color: "black",
-												fontFamily: "'Kaisei Opti', sans-serif",
+												// fontFamily: "'Kaisei Opti', sans-serif",
 												outline: "none",
 												paddingLeft: "10px",
 											}}
@@ -496,11 +496,13 @@ export default function ContributeBtn(props) {
 												// fontSize: "1.5rem",
 												// borderLeft: "1px solid",
 												// paddingLeft: "10px",
-												// borderColor: "#FEC008",
-												borderRadius: "12px",
+												// borderColor: "#cd77d3",
+												backgroundColor: "#cd77d3",
+												borderRadius: "35px",
+												border: "none",
 											}}
 											size="sm"
-											variant="outline-warning"
+											// variant="outline-warning"
 											onClick={() => setInputValue(usdBalance || "0")}
 										>
 											MAX
@@ -532,12 +534,16 @@ export default function ContributeBtn(props) {
 								{provider ? (
 									<Button
 										id="contribute-fnd-btn"
-										variant="warning"
+										// variant="warning"
 										size="lg"
 										style={{
 											width: "100%",
 											fontSize: "1rem",
 											maxHeight: "100%",
+											borderRadius: "35px 35px 35px 35px",
+											background:
+												"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+											border: "none",
 										}}
 										onClick={() => {
 											if (chainId === TARGET_CHAIN) {
@@ -560,12 +566,16 @@ export default function ContributeBtn(props) {
 								) : (
 									<Button
 										id="contribute-fnd-btn-2"
-										variant="warning"
+										// variant="warning"
 										size="lg"
 										style={{
 											width: "100%",
 											fontSize: "1rem",
 											maxHeight: "100%",
+											borderRadius: "35px 35px 35px 35px",
+											background:
+												"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+											border: "none",
 										}}
 										onClick={() =>
 											document.getElementById("connect-btn").click()
@@ -599,12 +609,16 @@ export default function ContributeBtn(props) {
 							<Col className="p-1 w-30" style={{ width: "100%" }}>
 								<Button
 									id="claim-btn"
-									variant="warning"
+									// variant="warning"
 									size="lg"
 									style={{
 										width: "100%",
 										fontSize: "1rem",
 										maxHeight: "100%",
+										borderRadius: "35px 35px 35px 35px",
+										background:
+											"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+										border: "none",
 									}}
 									onClick={() => claim()}
 									disabled={!stakingOptions || !stakingOptions[6]}
@@ -615,9 +629,17 @@ export default function ContributeBtn(props) {
 							<Col className="p-1 w-30" style={{ width: "100%" }}>
 								<Button
 									id="contribute-usd-btn"
-									variant="warning"
+									// variant="warning"
 									size="lg"
-									style={{ width: "100%", fontSize: "1rem", maxHeight: "100%" }}
+									style={{
+										width: "100%",
+										fontSize: "1rem",
+										maxHeight: "100%",
+										borderRadius: "35px 35px 35px 35px",
+										background:
+											"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+										border: "none",
+									}}
 									onClick={() => openPopUp()}
 									disabled={!projectLive}
 									// disabled={true}
@@ -655,7 +677,7 @@ export default function ContributeBtn(props) {
 					)}
 				</div>
 			) : (
-				<LoadingSpinner color="#FFC115" />
+				<LoadingSpinner color="#cd77d3" />
 			)}
 
 			{/* >>>>>>>>>>>> POPUP PAYMENT WITH Mercuryo */}
@@ -706,10 +728,27 @@ export default function ContributeBtn(props) {
 			}}>
             Card
           	</Button> */}
-					<Button variant="secondary" onClick={handleClose}>
+					<Button
+						variant="secondary"
+						onClick={handleClose}
+						style={{
+							fontSize: "1rem",
+							borderRadius: "35px 35px 35px 35px",
+							border: "none",
+						}}
+					>
 						Close
 					</Button>
-					<Button variant="warning" onClick={() => donateByCard()}>
+					<Button
+						onClick={() => donateByCard()}
+						style={{
+							fontSize: "1rem",
+							borderRadius: "35px 35px 35px 35px",
+							background:
+								"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+							border: "none",
+						}}
+					>
 						Submit
 					</Button>
 				</Modal.Footer>
@@ -722,8 +761,8 @@ export default function ContributeBtn(props) {
 				<Modal.Body></Modal.Body>
 				<Modal.Footer>
 					<Button
-						variant="warning"
-						//   onClick={() => redirectToMercuryo()}
+					// variant="warning"
+					//   onClick={() => redirectToMercuryo()}
 					>
 						Please Confirm
 					</Button>

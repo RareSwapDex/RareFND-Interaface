@@ -66,9 +66,9 @@
 }
 .react-date-picker__button:enabled:hover .react-date-picker__button__icon,
 .react-date-picker__button:enabled:focus .react-date-picker__button__icon {
-	stroke: #fad02c;
-	border-color: #fad02c;
-	outline: #fad02c;
+	stroke: #cd77d3;
+	border-color: #cd77d3;
+	outline: #cd77d3;
 }
 .react-date-picker__button:disabled .react-date-picker__button__icon {
 	stroke: #6d6d6d;
