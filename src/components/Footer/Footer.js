@@ -33,7 +33,7 @@ export default function Footer() {
 
 			<div className="social_icons text-center mt-5">
 				<a
-					href="https://www.facebook.com/therat.finance/"
+					href="https://m.facebook.com/100085127265025/"
 					target="_blank"
 					rel="noreferrer"
 				>
