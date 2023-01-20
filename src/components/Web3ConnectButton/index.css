@@ -3,10 +3,21 @@
 }
 
 [class*="disconnect-option"]:hover {
-	background-color: red;
+	background: linear-gradient(
+		to right,
+		#ff4646 0%,
+		#ff4646 44.09%,
+		#ffffff 100%
+	) !important;
 }
 
 [class*="disconnect-option"]:hover:before {
 	content: "Disconnect wallet";
 	color: white;
+	/* background: linear-gradient(
+		to right,
+		#ff4646 0%,
+		#ff4646 44.09%,
+		#ffffff 100%
+	) !important; */
 }

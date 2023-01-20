@@ -15,11 +15,14 @@ export default function Profile_(props) {
 						<div style={{ display: "flex", justifyContent: "space-between" }}>
 							<div style={{ textAlign: "left" }}>
 								<Button
-									variant="warning"
 									onMouseDown={(e) => e.preventDefault()}
 									size="md"
 									onClick={props.previousTabFunction}
 									style={{
+										background:
+											"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+										border: "none",
+										color: "white",
 										borderRadius: "0px",
 										width: "8vw",
 										minWidth: "100px",
@@ -31,11 +34,14 @@ export default function Profile_(props) {
 
 							<div style={{ textAlign: "right" }}>
 								<Button
-									variant="warning"
 									onMouseDown={(e) => e.preventDefault()}
 									size="md"
 									onClick={props.nextTabFunction}
 									style={{
+										background:
+											"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+										border: "none",
+										color: "white",
 										borderRadius: "0px",
 										width: "8vw",
 										minWidth: "100px",

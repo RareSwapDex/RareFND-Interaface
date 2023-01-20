@@ -121,7 +121,17 @@ export default function (props) {
 						<p className="text-danger">{formErrors.password}</p>
 					</div>
 					<div className="d-grid gap-2 mt-3">
-						<button type="submit" className="btn btn-warning" id="login-btn">
+						<button
+							type="submit"
+							className="btn"
+							id="login-btn"
+							style={{
+								background:
+									"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+								border: "none",
+								color: "white",
+							}}
+						>
 							Login
 						</button>
 					</div>

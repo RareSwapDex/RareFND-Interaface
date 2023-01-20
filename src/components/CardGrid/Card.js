@@ -83,7 +83,6 @@ function MainCard(props) {
 											<Button
 												className="rise-button"
 												style={{
-													fontFamily: "'Poppins', sans-serif",
 													lineHeight: "1.6",
 													fontSize: "1rem",
 												}}

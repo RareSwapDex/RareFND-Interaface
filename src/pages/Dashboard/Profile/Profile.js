@@ -9,6 +9,7 @@ import { Image, Avatar } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import UploadButton from "../../../components/UploadButton";
 import LoadingSpinner from "../../../components/LoadingSpinner";
+import Button from "react-bootstrap/Button";
 
 export default function DashboardProfile(props) {
 	const location = useLocation();
@@ -182,7 +183,7 @@ export default function DashboardProfile(props) {
 														<EditOutlined
 															style={{
 																cursor: "pointer",
-																color: "#FFC115",
+																color: "#cd77d3",
 															}}
 														/>{" "}
 														<p
@@ -191,7 +192,7 @@ export default function DashboardProfile(props) {
 																padding: "0",
 																cursor: "pointer",
 																textDecoration: "underline",
-																color: "#FFC115",
+																color: "#cd77d3",
 															}}
 														>
 															change avatar
@@ -305,7 +306,6 @@ export default function DashboardProfile(props) {
 										<PhoneInput
 											id="phonenumber"
 											name="phone"
-											classNameName="mt-1"
 											inputStyle={{ width: "100%" }}
 											value={userData && userData.phone}
 											onChange={(value) => {
@@ -339,21 +339,34 @@ export default function DashboardProfile(props) {
 									</div>
 								</div>
 								<div className="mt-5 text-center">
-									<button
-										className="btn btn-primary profile-button"
+									<Button
 										type="button"
 										onClick={saveProfile}
 										id="save-btn"
 										disabled={false}
 									>
 										Save Profile
-									</button>
+									</Button>
+									{/* <button
+										// className="btn profile-button"
+										type="button"
+										onClick={saveProfile}
+										id="save-btn"
+										disabled={false}
+										style={{
+											color:
+												"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+											radius: "12px",
+										}}
+									>
+										Save Profile
+									</button> */}
 								</div>
 							</div>
 						</div>
 					</div>
 				) : (
-					<LoadingSpinner color="#FFC115" />
+					<LoadingSpinner color="#cd77d3" />
 				)}
 			</div>
 		</div>

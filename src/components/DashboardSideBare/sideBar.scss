@@ -21,12 +21,12 @@
 				padding: 15px;
 
 				&:hover {
-					background-color: #fef4cb;
+					background-color: #ebcbdc;
 				}
 				.dashboard-icon {
 					margin-left: 5%;
 					font-size: 25px;
-					color: #fad02c;
+					color: #cd77d3;
 				}
 				span {
 					font-size: 20;
@@ -50,7 +50,7 @@
 			width: 25px;
 			height: 25px;
 			border-radius: 5px;
-			border: solid 1px #fad02c;
+			border: solid 1px #cd77d3;
 			cursor: pointer;
 			&:nth-child(1) {
 				background-color: whitesmoke;

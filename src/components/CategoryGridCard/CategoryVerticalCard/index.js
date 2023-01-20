@@ -35,12 +35,13 @@ export default function CategoryVerticalCard(props) {
 									: props.project_raised_amount >= props.project_goal_amount
 									? "#5BB85C"
 									: props.project_raised_amount === 0
-									? "#FAD02C"
+									? "#cd77d3"
 									: "Red",
 								padding: "0.1rem 0.7rem 0.1rem 0.7rem",
 								borderRadius: "8px",
 								position: "absolute",
 								bottom: "0",
+								color: "white",
 							}}
 						>
 							{props.project_live

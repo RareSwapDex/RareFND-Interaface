@@ -8,3 +8,18 @@
 		}
 	}
 }
+#save-btn {
+	border-radius: 35px 35px 35px 9.77px;
+	background: linear-gradient(
+		to right,
+		#6c7fdd 0%,
+		#cd77d3 54.09%,
+		#e4bad0 100%
+	);
+	border: none;
+	box-shadow: 0px 3px 20px rgba(0, 0, 0, 0.16);
+	color: #fff;
+	padding: 10px 20px;
+	font-weight: 700;
+	margin-left: 20px;
+}

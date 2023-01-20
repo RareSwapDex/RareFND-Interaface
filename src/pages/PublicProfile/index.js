@@ -57,7 +57,7 @@ export default function PublicProfile() {
 						<div className="centerDiv">
 							<div
 								style={{
-									border: " 2px solid #FAD02C",
+									border: " 2px solid #cd77d3",
 									width: "10%",
 									minWidth: "60px",
 									marginBottom: "20px",

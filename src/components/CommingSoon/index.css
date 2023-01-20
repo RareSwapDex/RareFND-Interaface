@@ -48,18 +48,6 @@
 	color: black;
 	width: 14rem;
 }
-.buttonDiv button {
-	padding: 16px 20px;
-	font-size: 13px;
-	font-weight: bold;
-	color: black;
-	border-radius: 4px;
-	background-color: #ffc007;
-
-	border: 0;
-	height: 48px;
-	white-space: nowrap;
-}
 .imageCol {
 	order: 1;
 }

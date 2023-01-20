@@ -144,7 +144,6 @@ export default function ProjectCard(props) {
 								props.projectSuccessfullyEnded !== true && (
 									<div
 										style={{
-											backgroundColor: "#FFC115",
 											width: "100%",
 											height: "30px",
 											color: "white",
@@ -152,7 +151,7 @@ export default function ProjectCard(props) {
 										}}
 										className="coming-soon-banner centerDiv"
 									>
-										<p>Coming Soon</p>
+										<p style={{ margin: 0 }}>Coming Soon</p>
 									</div>
 								)}
 						</div>
@@ -162,7 +161,7 @@ export default function ProjectCard(props) {
 							<hr
 								style={{
 									border: "3px solid",
-									color: "#FFC007",
+									color: "#cd77d3",
 									opacity: "1",
 									width: "100%",
 									marginLeft: "-1%",
@@ -420,7 +419,7 @@ export default function ProjectCard(props) {
 										</Row>
 									</div>
 								) : (
-									<LoadingSpinner color="#FFC115" />
+									<LoadingSpinner color="#cd77d3" />
 								)}
 							</div>
 						</Card.Body>

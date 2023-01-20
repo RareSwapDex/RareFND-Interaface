@@ -15,8 +15,8 @@ input {
 	border: 0.5px solid lightgrey;
 	padding: 0.5em 0.5em 0.5em;
 	&:focus {
-		border-color: #fad02c;
-		outline: #fad02c;
+		border-color: #cd77d3;
+		outline: #cd77d3;
 	}
 	&::placeholder {
 		/* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -34,7 +34,7 @@ textarea {
 		opacity: 1; /* Firefox */
 	}
 	&:focus {
-		border-color: #fad02c;
-		outline: #fad02c;
+		border-color: #cd77d3;
+		outline: #cd77d3;
 	}
 }

@@ -1,4 +1,4 @@
-img{
+img {
 	max-width: 100%;
 }
 
@@ -17,7 +17,12 @@ img{
 	border-radius: 60px;
 }
 ::-webkit-scrollbar-thumb {
-	background: #ffc007;
+	background: linear-gradient(
+		to right,
+		#6c7fdd 0%,
+		#cd77d3 54.09%,
+		#e4bad0 100%
+	);
 	border-radius: 60px;
 	height: 10px;
 }
@@ -164,7 +169,7 @@ textarea:invalid {
 	height: 2px;
 	bottom: 0;
 	left: 0;
-	background-color: #fad02c;
+	background-color: #cd77d3;
 	transform-origin: bottom right;
 	transition: transform 0.25s ease-out;
 }

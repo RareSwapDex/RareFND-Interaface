@@ -38,7 +38,7 @@ export default function About() {
 			{/* <div
 				className="mt-5"
 				style={{
-					border: " 2px solid #FAD02C",
+					border: " 2px solid #cd77d3",
 					width: "10%",
 					minWidth: "60px",
 					marginLeft: "5%",
@@ -60,7 +60,7 @@ export default function About() {
 						value={tabIndex}
 						onChange={handleChange}
 						className="m-2"
-						TabIndicatorProps={{ style: { background: "#FAD02C" } }}
+						TabIndicatorProps={{ style: { background: "#cd77d3" } }}
 						aria-label="secondary tabs example"
 						centered
 					>
@@ -166,7 +166,7 @@ export default function About() {
 										<div className="col-md-12 text-center">
 											<Button
 												type="button"
-												className="btn-warning"
+												// className="btn-warning"
 												size="lg"
 												to="/dashboard/projects"
 											>

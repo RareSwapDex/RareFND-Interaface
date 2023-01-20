@@ -83,11 +83,16 @@ export default function ExtensibleInputs(props) {
 					);
 				})}
 			<Button
-				variant="outline-warning"
+				style={{
+					background:
+						"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+					border: "none",
+					color: "white",
+					borderRadius: "0px",
+				}}
 				size="sm"
 				onMouseDown={(e) => e.preventDefault()}
 				onClick={addInput}
-				style={{ borderRadius: "0px" }}
 			>
 				+
 			</Button>
