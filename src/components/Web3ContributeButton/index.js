@@ -24,6 +24,8 @@ import {
 import { TARGET_CHAIN } from "../../utils/Helpers";
 import Iframe from "react-iframe";
 import { sha512 } from "js-sha512";
+import { useSearchParams } from "react-router-dom";
+import { notification } from "antd";
 
 var regexp = /^\d+(\.\d{1,18})?$/;
 
@@ -52,11 +54,9 @@ export default function ContributeBtn(props) {
 	const [balance, setBalance] = useState(0);
 	const [usdBalance, setUsdBalance] = useState(0);
 	const [txHash, setTxHash] = useState();
-	const [venlyAuth, setVenlyAuth] = useState("");
-	const [venlyEmail, setVenlyEmail] = useState("");
-	const [venlyEmailErr, setVenlyEmailErr] = useState("");
+	const [contributionEmail, setContributionEmail] = useState("");
+	const [contributionEmailErr, setContributionEmailErr] = useState("");
 	const [venlyWalletAddress, setVenlyWalletAddress] = useState("");
-	const [venlyWalletId, setVenlyWalletId] = useState("");
 	const [show, setShow] = useState(false);
 	const [showCard, setShowCard] = useState(false);
 	const [mercuryoCurrency, setMercuryoCurrency] = useState("");
@@ -68,6 +68,9 @@ export default function ContributeBtn(props) {
 	const [mercuryoRecievingAmount, setMercuryoRecievingAmount] = useState(0);
 	const [mercuryoPopupURL, setMercuryoPopupURL] = useState("");
 	const [paymentCompleted, setPaymentCompleted] = useState(false);
+	const [donationMethod, setDonationMethod] = useState(null);
+	const [searchParams, setSearchParams] = useSearchParams();
+	const [api, contextHolder] = notification.useNotification();
 	const { provider, setProvider } = useContext(ProviderContext);
 	const token_abi = token_info.token_abi;
 	const tokenAddress = token_info.token_address;
@@ -82,6 +85,26 @@ export default function ContributeBtn(props) {
 		const allownce = await token_.allowance(walletAddress, stakingAddress);
 		setAllowance(allownce);
 	};
+
+	useEffect(() => {
+		if (searchParams.get("payment_status") === "success") {
+			openNotification(
+				`Successfully ${
+					props.projectCategory === 2 ? "Donated" : "Contributed"
+				}!`,
+				`You have successfully ${
+					props.projectCategory === 2 ? "Donated" : "Contributed"
+				} to: "${props.projectName}"!`
+			);
+		} else if (searchParams.get("payment_status") === "failed") {
+			openNotification(
+				`${props.projectCategory === 2 ? "Donation" : "Contribution"} Failed!`,
+				`Your ${
+					props.projectCategory === 2 ? "Donation" : "Contribution"
+				} was not sent to: "${props.projectName}"!`
+			);
+		}
+	}, [searchParams]);
 
 	const getTokenBalance = async () => {
 		const data = await token.balanceOf(walletAddress);
@@ -144,8 +167,6 @@ export default function ContributeBtn(props) {
 	}, [provider, walletAddress, stakingAddress]);
 
 	async function stake() {
-		// console.log("allownce: ", allowance);
-
 		if (!allowance || allowance.lte(0)) {
 			popupInfo(
 				`Please approve 2x transactions in your wallet to complete your ${
@@ -276,15 +297,21 @@ export default function ContributeBtn(props) {
 		}
 	}
 
-	function openPopUp() {
+	useEffect(() => {
+		console.log(donationMethod);
+	}, [donationMethod]);
+
+	function openPopUp(e) {
 		let contribution_amount =
 			document.getElementById("contribute-amount").value;
+
+		setDonationMethod(e.target.name);
 
 		if (!regexp.test(contribution_amount)) {
 			popupInfo(
 				`Please enter amount to complete your ${
 					props.projectCategory === 2 ? "Donation" : "Contribution"
-				} with card!`
+				}!`
 			);
 			// return alert("Invalid contribution amount");
 		} else {
@@ -292,37 +319,63 @@ export default function ContributeBtn(props) {
 		}
 	}
 
-	function donateByCard() {
+	function donateByCardOrCrypto() {
 		let contribution_amount =
 			document.getElementById("contribute-amount").value;
 
-		if (!venlyEmail) {
-			setVenlyEmailErr("Email field is required.");
-		} else if (contribution_amount < 16) {
+		if (!contributionEmail) {
+			setContributionEmailErr("Email field is required.");
+		} else if (donationMethod === "donate-card" && contribution_amount < 16) {
 			popupInfo(
 				`${
 					props.projectCategory === 2 ? "Donation" : "Contribution"
-				} amount should at least be $16 or above`
+				} amount should at least be $16 or more`
 			);
 		} else {
-			// popupInfo("Proceed payment with card!");
-			createVenlyWallet();
+			document.getElementById("submit-email-form").disabled = true;
+			donationMethod === "donate-card" ? createVenlyWallet() : donateByCrypto();
 		}
 	}
 
+	function donateByCrypto() {
+		let contribution_amount =
+			document.getElementById("contribute-amount").value;
+		const payload = {
+			projectName: props.projectName,
+			contributorEmail: contributionEmail,
+			projectContractAddress: stakingAddress,
+			contributionAmount: contribution_amount,
+			projectId: id,
+			projectURL: window.location.href,
+		};
+		axios
+			.post(
+				process.env.REACT_APP_BASE_URL + `/api/coinbase/create-charge/`,
+				payload
+			)
+			.then((res) => {
+				if (res.status === 200) {
+					redirectToCoinbase(res.data.data.hosted_url);
+				}
+			})
+			.catch((err) => console.log(err));
+	}
+
+	function redirectToCoinbase(payment_url) {
+		window.location.replace(payment_url);
+	}
+
 	function createVenlyWallet() {
-		// console.log("auth ", true);
 		let contribution_amount =
 			document.getElementById("contribute-amount").value;
 		axios
 			.get(
 				process.env.REACT_APP_BASE_URL +
-					`/api/venly/create_wallet/${venlyEmail}/${contribution_amount}/${stakingAddress}/${id}/`
+					`/api/venly/create_wallet/${contributionEmail}/${contribution_amount}/${stakingAddress}/${id}/`
 			)
 			.then((res) => {
-				// console.log("res: ", res.data)
 				if (res.data) {
-					redirectToMercuryo(res.data.address, venlyEmail);
+					redirectToMercuryo(res.data.address, contributionEmail);
 				}
 			})
 			.catch((err) => console.log(err));
@@ -336,8 +389,6 @@ export default function ContributeBtn(props) {
 		var hash = sha512.update(address + stringSec);
 		// hash.update(address + stringSec);
 		const sigHax = hash.hex();
-
-		// console.log("sigHax: ", sigHax);
 
 		if (contribution_amount >= 16) {
 			const data = {
@@ -363,8 +414,25 @@ export default function ContributeBtn(props) {
 		}
 	}
 
+	const openNotification = (notificationTitle, notificationBody) => {
+		if (searchParams.get("payment_status") === "success") {
+			api.success({
+				message: notificationTitle,
+				description: notificationBody,
+				placement: "top",
+			});
+		} else if (searchParams.get("payment_status") === "failed") {
+			api.error({
+				message: notificationTitle,
+				description: notificationBody,
+				placement: "top",
+			});
+		}
+	};
+
 	return (
 		<div>
+			{contextHolder}
 			<div>
 				<Modal
 					show={paymentCompleted}
@@ -412,244 +480,276 @@ export default function ContributeBtn(props) {
 							{formatFnd(stakingData[2])} FND)
 						</div>
 					)}
-					<div
-						className="contribution-details align-self-end text-center w-70 mx-auto"
-						style={{
-							display: "flex",
-							alignItems: "center",
-							justifyContent: "center",
-						}}
-					>
-						<div
-							style={{
-								border: "3px solid",
-								borderColor: "#cd77d3",
-								borderRadius: "35px",
-								maxWidth: "500px",
-							}}
-						>
-							<Row
-								className="mx-auto no-gutters jumbotron d-flex align-items-center"
-								style={{ padding: "0 6px 0 1em" }}
+					{projectLive && (
+						<div>
+							<div
+								className="contribution-details align-self-end text-center w-70 mx-auto"
+								style={{
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "center",
+								}}
 							>
-								<Col style={{ padding: "0" }}>
-									<div
-										style={{
-											display: "flex",
-											justifyContent: "center",
-											alignItems: "center",
-										}}
+								<div
+									style={{
+										border: "3px solid",
+										borderColor: "#cd77d3",
+										borderRadius: "35px",
+										maxWidth: "500px",
+									}}
+								>
+									<Row
+										className="mx-auto no-gutters jumbotron d-flex align-items-center"
+										style={{ padding: "0 6px 0 1em" }}
 									>
-										<p
-											style={{
-												padding: "0",
-												margin: "0",
-												fontSize: "1.2rem",
-												borderRight: "1px solid",
-												paddingRight: "10px",
-												borderColor: "#cd77d3",
-											}}
-										>
-											$
-										</p>
-										<input
-											id="contribute-amount"
-											placeholder={"100"}
-											autoComplete="off"
-											type="text"
-											onKeyPress={(e) => {
-												if (
-													e.key === "." &&
-													(e.target.value.includes(".") ||
-														e.target.value === "")
-												) {
-													e.preventDefault();
+										<Col style={{ padding: "0" }}>
+											<div
+												style={{
+													display: "flex",
+													justifyContent: "center",
+													alignItems: "center",
+												}}
+											>
+												<p
+													style={{
+														padding: "0",
+														margin: "0",
+														fontSize: "1.2rem",
+														borderRight: "1px solid",
+														paddingRight: "10px",
+														borderColor: "#cd77d3",
+													}}
+												>
+													$
+												</p>
+												<input
+													id="contribute-amount"
+													placeholder={"100"}
+													autoComplete="off"
+													type="text"
+													onKeyPress={(e) => {
+														if (
+															e.key === "." &&
+															(e.target.value.includes(".") ||
+																e.target.value === "")
+														) {
+															e.preventDefault();
+														}
+														!/^[0-9]/.test(e.key) &&
+															!/^[.]/.test(e.key) &&
+															!e.target.value.includes(".") &&
+															e.preventDefault();
+													}}
+													pattern="^[0-9]*[.]?[0-9]*$"
+													// disabled={!allowance || allowance <= 0}
+													style={{
+														backgroundColor: "transparent",
+														border: "none",
+														width: "100%",
+														// minWidth: "250px",
+														// minHeight: "59px",
+														height: "100%",
+														fontSize:
+															!allowance || allowance <= 0 ? "1 rem" : "1.2rem",
+														// color: !allowance || allowance <= 0 ? "red" : "black",
+														color: "black",
+														// fontFamily: "'Kaisei Opti', sans-serif",
+														outline: "none",
+														paddingLeft: "10px",
+													}}
+												></input>
+
+												<Button
+													style={{
+														// padding: "0",
+														// margin: "0",
+														// fontSize: "1.5rem",
+														// borderLeft: "1px solid",
+														// paddingLeft: "10px",
+														// borderColor: "#cd77d3",
+														backgroundColor: "#cd77d3",
+														borderRadius: "35px",
+														border: "none",
+													}}
+													size="sm"
+													// variant="outline-warning"
+													onClick={() => setInputValue(usdBalance || "0")}
+												>
+													MAX
+												</Button>
+											</div>
+										</Col>
+									</Row>
+								</div>
+							</div>
+
+							<div
+								className="align-self-end text-center w-70 mx-auto"
+								style={{
+									padding: 5,
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "center",
+								}}
+							>
+								<Row
+									className="mx-auto no-gutters jumbotron d-flex align-items-center"
+									style={{
+										padding: "0 0 0 0",
+										width: "100%",
+										maxWidth: "500px",
+									}}
+								>
+									<Col className="p-1 w-20" style={{ width: "100%" }}>
+										{provider ? (
+											<Button
+												id="contribute-fnd-btn"
+												// variant="warning"
+												size="lg"
+												style={{
+													width: "100%",
+													fontSize: "1rem",
+													maxHeight: "100%",
+													borderRadius: "35px 35px 35px 35px",
+													background:
+														"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+													border: "none",
+												}}
+												onClick={() => {
+													if (chainId === TARGET_CHAIN) {
+														stake();
+													} else {
+														switchNetwork();
+													}
+												}}
+												disabled={
+													!stakingOptions ||
+													!stakingOptions[7] ||
+													!readyToContribute ||
+													!projectLive ||
+													pending
 												}
-												!/^[0-9]/.test(e.key) &&
-													!/^[.]/.test(e.key) &&
-													!e.target.value.includes(".") &&
-													e.preventDefault();
-											}}
-											pattern="^[0-9]*[.]?[0-9]*$"
-											// disabled={!allowance || allowance <= 0}
-											style={{
-												backgroundColor: "transparent",
-												border: "none",
-												width: "100%",
-												// minWidth: "250px",
-												// minHeight: "59px",
-												height: "100%",
-												fontSize:
-													!allowance || allowance <= 0 ? "1 rem" : "1.2rem",
-												// color: !allowance || allowance <= 0 ? "red" : "black",
-												color: "black",
-												// fontFamily: "'Kaisei Opti', sans-serif",
-												outline: "none",
-												paddingLeft: "10px",
-											}}
-										></input>
-
+											>
+												{props.projectCategory === 2 ? "Donate" : "Contribute"}{" "}
+												by FND
+											</Button>
+										) : (
+											<Button
+												id="contribute-fnd-btn-2"
+												// variant="warning"
+												size="lg"
+												style={{
+													width: "100%",
+													fontSize: "1rem",
+													maxHeight: "100%",
+													borderRadius: "35px 35px 35px 35px",
+													background:
+														"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+													border: "none",
+												}}
+												onClick={() =>
+													document.getElementById("connect-btn").click()
+												}
+												disabled={!projectLive}
+											>
+												{props.projectCategory === 2 ? "Donate" : "Contribute"}{" "}
+												by FND
+											</Button>
+										)}
+									</Col>
+								</Row>
+							</div>
+							<div
+								className="align-self-end text-center w-70 mx-auto"
+								style={{
+									padding: 5,
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "center",
+								}}
+							>
+								<Row
+									className="mx-auto no-gutters jumbotron d-flex align-items-center"
+									style={{
+										padding: "0 0 0 0",
+										width: "100%",
+										maxWidth: "500px",
+									}}
+								>
+									<Col className="p-1 w-30" style={{ width: "100%" }}>
 										<Button
+											id="donate-crypto"
+											name="donate-crypto"
+											size="lg"
 											style={{
-												// padding: "0",
-												// margin: "0",
-												// fontSize: "1.5rem",
-												// borderLeft: "1px solid",
-												// paddingLeft: "10px",
-												// borderColor: "#cd77d3",
-												backgroundColor: "#cd77d3",
-												borderRadius: "35px",
+												width: "100%",
+												fontSize: "1rem",
+												maxHeight: "100%",
+												borderRadius: "35px 35px 35px 35px",
+												background:
+													"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
 												border: "none",
 											}}
-											size="sm"
-											// variant="outline-warning"
-											onClick={() => setInputValue(usdBalance || "0")}
+											onClick={(e) => openPopUp(e)}
+											disabled={!projectLive}
 										>
-											MAX
+											{props.projectCategory === 2 ? "Donate" : "Contribute"} by
+											crypto
 										</Button>
-									</div>
-								</Col>
-							</Row>
+									</Col>
+									<Col className="p-1 w-30" style={{ width: "100%" }}>
+										<Button
+											id="contribute-usd-btn"
+											name="donate-card"
+											size="lg"
+											style={{
+												width: "100%",
+												fontSize: "1rem",
+												maxHeight: "100%",
+												borderRadius: "35px 35px 35px 35px",
+												background:
+													"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+												border: "none",
+											}}
+											onClick={(e) => openPopUp(e)}
+											disabled={!projectLive}
+										>
+											{props.projectCategory === 2 ? "Donate" : "Contribute"} by
+											card
+										</Button>
+									</Col>
+								</Row>
+							</div>
 						</div>
-					</div>
-
-					<div
-						className="align-self-end text-center w-70 mx-auto"
-						style={{
-							padding: 5,
-							display: "flex",
-							alignItems: "center",
-							justifyContent: "center",
-						}}
-					>
+					)}
+					{stakingOptions && !(!stakingOptions || !stakingOptions[6]) && (
 						<Row
-							className="mx-auto no-gutters jumbotron d-flex align-items-center"
+							className="mx-auto no-gutters jumbotron d-flex align-items-center mb-3"
 							style={{
 								padding: "0 0 0 0",
 								width: "100%",
 								maxWidth: "500px",
 							}}
 						>
-							<Col className="p-1 w-20" style={{ width: "100%" }}>
-								{provider ? (
-									<Button
-										id="contribute-fnd-btn"
-										// variant="warning"
-										size="lg"
-										style={{
-											width: "100%",
-											fontSize: "1rem",
-											maxHeight: "100%",
-											borderRadius: "35px 35px 35px 35px",
-											background:
-												"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
-											border: "none",
-										}}
-										onClick={() => {
-											if (chainId === TARGET_CHAIN) {
-												stake();
-											} else {
-												switchNetwork();
-											}
-										}}
-										disabled={
-											!stakingOptions ||
-											!stakingOptions[7] ||
-											!readyToContribute ||
-											!projectLive ||
-											pending
-										}
-									>
-										{props.projectCategory === 2 ? "Donate" : "Contribute"} by
-										FND
-									</Button>
-								) : (
-									<Button
-										id="contribute-fnd-btn-2"
-										// variant="warning"
-										size="lg"
-										style={{
-											width: "100%",
-											fontSize: "1rem",
-											maxHeight: "100%",
-											borderRadius: "35px 35px 35px 35px",
-											background:
-												"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
-											border: "none",
-										}}
-										onClick={() =>
-											document.getElementById("connect-btn").click()
-										}
-										disabled={!projectLive}
-									>
-										{props.projectCategory === 2 ? "Donate" : "Contribute"} by
-										FND
-									</Button>
-								)}
-							</Col>
+							<Button
+								id="claim-btn"
+								// variant="warning"
+								size="lg"
+								style={{
+									width: "100%",
+									fontSize: "1rem",
+									maxHeight: "100%",
+									borderRadius: "35px 35px 35px 35px",
+									background:
+										"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+									border: "none",
+								}}
+								onClick={() => claim()}
+							>
+								Claim
+							</Button>
 						</Row>
-					</div>
-					<div
-						className="align-self-end text-center w-70 mx-auto"
-						style={{
-							padding: 5,
-							display: "flex",
-							alignItems: "center",
-							justifyContent: "center",
-						}}
-					>
-						<Row
-							className="mx-auto no-gutters jumbotron d-flex align-items-center"
-							style={{
-								padding: "0 0 0 0",
-								width: "100%",
-								maxWidth: "500px",
-							}}
-						>
-							<Col className="p-1 w-30" style={{ width: "100%" }}>
-								<Button
-									id="claim-btn"
-									// variant="warning"
-									size="lg"
-									style={{
-										width: "100%",
-										fontSize: "1rem",
-										maxHeight: "100%",
-										borderRadius: "35px 35px 35px 35px",
-										background:
-											"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
-										border: "none",
-									}}
-									onClick={() => claim()}
-									disabled={!stakingOptions || !stakingOptions[6]}
-								>
-									Claim
-								</Button>
-							</Col>
-							<Col className="p-1 w-30" style={{ width: "100%" }}>
-								<Button
-									id="contribute-usd-btn"
-									// variant="warning"
-									size="lg"
-									style={{
-										width: "100%",
-										fontSize: "1rem",
-										maxHeight: "100%",
-										borderRadius: "35px 35px 35px 35px",
-										background:
-											"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
-										border: "none",
-									}}
-									onClick={() => openPopUp()}
-									disabled={!projectLive}
-									// disabled={true}
-								>
-									{props.projectCategory === 2 ? "Donate" : "Contribute"} by
-									card
-								</Button>
-							</Col>
-						</Row>
-					</div>
+					)}
 
 					{txHash && (
 						<div
@@ -701,7 +801,7 @@ export default function ContributeBtn(props) {
 
 			<Modal show={show} onHide={handleClose}>
 				<Modal.Header closeButton>
-					<Modal.Title>Enter you email address</Modal.Title>
+					<Modal.Title>Enter you email address:</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					<Form>
@@ -709,25 +809,19 @@ export default function ContributeBtn(props) {
 							<Form.Label>Email</Form.Label>
 							<Form.Control
 								type="email"
-								value={venlyEmail}
-								onChange={(e) => setVenlyEmail(e.target.value)}
-								onClick={() => setVenlyEmailErr("")}
+								value={contributionEmail}
+								onChange={(e) => setContributionEmail(e.target.value)}
+								onClick={() => setContributionEmailErr("")}
 								placeholder="name@example.com"
 								autoFocus
 							/>
-							{venlyEmailErr ? (
-								<p className="ml-2 mt-2 text-danger">{venlyEmailErr}</p>
+							{contributionEmailErr ? (
+								<p className="ml-2 mt-2 text-danger">{contributionEmailErr}</p>
 							) : null}
 						</Form.Group>
 					</Form>
 				</Modal.Body>
 				<Modal.Footer>
-					{/* <Button variant="warning" onClick={() => {
-				handleShowCard();
-				handleClose();
-			}}>
-            Card
-          	</Button> */}
 					<Button
 						variant="secondary"
 						onClick={handleClose}
@@ -740,7 +834,8 @@ export default function ContributeBtn(props) {
 						Close
 					</Button>
 					<Button
-						onClick={() => donateByCard()}
+						onClick={donateByCardOrCrypto}
+						id="submit-email-form"
 						style={{
 							fontSize: "1rem",
 							borderRadius: "35px 35px 35px 35px",
@@ -750,21 +845,6 @@ export default function ContributeBtn(props) {
 						}}
 					>
 						Submit
-					</Button>
-				</Modal.Footer>
-			</Modal>
-
-			<Modal show={showCard} onHide={handleCloseCard}>
-				<Modal.Header closeButton>
-					<Modal.Title>Conversation Rate</Modal.Title>
-				</Modal.Header>
-				<Modal.Body></Modal.Body>
-				<Modal.Footer>
-					<Button
-					// variant="warning"
-					//   onClick={() => redirectToMercuryo()}
-					>
-						Please Confirm
 					</Button>
 				</Modal.Footer>
 			</Modal>
