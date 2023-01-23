@@ -333,11 +333,15 @@ export default function ContributeBtn(props) {
 			);
 		} else {
 			document.getElementById("submit-email-form").disabled = true;
-			donationMethod === "donate-card"
-				? contribution_amount >= 5000
-					? donateByStripe()
-					: createVenlyWallet()
-				: donateByCrypto();
+			if (donationMethod === "donate-card") {
+				if (Number(contribution_amount) >= 5000) {
+					donateByStripe();
+				} else {
+					createVenlyWallet();
+				}
+			} else {
+				donateByCrypto();
+			}
 		}
 	}
 
@@ -358,10 +362,8 @@ export default function ContributeBtn(props) {
 				payload
 			)
 			.then((res) => {
-				// console.log("hahahahah", res.data.data.hosted_url);
 				if (res.status === 200) {
-					console.log(res.data.hosted_url);
-					redirectToCheckout(res.data.data.hosted_url);
+					redirectToCheckout(res.data.hosted_url);
 				}
 			})
 			.catch((err) => console.log(err));
