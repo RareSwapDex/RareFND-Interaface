@@ -333,8 +333,36 @@ export default function ContributeBtn(props) {
 			);
 		} else {
 			document.getElementById("submit-email-form").disabled = true;
-			donationMethod === "donate-card" ? createVenlyWallet() : donateByCrypto();
+			donationMethod === "donate-card"
+				? contribution_amount >= 5000
+					? donateByStripe()
+					: createVenlyWallet()
+				: donateByCrypto();
 		}
+	}
+
+	function donateByStripe() {
+		let contribution_amount =
+			document.getElementById("contribute-amount").value;
+		const payload = {
+			projectName: props.projectName,
+			contributorEmail: contributionEmail,
+			projectContractAddress: stakingAddress,
+			contributionAmount: contribution_amount,
+			projectId: id,
+			projectURL: window.location.href,
+		};
+		axios
+			.post(
+				process.env.REACT_APP_BASE_URL + `/api/stripe/create-charge/`,
+				payload
+			)
+			.then((res) => {
+				if (res.status === 200) {
+					redirectToCheckout(res.data.data.hosted_url);
+				}
+			})
+			.catch((err) => console.log(err));
 	}
 
 	function donateByCrypto() {
@@ -355,13 +383,13 @@ export default function ContributeBtn(props) {
 			)
 			.then((res) => {
 				if (res.status === 200) {
-					redirectToCoinbase(res.data.data.hosted_url);
+					redirectToCheckout(res.data.data.hosted_url);
 				}
 			})
 			.catch((err) => console.log(err));
 	}
 
-	function redirectToCoinbase(payment_url) {
+	function redirectToCheckout(payment_url) {
 		window.location.replace(payment_url);
 	}
 
