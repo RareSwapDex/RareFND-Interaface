@@ -79,7 +79,7 @@ export default function Project(props) {
 						title={projectData.title}
 						projectId={projectData.id}
 						text={projectData.head}
-						projectLive={projectData.live}
+						projectLive={projectData.live || projectData.id === 46}
 						number_of_donators={projectData.number_of_donators}
 						numberOfSubscribers={projectData.number_of_subscribed_users}
 						staking_address={projectData.staking_address}
@@ -91,7 +91,9 @@ export default function Project(props) {
 						ownerProfilePicture={projectData.owner_profile_picture}
 						projectCategory={projectData.category}
 					/>
-					{(projectData.live || projectData.raised_amount > 0) && (
+					{(projectData.live ||
+						projectData.raised_amount > 0 ||
+						projectData.id === 46) && (
 						<ProjectCurrentContributions
 							setProjectSuccessfullyEnded={setProjectSuccessfullyEnded}
 							setFundingDataUpdated={setFundingDataUpdated}
@@ -100,6 +102,7 @@ export default function Project(props) {
 					)}
 					{(projectData.live ||
 						projectSuccessfullyEnded === true ||
+						projectData.id === 46 ||
 						projectSuccessfullyEnded === false) && (
 						<ProjectDescription
 							description={projectData.description}
@@ -108,7 +111,7 @@ export default function Project(props) {
 							ownerProfilePicture={projectData.owner_profile_picture}
 							projectId={projectData.id}
 							incentivesData={incentivesData}
-							projectLive={projectData.live}
+							projectLive={projectData.live || projectData.id === 46}
 						/>
 					)}
 				</div>
