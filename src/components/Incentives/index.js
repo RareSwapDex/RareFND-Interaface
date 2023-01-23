@@ -132,7 +132,10 @@ export default function Incentive(props) {
 								document.getElementById(
 									`contribute-amount-2-${props.index}`
 								).value;
-							window.scrollTo(0, 0);
+							const element = document.getElementById("contribute-amount");
+							if (element) {
+								element.scrollIntoView({ block: "center" });
+							}
 						}}
 					>
 						CONTINUE
