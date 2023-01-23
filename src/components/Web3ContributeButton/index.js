@@ -358,7 +358,9 @@ export default function ContributeBtn(props) {
 				payload
 			)
 			.then((res) => {
+				// console.log("hahahahah", res.data.data.hosted_url);
 				if (res.status === 200) {
+					console.log(res.data.hosted_url);
 					redirectToCheckout(res.data.data.hosted_url);
 				}
 			})
