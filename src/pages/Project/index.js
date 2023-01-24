@@ -18,7 +18,7 @@ export default function Project(props) {
 	const [projectSuccessfullyEnded, setProjectSuccessfullyEnded] =
 		useState(null);
 	const [fundingDataUpdated, setFundingDataUpdated] = useState(false);
-	const [selectedIncentive, setSelectedIncentive] = useState(null);
+	const [selectedIncentive, setSelectedIncentive] = useState(false);
 
 	const { pathname, hash, key } = useLocation();
 	var projectId = projectData.id || "";
