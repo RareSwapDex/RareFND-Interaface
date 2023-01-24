@@ -274,6 +274,7 @@ export default function DashboardProfile(props) {
 											Username<span className="required-asterisk">*</span>
 										</label>
 										<input
+											disabled
 											name="username"
 											type="text"
 											className="form-control"
