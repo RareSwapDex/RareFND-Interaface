@@ -709,29 +709,29 @@ export default function ContributeBtn(props) {
 										maxWidth: "500px",
 									}}
 								>
-									{id === 34 && (
-										<Col className="p-1 w-30" style={{ width: "100%" }}>
-											<Button
-												id="donate-crypto"
-												name="donate-crypto"
-												size="lg"
-												style={{
-													width: "100%",
-													fontSize: "1rem",
-													maxHeight: "100%",
-													borderRadius: "35px 35px 35px 35px",
-													background:
-														"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
-													border: "none",
-												}}
-												onClick={(e) => openPopUp(e)}
-												disabled={!projectLive}
-											>
-												{props.projectCategory === 2 ? "Donate" : "Contribute"}{" "}
-												by crypto
-											</Button>
-										</Col>
-									)}
+									{/* {id === 34 && ( */}
+									<Col className="p-1 w-30" style={{ width: "100%" }}>
+										<Button
+											id="donate-crypto"
+											name="donate-crypto"
+											size="lg"
+											style={{
+												width: "100%",
+												fontSize: "1rem",
+												maxHeight: "100%",
+												borderRadius: "35px 35px 35px 35px",
+												background:
+													"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+												border: "none",
+											}}
+											onClick={(e) => openPopUp(e)}
+											disabled={!projectLive}
+										>
+											{props.projectCategory === 2 ? "Donate" : "Contribute"} by
+											crypto
+										</Button>
+									</Col>
+									{/* )} */}
 									<Col className="p-1 w-30" style={{ width: "100%" }}>
 										<Button
 											id="contribute-usd-btn"
