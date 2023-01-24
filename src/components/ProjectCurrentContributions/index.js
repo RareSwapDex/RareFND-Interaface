@@ -45,9 +45,12 @@ export default function ProjectCurrentContributions(props) {
 					<Row className="justify-content-md-center">
 						<Col md={12} className="text-center" style={{ color: "white" }}>
 							<h1 className="display-6 fw-bold" style={{ color: "white" }}>
-								{`$ ${Number(usdRaisedAmount).toFixed(
-									2
-								)} / ${projectData.fund_amount.toLocaleString()}`}
+								{`$ ${
+									Number(usdRaisedAmount).toLocaleString(undefined, {
+										minimumFractionDigits: 2,
+									})
+									// .toFixed(2).toLocaleString()
+								} / ${projectData.fund_amount.toLocaleString()}`}
 							</h1>
 							<ProgressBar
 								animated
