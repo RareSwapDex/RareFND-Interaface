@@ -128,7 +128,7 @@ export default function Incentive(props) {
 							border: "none",
 							width: "100%",
 						}}
-						disabled={!props.projectLive}
+						disabled={!props.projectLive || props.available_items <= 0}
 						onClick={() => {
 							document.getElementById("contribute-amount").value =
 								document.getElementById(

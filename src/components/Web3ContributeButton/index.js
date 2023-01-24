@@ -301,7 +301,6 @@ export default function ContributeBtn(props) {
 	}, [donationMethod]);
 
 	function openPopUp(e) {
-		console.log("hoohhohohoh", props.selectedIncentive());
 		let contribution_amount =
 			document.getElementById("contribute-amount").value;
 
@@ -436,8 +435,8 @@ export default function ContributeBtn(props) {
 				address: address,
 				signature: sigHax,
 				email: email,
-				// redirect_url: window.location.href + `?message=completed`,
-				redirect_url: `https://temporary-rarefnd.netlify.app/?message=completed`,
+				redirect_url: window.location.href + `?payment_status=success`,
+				// redirect_url: `https://temporary-rarefnd.netlify.app/?message=completed`,
 			};
 
 			window.location.replace(
