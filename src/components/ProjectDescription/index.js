@@ -4,6 +4,7 @@ import Incentives from "../Incentives";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import { Link } from "react-router-dom";
+import { Image, Avatar } from "antd";
 
 export default function ProjectDescription(props) {
 	let incentivesData = props.incentivesData;
@@ -50,12 +51,27 @@ export default function ProjectDescription(props) {
 								Project by
 							</div>
 							<div className="centerDiv">
-								<img
+								<div className="mb-4">
+									<Avatar
+										style={{ width: 80, height: 80 }}
+										src={
+											<Image
+												src={props.ownerProfilePicture}
+												style={{ width: 80, height: 80 }}
+											/>
+										}
+									/>
+								</div>
+								{/* <img
 									id="profileImage"
 									className="rounded-circle"
 									width="80"
-									src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
-								></img>
+									src={
+										props.owner_profile_picture
+											? props.owner_profile_picture
+											: "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
+									}
+								></img> */}
 							</div>
 							<div
 								className="centerDiv"
