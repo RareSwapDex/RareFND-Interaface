@@ -75,6 +75,7 @@ export default function ProjectDescription(props) {
 							{incentivesData &&
 								Array.from(incentivesData).map((_, idx) => (
 									<Incentives
+										incentiveId={_.id}
 										title={_.title}
 										description={_.description}
 										included_incentives={_.included_incentives}
@@ -85,6 +86,9 @@ export default function ProjectDescription(props) {
 										project={_.project}
 										projectLive={props.projectLive}
 										index={idx}
+										setSelectedIncentive={(id) =>
+											props.setSelectedIncentive(id)
+										}
 									/>
 								))}
 						</div>

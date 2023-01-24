@@ -89,11 +89,9 @@ export default function ContributeBtn(props) {
 	useEffect(() => {
 		if (searchParams.get("payment_status") === "success") {
 			openNotification(
-				`Successfully ${
-					props.projectCategory === 2 ? "Donated" : "Contributed"
-				}!`,
-				`You have successfully ${
-					props.projectCategory === 2 ? "Donated" : "Contributed"
+				`${props.projectCategory === 2 ? "Donation" : "Contribution"} sent!`,
+				`You have successfully sent a ${
+					props.projectCategory === 2 ? "Donation" : "Contribution"
 				} to: "${props.projectName}"!`
 			);
 		} else if (searchParams.get("payment_status") === "failed") {
@@ -209,6 +207,7 @@ export default function ContributeBtn(props) {
 							{
 								hash: status.hash,
 								project: id,
+								selected_incentive: props.selectedIncentive(),
 							}
 						);
 					}
@@ -302,6 +301,7 @@ export default function ContributeBtn(props) {
 	}, [donationMethod]);
 
 	function openPopUp(e) {
+		console.log("hoohhohohoh", props.selectedIncentive());
 		let contribution_amount =
 			document.getElementById("contribute-amount").value;
 
@@ -355,6 +355,7 @@ export default function ContributeBtn(props) {
 			contributionAmount: contribution_amount,
 			projectId: id,
 			projectURL: window.location.href,
+			selectedIncentive: props.selectedIncentive(),
 		};
 		axios
 			.post(
@@ -379,6 +380,7 @@ export default function ContributeBtn(props) {
 			contributionAmount: contribution_amount,
 			projectId: id,
 			projectURL: window.location.href,
+			selectedIncentive: props.selectedIncentive(),
 		};
 		axios
 			.post(

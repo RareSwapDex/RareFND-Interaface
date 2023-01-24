@@ -1,9 +1,11 @@
 import Button from "react-bootstrap/Button";
 import { Col, Row } from "react-bootstrap";
 import ContributeBtn from "../Web3ContributeButton";
+import { useState } from "react";
 
 export default function Incentive(props) {
 	const included_incentives = props.included_incentives;
+
 	return (
 		<div
 			className="incentive border-1 mx-auto w-100"
@@ -132,6 +134,7 @@ export default function Incentive(props) {
 								document.getElementById(
 									`contribute-amount-2-${props.index}`
 								).value;
+							props.setSelectedIncentive(props.incentiveId);
 							const element = document.getElementById("contribute-amount");
 							if (element) {
 								element.scrollIntoView({ block: "center" });

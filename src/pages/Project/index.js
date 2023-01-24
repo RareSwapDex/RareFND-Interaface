@@ -18,6 +18,7 @@ export default function Project(props) {
 	const [projectSuccessfullyEnded, setProjectSuccessfullyEnded] =
 		useState(null);
 	const [fundingDataUpdated, setFundingDataUpdated] = useState(false);
+	const [selectedIncentive, setSelectedIncentive] = useState(null);
 
 	const { pathname, hash, key } = useLocation();
 	var projectId = projectData.id || "";
@@ -90,6 +91,7 @@ export default function Project(props) {
 						projectAddress={projectData.address}
 						ownerProfilePicture={projectData.owner_profile_picture}
 						projectCategory={projectData.category}
+						selectedIncentive={() => selectedIncentive}
 					/>
 					{(projectData.live || projectData.raised_amount > 0) && (
 						<ProjectCurrentContributions
@@ -109,6 +111,7 @@ export default function Project(props) {
 							projectId={projectData.id}
 							incentivesData={incentivesData}
 							projectLive={projectData.live}
+							setSelectedIncentive={(id) => setSelectedIncentive(id)}
 						/>
 					)}
 				</div>

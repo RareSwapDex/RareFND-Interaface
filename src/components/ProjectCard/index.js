@@ -338,6 +338,7 @@ export default function ProjectCard(props) {
 														}
 														projectCategory={props.projectCategory}
 														projectName={props.title}
+														selectedIncentive={() => props.selectedIncentive()}
 													/>
 													{props.number_of_donators && (
 														<a
