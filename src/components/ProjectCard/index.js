@@ -185,13 +185,53 @@ export default function ProjectCard(props) {
 							}}
 						>
 							<div
+								// className="centerDiv"
+								style={{
+									display: "flex",
+									alignItems: "left",
+									justifyContent: "space-between",
+									backgroundColor: "white",
+									margin: window.innerWidth > 1000 ? "0 200 0 200" : "0",
+									padding: "0 5% 0 5%",
+								}}
+							>
+								<div>
+									<button
+										className="primaryButton"
+										style={{ marginRight: "20px" }}
+										onClick={() => {
+											const element =
+												document.getElementById("project-rewards");
+											if (element) {
+												element.scrollIntoView({ block: "start" });
+											}
+										}}
+									>
+										Rewards
+									</button>
+									<button
+										className="primaryButton"
+										onClick={() => {
+											const element = document.getElementById(
+												"project-description"
+											);
+											if (element) {
+												element.scrollIntoView({ block: "start" });
+											}
+										}}
+									>
+										Description
+									</button>
+								</div>
+							</div>
+							<div
 								style={{
 									display: "flex",
 									flexDirection: "column",
 									backgroundColor: "white",
 									height: "100%",
 									margin: window.innerWidth > 1000 ? "0 200 0 200" : "0",
-									padding: "5% 5% 0 5%",
+									padding: "0 5% 0 5%",
 									position: "relative",
 								}}
 							>

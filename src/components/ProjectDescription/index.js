@@ -18,6 +18,7 @@ export default function ProjectDescription(props) {
 	return (
 		<div
 			className="project-description bg-white w-100"
+			id="project-description"
 			style={{
 				padding: "5vw",
 			}}
@@ -87,7 +88,9 @@ export default function ProjectDescription(props) {
 					</div>
 					{incentivesData && incentivesData.length > 0 && (
 						<div>
-							<h1 className="text-center">Incentives</h1>
+							<h1 className="text-center" id="project-rewards">
+								Rewards
+							</h1>
 							{incentivesData &&
 								Array.from(incentivesData).map((_, idx) => (
 									<Incentives
