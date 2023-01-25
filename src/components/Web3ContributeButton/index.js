@@ -207,7 +207,7 @@ export default function ContributeBtn(props) {
 							{
 								hash: status.hash,
 								project: id,
-								selected_incentive: props.selectedIncentive(),
+								selected_incentive: AutoIncentive(),
 							}
 						);
 					}
@@ -354,7 +354,7 @@ export default function ContributeBtn(props) {
 			contributionAmount: contribution_amount,
 			projectId: id,
 			projectURL: window.location.href,
-			selectedIncentive: props.selectedIncentive(),
+			selectedIncentive: AutoIncentive(),
 		};
 		axios
 			.post(
@@ -379,7 +379,7 @@ export default function ContributeBtn(props) {
 			contributionAmount: contribution_amount,
 			projectId: id,
 			projectURL: window.location.href,
-			selectedIncentive: props.selectedIncentive(),
+			selectedIncentive: AutoIncentive(),
 		};
 		axios
 			.post(
@@ -405,7 +405,7 @@ export default function ContributeBtn(props) {
 			.get(
 				process.env.REACT_APP_BASE_URL +
 					`/api/venly/create_wallet/${contributionEmail}/${contribution_amount}/${stakingAddress}/${id}/${
-						props.selectedIncentive() ? props.selectedIncentive() : 0
+						AutoIncentive() ? AutoIncentive() : 0
 					}/`
 			)
 			.then((res) => {
@@ -465,31 +465,67 @@ export default function ContributeBtn(props) {
 		}
 	};
 
-	function handleAmountInputChange(e) {
-		const { value } = e.target;
+	// function handleAmountInputChange(e) {
+	// 	const { value } = e.target;
+	// 	let maxEligibleIncentive = null;
+	// 	let localIncentive = null;
+	// 	for (let i = 0; i < props.incentivesData.length; i++) {
+	// 		let incentive = props.incentivesData[i];
+	// 		if (
+	// 			value >= incentive.price &&
+	// 			(!maxEligibleIncentive || incentive.price > maxEligibleIncentive)
+	// 		) {
+	// 			maxEligibleIncentive = incentive.price;
+	// 			localIncentive = incentive;
+	// 		}
+	// 	}
+	// 	if (!props.selectedIncentive() && localIncentive) {
+	// 		props.setSelectedIncentive(localIncentive.id);
+	// 	}
+	// 	console.log(
+	// 		maxEligibleIncentive,
+	// 		localIncentive,
+	// 		props.selectedIncentive(),
+	// 		props.selectedIncentive()
+	// 			? props.incentivesData[props.selectedIncentive() - 1]
+	// 			: 0
+	// 	);
+	// }
+
+	function AutoIncentive() {
+		const contribution_amount =
+			document.getElementById("contribute-amount").value;
 		let maxEligibleIncentive = null;
 		let localIncentive = null;
+		const globalSelectedIncentive = props.selectedIncentive();
+		if (globalSelectedIncentive) {
+			let localSelectedIncentive = null;
+			for (let i = 0; i < props.incentivesData.length; i++) {
+				let incentive = props.incentivesData[i];
+				if (incentive.id === globalSelectedIncentive) {
+					localSelectedIncentive = incentive;
+					break;
+				}
+			}
+			if (
+				localSelectedIncentive &&
+				localSelectedIncentive.price <= contribution_amount
+			) {
+				return globalSelectedIncentive;
+			}
+		}
+
 		for (let i = 0; i < props.incentivesData.length; i++) {
 			let incentive = props.incentivesData[i];
 			if (
-				value >= incentive.price &&
+				contribution_amount >= incentive.price &&
 				(!maxEligibleIncentive || incentive.price > maxEligibleIncentive)
 			) {
 				maxEligibleIncentive = incentive.price;
 				localIncentive = incentive;
 			}
 		}
-		if (!props.selectedIncentive() && localIncentive) {
-			props.setSelectedIncentive(localIncentive.id);
-		}
-		console.log(
-			maxEligibleIncentive,
-			localIncentive,
-			props.selectedIncentive(),
-			props.selectedIncentive()
-				? props.incentivesData[props.selectedIncentive() - 1]
-				: 0
-		);
+		return localIncentive ? localIncentive.id : localIncentive;
 	}
 
 	return (
@@ -602,7 +638,7 @@ export default function ContributeBtn(props) {
 															!e.target.value.includes(".") &&
 															e.preventDefault();
 													}}
-													onChange={(e) => handleAmountInputChange(e)}
+													// onChange={(e) => handleAmountInputChange(e)}
 													pattern="^[0-9]*[.]?[0-9]*$"
 													// disabled={!allowance || allowance <= 0}
 													style={{
@@ -681,6 +717,7 @@ export default function ContributeBtn(props) {
 												onClick={() => {
 													if (chainId === TARGET_CHAIN) {
 														stake();
+														// console.log(AutoIncentive());
 													} else {
 														switchNetwork();
 													}
