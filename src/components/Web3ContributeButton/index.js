@@ -404,7 +404,9 @@ export default function ContributeBtn(props) {
 		axios
 			.get(
 				process.env.REACT_APP_BASE_URL +
-					`/api/venly/create_wallet/${contributionEmail}/${contribution_amount}/${stakingAddress}/${id}/`
+					`/api/venly/create_wallet/${contributionEmail}/${contribution_amount}/${stakingAddress}/${id}/${
+						props.selectedIncentive() ? props.selectedIncentive() : 0
+					}/`
 			)
 			.then((res) => {
 				if (res.data) {
@@ -435,8 +437,8 @@ export default function ContributeBtn(props) {
 				address: address,
 				signature: sigHax,
 				email: email,
-				redirect_url: window.location.href + `?payment_status=success`,
-				// redirect_url: `https://temporary-rarefnd.netlify.app/?message=completed`,
+				// redirect_url: window.location.href + `?payment_status=success`,
+				redirect_url: `https://temporary-rarefnd.netlify.app/?message=completed`,
 			};
 
 			window.location.replace(
