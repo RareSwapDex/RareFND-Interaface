@@ -92,6 +92,8 @@ export default function Project(props) {
 						ownerProfilePicture={projectData.owner_profile_picture}
 						projectCategory={projectData.category}
 						selectedIncentive={() => selectedIncentive}
+						incentivesData={incentivesData}
+						setSelectedIncentive={(id) => setSelectedIncentive(id)}
 					/>
 					{(projectData.live || projectData.raised_amount > 0) && (
 						<ProjectCurrentContributions

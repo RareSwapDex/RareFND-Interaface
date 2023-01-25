@@ -465,6 +465,33 @@ export default function ContributeBtn(props) {
 		}
 	};
 
+	function handleAmountInputChange(e) {
+		const { value } = e.target;
+		let maxEligibleIncentive = null;
+		let localIncentive = null;
+		for (let i = 0; i < props.incentivesData.length; i++) {
+			let incentive = props.incentivesData[i];
+			if (
+				value >= incentive.price &&
+				(!maxEligibleIncentive || incentive.price > maxEligibleIncentive)
+			) {
+				maxEligibleIncentive = incentive.price;
+				localIncentive = incentive;
+			}
+		}
+		if (!props.selectedIncentive() && localIncentive) {
+			props.setSelectedIncentive(localIncentive.id);
+		}
+		console.log(
+			maxEligibleIncentive,
+			localIncentive,
+			props.selectedIncentive(),
+			props.selectedIncentive()
+				? props.incentivesData[props.selectedIncentive() - 1]
+				: 0
+		);
+	}
+
 	return (
 		<div>
 			{contextHolder}
@@ -575,6 +602,7 @@ export default function ContributeBtn(props) {
 															!e.target.value.includes(".") &&
 															e.preventDefault();
 													}}
+													onChange={(e) => handleAmountInputChange(e)}
 													pattern="^[0-9]*[.]?[0-9]*$"
 													// disabled={!allowance || allowance <= 0}
 													style={{
