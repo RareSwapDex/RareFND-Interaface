@@ -192,7 +192,7 @@ export default function ProjectCard(props) {
 									justifyContent: "space-between",
 									backgroundColor: "white",
 									margin: window.innerWidth > 1000 ? "0 200 0 200" : "0",
-									padding: "0 5% 0 5%",
+									padding: "2% 5% 2% 5%",
 								}}
 							>
 								<div>
