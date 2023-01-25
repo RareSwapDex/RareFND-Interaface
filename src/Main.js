@@ -19,7 +19,8 @@ import AuthContext from "./Context/AuthContext";
 import DashboardHome from "./pages/Dashboard/Home/Home.js";
 import Stats from "./pages/Dashboard/Stats/Stats.js";
 import Profile from "./pages/Dashboard/Profile/Profile.js";
-import DashboardProject from "./pages/Dashboard/Project/Project.js";
+import DashboardNewProject from "./pages/Dashboard/NewProject/Project.js";
+import DashboardProjects from "./pages/Dashboard/Projects/Projects.js";
 import CommingSoon from "./components/CommingSoon/CommingSoon";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 
@@ -73,8 +74,8 @@ export default function Main() {
 				/>
 				<Route
 					exact
-					path="/dashboard/projects"
-					element={<PrivateRoute Component={DashboardProject} />}
+					path="/dashboard/new-project"
+					element={<PrivateRoute Component={DashboardNewProject} />}
 				/>
 				<Route
 					exact
@@ -85,6 +86,11 @@ export default function Main() {
 					exact
 					path="/dashboard/stats"
 					element={<PrivateRoute Component={Stats} />}
+				/>
+				<Route
+					exact
+					path="/dashboard/projects"
+					element={<PrivateRoute Component={DashboardProjects} />}
 				/>
 			</Routes>
 		</div>

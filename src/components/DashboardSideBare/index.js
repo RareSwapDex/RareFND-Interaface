@@ -1,7 +1,7 @@
 import "./sideBar.scss";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import AssessmentIcon from "@mui/icons-material/Assessment";
+import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 
 export default function SideBar() {
@@ -18,7 +18,13 @@ export default function SideBar() {
 					<Link to="/dashboard/projects" style={{ textDecoration: "none" }}>
 						<li>
 							<AssignmentIcon className="dashboard-icon" />
-							<span>Projects</span>
+							<span>Your Projects</span>
+						</li>
+					</Link>
+					<Link to="/dashboard/new-project" style={{ textDecoration: "none" }}>
+						<li>
+							<AddIcon className="dashboard-icon" />
+							<span>Add New Project</span>
 						</li>
 					</Link>
 				</ul>
