@@ -401,19 +401,28 @@ export default function ContributeBtn(props) {
 	function createVenlyWallet() {
 		let contribution_amount =
 			document.getElementById("contribute-amount").value;
-		axios
-			.get(
-				process.env.REACT_APP_BASE_URL +
-					`/api/venly/create_wallet/${contributionEmail}/${contribution_amount}/${stakingAddress}/${id}/${
-						AutoIncentive() ? AutoIncentive() : 0
-					}/`
-			)
-			.then((res) => {
-				if (res.data) {
-					redirectToMercuryo(res.data.address, contributionEmail);
-				}
-			})
-			.catch((err) => console.log(err));
+		if (contribution_amount >= 16) {
+			const payload = {
+				contributionEmail: contributionEmail,
+				contributionAmount: contribution_amount,
+				stakingAddress: stakingAddress,
+				projectId: id,
+				selectedIncentive: AutoIncentive() ? AutoIncentive() : 0,
+				redirectURL: window.location.href,
+			};
+			axios
+				.post(
+					process.env.REACT_APP_BASE_URL + "/api/mercuryo/checkout_url/",
+					payload
+				)
+				.then((res) => {
+					if (res.status === 200)
+						window.location.replace(res.data.checkout_url);
+				})
+				.catch((err) => console.log(err));
+		} else {
+			popupInfo("Donation amount must be at least be $16 or more");
+		}
 	}
 
 	function redirectToMercuryo(address, email) {
@@ -433,7 +442,8 @@ export default function ContributeBtn(props) {
 				to: mercuryoCurrency ? mercuryoCurrency : "BNB",
 				// amount: mercuryoFiatCurrency,
 				amount: contribution_amount, // user input
-				widget_id: "c95bbe0f-334f-4848-a138-25125125b4b7",
+				// widget_id: "c95bbe0f-334f-4848-a138-25125125b4b7",
+				widget_id: "41201352-8bc9-416b-b822-4393027afcd2",
 				address: address,
 				signature: sigHax,
 				email: email,
@@ -442,7 +452,7 @@ export default function ContributeBtn(props) {
 			};
 
 			window.location.replace(
-				`https://exchange.mercuryo.io/?widget_id=${data.widget_id}&address=${data.address}&signature=${data.signature}&fiat_amount=${data.amount}&type=${data.type}&fiat_currency=${data.from}&currency=${data.to}&email=${data.email}&redirect_url=${data.redirect_url}`
+				`https://exchange.mercuryo.io/?widget_id=${data.widget_id}&address=${data.address}&signature=${data.signature}&fiat_amount=${data.amount}&type=${data.type}&fiat_currency=${data.from}&currency=${data.to}&email=${data.email}&redirect_url=${data.redirect_url}&merchant_transaction_id=${data.amount}-${id}`
 			);
 		} else {
 			popupInfo("Donation amount should at least be $16 or more");
