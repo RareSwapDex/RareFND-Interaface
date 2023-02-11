@@ -12,7 +12,7 @@ import comingSoon from "../../assets/coming-soon.png";
 import succeed from "../../assets/succeed.png";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { StarOutlined, FacebookFilled } from "@ant-design/icons";
-import { Button, Image, Avatar } from "antd";
+import { Image, Avatar } from "antd";
 import locationIcon from "../../assets/locationIcon.png";
 import {
 	FacebookShareCount,
@@ -32,6 +32,8 @@ import {
 	TwitterIcon,
 	WhatsappIcon,
 } from "react-share";
+import { DownOutlined, UserOutlined } from "@ant-design/icons";
+import { Button, Dropdown, message, Space, Tooltip } from "antd";
 
 export default function ProjectCard(props) {
 	let api = useAxios();
@@ -124,9 +126,10 @@ export default function ProjectCard(props) {
 		<div>
 			<Card className="border-0" style={{ backgroundColor: "transparent" }}>
 				<Row
-					className={`w-100${
-						window.innerWidth > 1000 ? " vertical-divider" : ""
-					}`}
+					// className={`w-100${
+					// 	window.innerWidth > 1000 ? " vertical-divider" : ""
+					// }`}
+					className={`w-100`}
 					style={{ margin: "0px" }}
 				>
 					<Col md={6} width="50%">
@@ -135,6 +138,7 @@ export default function ProjectCard(props) {
 								width: "100%",
 								height: "100%",
 							}}
+							className="centerDiv"
 						>
 							<Image
 								src={props.image}
@@ -353,7 +357,7 @@ export default function ProjectCard(props) {
 										<div className="centerDiv" style={{ height: "100%" }}>
 											<Card.Text
 												style={{
-													fontSize: "1.3rem",
+													fontSize: "1.1rem",
 													color: "grey",
 													textAlign: "left",
 													whiteSpace: "pre-wrap",

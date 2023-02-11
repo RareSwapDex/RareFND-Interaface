@@ -92,7 +92,9 @@ export default function ContributeBtn(props) {
 				`${props.projectCategory === 2 ? "Donation" : "Contribution"} sent!`,
 				`You have successfully sent a ${
 					props.projectCategory === 2 ? "Donation" : "Contribution"
-				} to: "${props.projectName}"!`
+				} to: "${
+					props.projectName
+				}"!\nPlease know that your payment might take some time to be processed`
 			);
 		} else if (searchParams.get("payment_status") === "failed") {
 			openNotification(

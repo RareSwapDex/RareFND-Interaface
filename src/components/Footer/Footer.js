@@ -77,6 +77,10 @@ export default function Footer() {
 									RATBits NFT Marketplace DMCC, 48th floor Almas Towers, JLT,
 									Dubai{" "}
 								</a>
+								<br />
+								<a href="https://www.google.com/maps/search/DSO+IFZA,+IFZA+Properties,+Silicon+Oasis,+Dubai,+UAE/@25.1185768,55.3796655,13.64z">
+									DSO IFZA, IFZA Properties, Silicon Oasis, Dubai, UAE.
+								</a>
 							</p>
 
 							<div className="d-flex justify-content-between">

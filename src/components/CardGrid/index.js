@@ -117,7 +117,7 @@ function HomeCards() {
 						<MainCard
 							image={star}
 							title="Free And More"
-							text="It’s not only free to fundraise — but we’ll also help you meet your goal! We’re currently offering campaigns 10% toward their fundraising target. YES, we’re paying you to launch your fundraising campaign on Rare FND!"
+							text="Crowdfunding with the speed and flexibility of our exciting technology! Contribution rewards can be delivered in minutes, not months using our revolutionary fractionalization and steganography technology – a first in the crowdfunding space. We offer a simply and quick payment methods for reward based campaigns using fiat based payments as well using credit and debit cards. We’re a true end to end crowdfunding solution!"
 							horizontal={false}
 							multi_cards={true}
 							backgroundColor="transparent"
