@@ -15,12 +15,12 @@ export default function SideBar() {
 							<span>Profile</span>
 						</li>
 					</Link>
-					<Link to="/dashboard/projects" style={{ textDecoration: "none" }}>
+					{/* <Link to="/dashboard/projects" style={{ textDecoration: "none" }}>
 						<li>
 							<AssignmentIcon className="dashboard-icon" />
 							<span>Your Projects</span>
 						</li>
-					</Link>
+					</Link> */}
 					<Link to="/dashboard/new-project" style={{ textDecoration: "none" }}>
 						<li>
 							<AddIcon className="dashboard-icon" />
