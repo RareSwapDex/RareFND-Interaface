@@ -98,7 +98,7 @@ export default function (props) {
 					<h3 className="Auth-form-title">Login</h3>
 					<div className="form-group mt-3">
 						<label>Email address</label>
-						<input
+						<Input
 							type="email"
 							name="email"
 							className="form-control mt-1"
@@ -110,7 +110,7 @@ export default function (props) {
 					</div>
 					<div className="form-group mt-3">
 						<label>Password</label>
-						<input
+						<Input.Password
 							type="password"
 							name="password"
 							className="form-control mt-1"
