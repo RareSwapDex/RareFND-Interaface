@@ -68,6 +68,10 @@ export default function Footer() {
 						<div>
 							<p>
 								{" "}
+								<a href="https://www.google.com/maps/search/DSO+IFZA,+IFZA+Properties,+Silicon+Oasis,+Dubai,+UAE/@25.1185768,55.3796655,13.64z">
+									DSO IFZA, IFZA Properties, Silicon Oasis, Dubai, UAE.
+								</a>
+								<br />
 								<a href="https://maps.app.goo.gl/zaKNmoRAopMUHWDi9">
 									ADDRESS: RARE FND LIMITED, 86-90 Paul Street, London, England,
 									EC2A 4NE (14325862){" "}
@@ -76,10 +80,6 @@ export default function Footer() {
 								<a href="https://goo.gl/maps/iGgGPP9MXsUTtdDy6">
 									RATBits NFT Marketplace DMCC, 48th floor Almas Towers, JLT,
 									Dubai{" "}
-								</a>
-								<br />
-								<a href="https://www.google.com/maps/search/DSO+IFZA,+IFZA+Properties,+Silicon+Oasis,+Dubai,+UAE/@25.1185768,55.3796655,13.64z">
-									DSO IFZA, IFZA Properties, Silicon Oasis, Dubai, UAE.
 								</a>
 							</p>
 
