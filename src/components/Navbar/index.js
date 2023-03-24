@@ -107,7 +107,7 @@ function NavBar() {
 								<Nav.Link onClick={() => navigate("/category/Food-&-Craft")}>
 									Food & Crafts
 								</Nav.Link>
-								<Nav.Link onClick={() => navigate("/category/Politics")}>
+								<Nav.Link onClick={() => navigate("/category/Education")}>
 									Education
 								</Nav.Link>
 								<Nav.Link onClick={() => navigate("/category/Games")}>
