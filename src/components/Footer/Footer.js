@@ -17,7 +17,7 @@ export default function Footer() {
 	const navigate = useNavigate();
 	const { user, logOut } = useContext(AuthContext);
 	return (
-		<div className="footer_main" style={{ maxWidth: "100%" }}>
+		<div className="footer_main">
 			<Container>
 				<div className="text-center footer_logo">
 					<img src={FooterLogo} alt="footer_logo" />
@@ -63,13 +63,14 @@ export default function Footer() {
 			</div>
 
 			<Container className="footer_links">
-				<Row className="w-100 px-2">
+				<Row>
 					<Col md={4}>
 						<div>
 							<p>
 								{" "}
 								<a href="https://www.google.com/maps/search/DSO+IFZA,+IFZA+Properties,+Silicon+Oasis,+Dubai,+UAE/@25.1185768,55.3796655,13.64z">
-									DSO IFZA, IFZA Properties, Silicon Oasis, Dubai, UAE.
+									Rare FND FZCO DSO IFZA, IFZA Properties, Silicon Oasis, Dubai,
+									UAE.
 								</a>
 								<br />
 								<a href="https://maps.app.goo.gl/zaKNmoRAopMUHWDi9">
@@ -91,7 +92,7 @@ export default function Footer() {
 							</div>
 						</div>
 					</Col>
-					<Col md={3} className="quick_link w-100">
+					<Col md={3} className="quick_link">
 						<div className="social">
 							<h6>Quick Links</h6>
 
