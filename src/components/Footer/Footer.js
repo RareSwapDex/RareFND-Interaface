@@ -63,7 +63,7 @@ export default function Footer() {
 			</div>
 
 			<Container className="footer_links">
-				<Row>
+				<Row className="w-100" style={{ paddingLeft: "10px" }}>
 					<Col md={4}>
 						<div>
 							<p>
