@@ -17,7 +17,7 @@ export default function Footer() {
 	const navigate = useNavigate();
 	const { user, logOut } = useContext(AuthContext);
 	return (
-		<div className="footer_main">
+		<div className="footer_main" style={{ maxWidth: "100%" }}>
 			<Container>
 				<div className="text-center footer_logo">
 					<img src={FooterLogo} alt="footer_logo" />
@@ -63,7 +63,7 @@ export default function Footer() {
 			</div>
 
 			<Container className="footer_links">
-				<Row>
+				<Row className="w-100 px-2">
 					<Col md={4}>
 						<div>
 							<p>
@@ -91,7 +91,7 @@ export default function Footer() {
 							</div>
 						</div>
 					</Col>
-					<Col md={3} className="quick_link">
+					<Col md={3} className="quick_link w-100">
 						<div className="social">
 							<h6>Quick Links</h6>
 
