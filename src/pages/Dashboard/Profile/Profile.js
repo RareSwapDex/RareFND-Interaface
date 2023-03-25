@@ -146,7 +146,7 @@ export default function DashboardProfile(props) {
 
 	return (
 		<div className="dashboard-profile">
-			{location.pathname !== "/dashboard/projects" && <SideBar />}
+			{location.pathname === "/dashboard/profile" && <SideBar />}
 			<div className="dashboard-profile-container">
 				{Object.keys(userData).length > 0 ? (
 					<div className="row" style={{ width: "100%" }}>
