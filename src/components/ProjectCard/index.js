@@ -124,7 +124,10 @@ export default function ProjectCard(props) {
 
 	return (
 		<div>
-			<Card className="border-0" style={{ backgroundColor: "transparent" }}>
+			<Card
+				className="border-0 mb-5"
+				style={{ backgroundColor: "transparent" }}
+			>
 				<Row
 					// className={`w-100${
 					// 	window.innerWidth > 1000 ? " vertical-divider" : ""
@@ -138,7 +141,7 @@ export default function ProjectCard(props) {
 								width: "100%",
 								height: "100%",
 							}}
-							className="centerDiv"
+							// className="centerDiv"
 						>
 							<Image
 								src={props.image}
