@@ -41,7 +41,7 @@ function NavBar() {
 										rel="noreferrer"
 										alt=""
 									>
-										Donate now and benefit from Give2Earn at Rare FND
+										Give now and benefit from Give2Earn at Rare FND
 									</a>
 								</p>
 							</Col>
