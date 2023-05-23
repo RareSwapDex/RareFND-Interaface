@@ -34,9 +34,7 @@
 	#comingSoonImage {
 		display: none;
 	}
-	.coming-soon-banner {
-		display: flex !important;
-	}
+
 	.project-address {
 		justify-content: center;
 	}

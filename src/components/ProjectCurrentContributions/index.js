@@ -5,11 +5,13 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ProgressBar from "react-bootstrap/ProgressBar";
+import { useTranslation } from "react-i18next";
 
 export default function ProjectCurrentContributions(props) {
 	const id = props.projectId;
 	const [projectData, setProjectData] = useState(null);
 	const [usdRaisedAmount, setUsdRaisedAmount] = useState(0);
+	const { t } = useTranslation();
 	useEffect(() => {
 		let interval = setInterval(() => {
 			axios
@@ -23,6 +25,8 @@ export default function ProjectCurrentContributions(props) {
 						data.fund_amount
 					) {
 						props.setProjectSuccessfullyEnded(true);
+					} else if (!data.live && data.project_live_datetime) {
+						props.setProjectSuccessfullyEnded(false);
 					}
 					props.setFundingDataUpdated(true);
 				});
@@ -75,7 +79,7 @@ export default function ProjectCurrentContributions(props) {
 									whiteSpace: "pre-line",
 								}}
 							>
-								Total Donation Rewards (240% APY)
+								{t("project.APYReward")}
 							</div>
 							<div
 								className="display-6 fw-bold"
@@ -96,7 +100,7 @@ export default function ProjectCurrentContributions(props) {
 									color: "white",
 								}}
 							>
-								Rare FuND Reward
+								{t("project.rareFndReward")}
 							</div>
 							<div
 								className="display-6 fw-bold"

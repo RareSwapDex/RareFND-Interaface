@@ -1,0 +1,113 @@
+.mission_main {
+	background-image: url("../../../../assets/home-images/mission_main.png");
+	background-size: cover;
+	color: #fff;
+	margin: 50px 0;
+	position: relative;
+}
+
+.mission_main::before {
+	content: "";
+	background-image: url("../../../../assets/home-images/box.png");
+	position: absolute;
+	background-repeat: no-repeat;
+	right: -25px;
+	bottom: 75px;
+	height: 25px;
+	object-fit: initial;
+	min-width: 40px;
+	background-size: contain;
+	-webkit-animation: action 1.5s infinite alternate;
+	animation: action 1.5s infinite alternate;
+}
+
+.mission_main .mission_text {
+	padding-top: 85px;
+	padding-bottom: 80px;
+}
+
+.mission_text h1 {
+	font-size: 50px;
+	font-weight: 800;
+	color: #fff;
+}
+
+.mission_text h4 {
+	color: #fff;
+}
+
+.mission_text button {
+	border-radius: 35.5px 35.5px 35.5px 9.91px;
+	background: #fff;
+	box-shadow: 0px 3px 30px rgba(0, 0, 0, 0.25);
+	padding: 10px 30px;
+	font-weight: 700;
+	border: none;
+	color: #d088d3;
+}
+
+.mission_box1 {
+	position: relative;
+}
+
+.mission_box1::before {
+	content: "";
+	background-image: url("../../../../assets/home-images/box.png");
+	position: absolute;
+	background-repeat: no-repeat;
+	left: 170px;
+	top: 50px;
+	height: 40px;
+	object-fit: initial;
+	min-width: 40px;
+	background-size: contain;
+	-webkit-animation: action 1.5s infinite alternate;
+	animation: action 1.5s infinite alternate;
+}
+
+.mission_box1::after {
+	content: "";
+	background-image: url("../../../../assets/home-images/box.png");
+	position: absolute;
+	background-repeat: no-repeat;
+	right: 170px;
+	bottom: -20px;
+	height: 15px;
+	object-fit: initial;
+	min-width: 40px;
+	background-size: contain;
+	-webkit-animation: action 1.5s infinite alternate;
+	animation: action 1.5s infinite alternate;
+}
+
+@media (max-width: 767px) {
+	.mission_main::before {
+		right: -5px;
+		bottom: 50px;
+		height: 25px;
+		object-fit: initial;
+		min-width: 25px;
+	}
+
+	.mission_box1::after {
+		right: auto;
+	}
+
+	.mission_main {
+		background: linear-gradient(
+			to left,
+			#321f37 0%,
+			#260b4a 2.02%,
+			#293271 29.29%,
+			#8d7cda 100%
+		);
+		background-size: cover;
+		color: #fff;
+		margin: 50px 0;
+		border-radius: 15px;
+	}
+
+	.mission_text h1 {
+		font-size: 35px;
+	}
+}

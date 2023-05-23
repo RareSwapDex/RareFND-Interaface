@@ -1,0 +1,139 @@
+.hiring_main {
+	background: linear-gradient(
+		to left,
+		#321f37 0%,
+		#260b4a 2.02%,
+		#293271 29.29%,
+		#8d7cda 100%
+	);
+	border: 1px solid rgba(0, 0, 0, 0);
+	padding: 70px 0;
+	position: relative;
+}
+
+.hiring_main::before {
+	content: "";
+	background-image: url("../../../../assets/home-images/box.png");
+	position: absolute;
+	background-repeat: no-repeat;
+	right: 50px;
+	top: 10px;
+	height: 15px;
+	object-fit: initial;
+	min-width: 40px;
+	background-size: contain;
+	-webkit-animation: action 1.5s infinite alternate;
+	animation: action 1.5s infinite alternate;
+}
+
+.hiring_box1 {
+	position: relative;
+}
+
+.hiring_box1::before {
+	content: "";
+	background-image: url("../../../../assets/home-images/box.png");
+	position: absolute;
+	background-repeat: no-repeat;
+	left: -100px;
+	top: 220px;
+	height: 15px;
+	object-fit: initial;
+	min-width: 40px;
+	background-size: contain;
+	-webkit-animation: action 1.5s infinite alternate;
+	animation: action 1.5s infinite alternate;
+}
+
+.hiring_box3 {
+	position: relative;
+}
+
+.hiring_box3::before {
+	content: "";
+	background-image: url("../../../../assets/home-images/box.png");
+	position: absolute;
+	background-repeat: no-repeat;
+	right: -65px;
+	bottom: 135px;
+	height: 15px;
+	object-fit: initial;
+	min-width: 40px;
+	background-size: contain;
+	-webkit-animation: action 1.5s infinite alternate;
+	animation: action 1.5s infinite alternate;
+}
+
+.hiring_main .card {
+	padding: 15px;
+	border-radius: 30px;
+	background: #fff;
+	box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.06);
+	height: 100%;
+}
+
+.hiring_main .card-title.h5 {
+	color: #0b0d39;
+	font-size: 30px;
+	font-weight: 800;
+}
+
+.hiring_main .card-text {
+	font-size: 16px;
+	text-align: left;
+	color: #0b0d39;
+}
+
+.hiring_main .card button img {
+	width: 40px;
+}
+
+.hiring_main .card button {
+	border: none;
+	background-color: #fff;
+}
+
+.hiring_main .work_together {
+	border-radius: 35.5px 35.5px 35.5px 9.91px;
+	background: #fff;
+	box-shadow: 0px 3px 30px rgba(0, 0, 0, 0.25);
+	padding: 10px 30px;
+	font-weight: 700;
+	border: none;
+	color: #d088d3;
+	margin-right: 10px;
+}
+
+.hiring_main .hire_rare {
+	border-radius: 35px 35px 35px 9.77px;
+	/* background: linear-gradient(
+		to right,
+		#6c7fdd 0%,
+		#cd77d3 54.09%,
+		#e4bad0 100%
+	); */
+	border: none;
+	box-shadow: 0px 3px 20px rgba(0, 0, 0, 0.16);
+	padding: 10px 30px;
+	color: #fff;
+	font-weight: 700;
+}
+
+@media (max-width: 767px) {
+	.hiring_box3::before {
+		right: -10px;
+		bottom: 135px;
+		height: 15px;
+		object-fit: initial;
+		min-width: 15px;
+	}
+
+	.hiring_main .hire_rare {
+		margin-top: 15px;
+		width: 100%;
+	}
+
+	.hiring_main .work_together {
+		width: 100%;
+	}
+}

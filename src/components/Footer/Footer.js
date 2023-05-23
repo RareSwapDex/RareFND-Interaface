@@ -12,9 +12,11 @@ import AuthContext from "../../Context/AuthContext";
 import { useContext } from "react";
 import "./index.css";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function Footer() {
 	const navigate = useNavigate();
+	const { t } = useTranslation();
 	const { user, logOut } = useContext(AuthContext);
 	return (
 		<div className="footer_main">
@@ -22,12 +24,7 @@ export default function Footer() {
 				<div className="text-center footer_logo">
 					<img src={FooterLogo} alt="footer_logo" />
 
-					<p>
-						The Rare FND organization is a non-profit organization made up of
-						rare individuals who are experts in their field that when combined
-						form a rare force to help support the ecosystem of all involved with
-						Rare FND.{" "}
-					</p>
+					<p>{t("footer.text")}</p>
 				</div>
 			</Container>
 
@@ -69,18 +66,15 @@ export default function Footer() {
 							<p>
 								{" "}
 								<a href="https://www.google.com/maps/search/DSO+IFZA,+IFZA+Properties,+Silicon+Oasis,+Dubai,+UAE/@25.1185768,55.3796655,13.64z">
-									Rare FND FZCO DSO IFZA, IFZA Properties, Silicon Oasis, Dubai,
-									UAE.
+									{t("footer.addresses.1")}
 								</a>
 								<br />
 								<a href="https://maps.app.goo.gl/zaKNmoRAopMUHWDi9">
-									ADDRESS: RARE FND LIMITED, 86-90 Paul Street, London, England,
-									EC2A 4NE (14325862){" "}
+									{t("footer.addresses.2")}
 								</a>{" "}
 								<br />
 								<a href="https://goo.gl/maps/iGgGPP9MXsUTtdDy6">
-									RATBits NFT Marketplace DMCC, 48th floor Almas Towers, JLT,
-									Dubai{" "}
+									{t("footer.addresses.3")}
 								</a>
 							</p>
 
@@ -94,17 +88,17 @@ export default function Footer() {
 					</Col>
 					<Col md={3} className="quick_link">
 						<div className="social">
-							<h6>Quick Links</h6>
+							<h6>{t("footer.quickLinks.title")}</h6>
 
 							<ul>
 								<li>
-									<a href="/about-us"> About Us </a>
+									<a href="/about-us"> {t("footer.quickLinks.1")} </a>
 								</li>
 								<li>
-									<a href="/"> Updates </a>
+									<a href="/"> {t("footer.quickLinks.2")} </a>
 								</li>
 								<li>
-									<a href="/"> Events </a>
+									<a href="/"> {t("footer.quickLinks.3")} </a>
 								</li>
 								<li>
 									<a
@@ -112,8 +106,7 @@ export default function Footer() {
 										target="_blank"
 										rel="noreferrer"
 									>
-										{" "}
-										Contacts{" "}
+										{t("footer.quickLinks.4")}
 									</a>
 								</li>
 							</ul>
@@ -121,7 +114,7 @@ export default function Footer() {
 					</Col>
 					<Col md={2}>
 						<div className="social">
-							<h6>Help Centre</h6>
+							<h6>{t("footer.helpCenter.title")}</h6>
 
 							<ul>
 								<li>
@@ -130,23 +123,23 @@ export default function Footer() {
 										target="_blank"
 										rel="noreferrer"
 									>
-										{" "}
-										Support{" "}
+										{t("footer.helpCenter.1")}
 									</a>
 								</li>
-								<li>
-									<a href="/signup"> Sign Up </a>
-								</li>
+								{!user && (
+									<li>
+										<a href="/signup"> {t("footer.helpCenter.2")} </a>
+									</li>
+								)}
 								{user ? (
 									<li>
 										<a href="/login" onClick={logOut}>
-											{" "}
-											Logout{" "}
+											{t("footer.helpCenter.3")}
 										</a>
 									</li>
 								) : (
 									<li>
-										<a href="/login"> Login </a>
+										<a href="/login"> {t("footer.helpCenter.4")} </a>
 									</li>
 								)}
 							</ul>
@@ -154,23 +147,22 @@ export default function Footer() {
 					</Col>
 					<Col md={3}>
 						<div className="social">
-							<h6>Partnerships</h6>
+							<h6>{t("footer.partnerships.title")}</h6>
 
 							<ul>
 								<li>
 									<a href="/partners#crypto-partners">
-										{" "}
-										Crypto Industry Partners{" "}
+										{t("footer.partnerships.1")}
 									</a>
 								</li>
 								<li>
-									<a href="/"> Media Partners </a>
+									<a href="/"> {t("footer.partnerships.2")} </a>
 								</li>
 								<li>
-									<a href="/"> Non Profit Industry Partners </a>
+									<a href="/"> {t("footer.partnerships.3")} </a>
 								</li>
 								<li>
-									<a href="/"> Incubator Partners </a>
+									<a href="/"> {t("footer.partnerships.4")} </a>
 								</li>
 								<li>
 									<a
@@ -178,8 +170,7 @@ export default function Footer() {
 										rel="noreferrer"
 										href="https://rarefnd.zendesk.com/hc/en-gb"
 									>
-										{" "}
-										Partner with Us{" "}
+										{t("footer.partnerships.5")}
 									</a>
 								</li>
 							</ul>
@@ -192,24 +183,21 @@ export default function Footer() {
 				<Container>
 					<Row>
 						<Col md={6}>
-							<p>© RareFnd, 2022. All rights reserved.</p>
+							<p>{t("footer.rights")}</p>
 						</Col>
 						<Col md={6}>
 							<p className="d-flex justify-content-end">
 								{" "}
 								<span onClick={() => navigate("/legal")}>
-									{" "}
-									Legal Disclaimer{" "}
+									{t("footer.legalDisclaimer")}
 								</span>{" "}
 								|{" "}
 								<span onClick={() => navigate("/privacy-policy")}>
-									{" "}
-									Privacy Policy{" "}
+									{t("footer.privacyPolicy")}
 								</span>{" "}
 								|{" "}
 								<span onClick={() => navigate("/terms-of-service")}>
-									{" "}
-									Terms of Service{" "}
+									{t("footer.termsOfService")}
 								</span>{" "}
 							</p>
 						</Col>

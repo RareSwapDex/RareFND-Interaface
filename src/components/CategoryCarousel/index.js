@@ -1,6 +1,5 @@
 import Carousel from "react-bootstrap/Carousel";
 import "bootstrap/dist/css/bootstrap.css";
-import { FixedNumber } from "ethers";
 
 export default function CategoryCarousel(props) {
 	return (
@@ -22,8 +21,8 @@ export default function CategoryCarousel(props) {
 						className="display-1"
 						style={{
 							color: "white",
-							fontSize: "9vw",
-							fontWeight: "600",
+							fontSize: "6rem",
+							fontWeight: "700",
 						}}
 					>
 						{props.title}

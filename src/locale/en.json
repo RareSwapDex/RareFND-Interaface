@@ -1,0 +1,220 @@
+{
+	"navBar": {
+		"topBanner": {
+			"buttons": {
+				"login": "login",
+				"dashboard": "dashboard",
+				"signUp": "signUp",
+				"logOut": "logOut"
+			},
+			"text": "Give now and benefit from Give2Earn at Rare FND"
+		}
+	},
+	"home": {
+		"IntroSection": {
+			"title": {
+				"span": "Rare Find",
+				"rest": "Then Fund"
+			},
+			"paragraph": "The only crowdfunding platform that pays YOU to start your fundraising journey! For a limited time only kickstart your campaign with 10% completely free to help you reach your target!",
+			"buttons": {
+				"signUp": "Sign UP It's Free",
+				"betweenButtons": "or",
+				"startProject": "Start a project!"
+			}
+		},
+		"partners": {
+			"card1": {
+				"title": "Key Partnerships",
+				"paragraph": "Key partnerships to be announced with some of the leading names in the industry across the charity space. Stay tuned to our socials as some of the biggest partnerships in the crowdfunding space are to be announced, and you have the chance to get involved too!"
+			},
+			"card2": {
+				"title": "The Only Crowdfunding Platform That Pays You To Crowdfund",
+				"paragraph": "Start crowdfunding with Rare Fnd today and we will give you 10% towards your crowdfunding target! Not only that but reach your target quicker with 240% APY on all contributions."
+			},
+			"button": "Learn more"
+		},
+		"fundraisingSolution": {
+			"title": "Key Partnerships",
+			"paragraph": "Key partnerships to be announced with some of the leading names in the industry across the charity space. Stay tuned to our socials as some of the biggest partnerships in the crowdfunding space are to be announced, and you have the chance to get involved too!",
+			"button": "Learn more"
+		},
+		"testimonials": {
+			"title": "Testimonials",
+			"1": {
+				"title": "Great experience!",
+				"paragraph": "Rare Fnd is a great platform for anyone looking to support sustainable development in their community. It's easy to use, has a great user interface, and the crowdfunding campaigns are inspiring and effective. I've had the pleasure of working with them and can vouch for the impact they have had in my community. I highly recommend everyone to try out Rare Fnd Crowdfunding platform - you won't be disappointed!",
+				"testimonyName": "Korol Mutebi Bashir",
+				"testimonyPosition": "Charity Director"
+			}
+		},
+		"hiring": {
+			"1": {
+				"title": "Free And More",
+				"paragraph": "It’s not only free to fundraise — but we’ll also help you meet your goal! We’re currently offering campaigns 10% toward their fundraising target. YES, we’re paying you to launch your fundraising campaign n Rare FND!"
+			},
+			"2": {
+				"title": "Incentives",
+				"paragraph": "Your incentives for contribution tiers are embedded in our technology which can be bought, sold, traded or used. From event tickets to gift cards – It’s easy to deliver. No complications or expense of shipping items which allow you to better fund your project and opens up the usefulness of the reward to a worldwide audience"
+			},
+			"3": {
+				"title": "Safe For Investors",
+				"paragraph": "All of the contributions by investors in your campaign are autostaked in our platform. This provides the ultimate in safety for the contributors due to the fact that if a campaign fails to reach its fundraising goal, the funds are returned to the contributor PLUS any staking rewards that were earned during the campaign!"
+			},
+			"button1": "Work Better, Together",
+			"button2": "Hire a Rare Fund Expert"
+		},
+		"mission": {
+			"title": "Our mission",
+			"subTitle": "Empower the innovator in all of us",
+			"paragraph": "We want to ensure that the innovators amongst all of us are given the best opportunity to make their ideas a success",
+			"button": "Start Fundraising"
+		}
+	},
+	"category": {
+		"featured_projects": "FEATURED PROJECT",
+		"recommend": "RECOMMENDED FOR YOU",
+		"taking_off": "TAKING OFF",
+		"home_stretch": "HOME STRETCH",
+		"all": "ALL"
+	},
+	"project": {
+		"comingSoon": "Coming Soon",
+		"successProject": "Reached Funding Target",
+		"liveProject": "Live",
+		"failedProject": "Failed",
+		"rewards": "Rewards",
+		"description": "Description",
+		"project_owner": "Project owner",
+		"total_of": "Total of",
+		"contributor": "contributor",
+		"contributors": "contributors",
+		"share": "Share",
+		"subscribe": "Remind me when live",
+		"subscribers": "Subscribers",
+		"subscribed": "subscribed",
+		"convertContributionAmountToUSDError": "Error converting currency",
+		"success": "Success",
+		"donation": "Donation",
+		"contribution": "Contribution",
+		"successfulContribution": "You have successfully sent a contribution to",
+		"successfulDonation": "You have successfully sent a donation to",
+		"contributionTime": "Please know that your payment might take some time to be processed",
+		"failed": "Failed",
+		"donationWasNotSent": "Donation was not sent to",
+		"contributionWasNotSent": "Contribution was not sent to",
+		"approveDonation": "Please approve 2x transactions in your wallet to complete your donation",
+		"approveContribution": "Please approve 2x transactions in your wallet to complete your contribution",
+		"invalidAmount": "Invalid contribution amount",
+		"youHaveSuccessfullyContributed": "You have successfully contributed",
+		"youHaveSuccessfullyDonated": "You have successfully donated",
+		"approved": "Approved successfully!",
+		"claimedSuccessfully": "You have successfully claimed!",
+		"enterAmountDonation": "Please enter an amount to complete your donation",
+		"enterAmountContribution": "Please enter an amount to complete your contribution",
+		"emailRequired": "Email field is required.",
+		"amountNotEnough": "amount less than $16.5",
+		"usdAmountShouldBe": "amount should at least be $16.5 or more",
+		"amountShouldBe": "amount should at least be",
+		"orMore": "or more",
+		"paymentReceivedTitle": "Payment received and in processing",
+		"paymentReceivedDescription": "We have received your payment and soon your contribution will be added!",
+		"close": "Close",
+		"balance": "Balance",
+		"pendingGains": "Pending gains",
+		"totalGains": "Total gains",
+		"totalContributed": "Total Contributed",
+		"max": "Max",
+		"donate": "donate",
+		"contribute": "contribute",
+		"byFnd": "by FND",
+		"byCrypto": "by crypto",
+		"byCard": "by card",
+		"claim": "Claim",
+		"transactionHash": "Transaction Hash",
+		"enterEmail": "Enter you email address",
+		"Email": "Email address",
+		"submit": "Submit",
+		"rareFndReward": "Rare FuND Reward",
+		"APYReward": "Total Donation Rewards (240% APY)",
+		"projectBy": "Project by"
+	},
+	"aboutUs": {
+		"aboutUs": "About Us",
+		"ourTeam": "Our team",
+		"ourCommunity": "Our community",
+		"whitepaper": "Whitepaper",
+		"ourTeamParagraph": "The Rare FND organization is a non-profit organization made up of rare individuals who are experts in their field that when combined form a rare force to help support the ecosystem of all involved with Rare FND. With governmental advisors to philanthropists to industry experts across a range of sectors we aim to provide the support needed to build the best possible community for all campaigns on our platform to give exposure to that Rare Find and ensure that they can complete their Rare Fund.",
+		"ourCommunityParagraph": "Through the utilization of our huge community, you get an extension to your own marketing campaigns. With Rare FND partnerships with influencers across all social media platforms your crowdfunding campaign gets exposure through each and every one of our influencer partnerships meaning that you reach millions of users just by using by platform. Not only that but we have our own strong community in our own social media platforms who can also support your crowdfunding campaign through a range of different engagements. Our community members can also help your campaign even more! Through holding our native community token members can vote on their favourite crowdfunding charities or start-ups they would like to receive extra exposure. Your crowdfunding campaign starts with our community as well as your own, so as your campaign grows within our community then so does your own.",
+		"whitepaperParagraph": "Download our technical documentation relating to the Rare FND native token ",
+		"here": "here"
+	},
+	"signUp": {
+		"signUp": "Sign Up",
+		"userName": "Username",
+		"enterUserName": "Enter username",
+		"emailAddress": "Email address",
+		"enterEmailAddress": "Enter email address",
+		"password": "Password",
+		"enterPassword": "Enter password",
+		"confirmPassword": "Confirm password",
+		"haveAnAccount": "Have an account?",
+		"login": "Login",
+		"verifyEmail": "Verify your email",
+		"verifyEmailParagraph": "You will receive an email confirmation (PLEASE CHECK THE SPAM SECTION TOO), and follow the instructions to verify your account.",
+		"usernameExists": "Username already exists",
+		"username5Chars": "Username must be more than 5 characters",
+		"usernameMoreThan20": "Username cannot exceed more than 20 characters",
+		"emailExists": "Email already exists",
+		"notValidEmailFormat": "This is not a valid email format!"
+	},
+	"logIn": {
+		"logIn": "Login",
+		"emailAddress": "Email address",
+		"enterEmailAddress": "Enter email address",
+		"password": "Password",
+		"enterPassword": "Enter password",
+		"forgotPassword": "Forgot password",
+		"noAccount": "You don't have an account?",
+		"signUp": "Sign Up"
+	},
+	"footer": {
+		"text": "The Rare FND organization is a non-profit organization made up of rare individuals who are experts in their field that when combined form a rare force to help support the ecosystem of all involved with Rare FND.",
+		"addresses": {
+			"1": "Rare FND FZCO DSO IFZA, IFZA Properties, Silicon Oasis, Dubai, UAE.",
+			"2": "RARE FND LIMITED, 86-90 Paul Street, London, England, EC2A 4NE (14325862)",
+			"3": "RATBits NFT Marketplace DMCC, 48th floor Almas Towers, JLT, Dubai"
+		},
+		"quickLinks": {
+			"title": "Quick Links",
+			"1": "About Us",
+			"2": "Updates",
+			"3": "Events",
+			"4": "Contacts"
+		},
+		"helpCenter": {
+			"title": "Help Center",
+			"1": "Support",
+			"2": "Sign Up",
+			"3": "Logout",
+			"4": "Log In"
+		},
+		"partnerships": {
+			"title": "Partnerships",
+			"1": "Crypto Industry Partners",
+			"2": "Media Partners",
+			"3": "Non Profit Industry Partners",
+			"4": "Incubator Partners",
+			"5": "Partner with Us"
+		},
+		"termsOfService": "Terms of Service",
+		"privacyPolicy": "Privacy Policy",
+		"legalDisclaimer": "Legal Disclaimer",
+		"rights": "© RareFnd, 2022. All rights reserved."
+	},
+	"floatingButtons": {
+		"startProject": {
+			"title": "Start New Project"
+		}
+	}
+}

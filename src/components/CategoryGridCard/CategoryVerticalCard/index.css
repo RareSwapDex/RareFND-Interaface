@@ -1,7 +1,14 @@
-
-
-@media screen and (max-width: 760px) {
-#vertical_card_image{
-  padding:  0vw 0vw 0vw 0vw;
+.category-vertical-card {
+	padding-right: 1.5rem;
 }
+
+.vertical-card-image {
+	filter: drop-shadow(rgba(0, 0, 0, 0.25) -6px 7px 8px);
+	border-radius: 8px;
+}
+
+@media screen and (max-width: 768px) {
+	.category-vertical-card {
+		padding: 0;
+	}
 }

@@ -5,8 +5,11 @@ import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import { Link } from "react-router-dom";
 import { Image, Avatar } from "antd";
+import { useTranslation } from "react-i18next";
 
 export default function ProjectDescription(props) {
+	const { t } = useTranslation();
+
 	let incentivesData = props.incentivesData;
 	if (incentivesData) {
 		incentivesData.sort(function (a, b) {
@@ -49,7 +52,7 @@ export default function ProjectDescription(props) {
 							style={{ textDecoration: "none" }}
 						>
 							<div className="centerDiv" style={{ color: "black" }}>
-								Project by
+								{t("project.projectBy")}
 							</div>
 							<div className="centerDiv">
 								<div className="mb-4">

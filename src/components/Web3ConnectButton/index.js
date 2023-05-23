@@ -181,13 +181,6 @@ export default function Web3ConnectButton() {
 	return (
 		<Button
 			id="connect-btn"
-			// variant={
-			// 	buttonText === "Connect Wallet"
-			// 		? "light"
-			// 		: buttonText === "Connect to BSC"
-			// 		? "danger"
-			// 		: "outline-light"
-			// }
 			className={`connect-wallet-btn${
 				walletAddress &&
 				walletAddress.includes("0x") &&

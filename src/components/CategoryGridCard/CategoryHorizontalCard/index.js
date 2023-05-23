@@ -4,6 +4,12 @@ import Row from "react-bootstrap/Row";
 import "./index.css";
 
 export default function CategoryHorizontalCard(props) {
+	function truncateText(text, maxLength = 190) {
+		return text.length > maxLength
+			? text.substring(0, maxLength) + "..."
+			: text;
+	}
+
 	return (
 		<Link
 			to={`/projects/${props.owner_username.replace(
@@ -21,49 +27,73 @@ export default function CategoryHorizontalCard(props) {
 						position: "relative",
 					}}
 				>
-					<Col xs={6} style={{ height: "100%" }}>
-						<div>
+					<Col xs={5} style={{ height: "100%" }}>
+						<div style={{ position: "relative" }}>
 							<img
-								className="horizontal_card_image"
+								className="horizontal_card_image w-100"
 								src={props.src}
-								style={{ objectFit: "cover" }}
+								style={{
+									objectFit: "cover",
+									filter: "drop-shadow(rgba(0, 0, 0, 0.25) -6px 7px 8px)",
+									borderRadius: "8px",
+									height: "100%",
+								}}
 							/>
+							<p
+								className="px-2 m-0 me-2"
+								style={{
+									backgroundColor: props.project_live
+										? "Red"
+										: props.project_raised_amount >= props.project_goal_amount
+										? "#5BB85C"
+										: props.project_raised_amount === 0
+										? "#cd77d3"
+										: "Red",
+									borderRadius: "8px",
+									position: "absolute",
+									top: "5px",
+									left: "5px",
+									margin: 0,
+									zIndex: "1000",
+									fontSize: "0.8rem",
+									color: "white",
+									verticalAlign: "middle",
+									filter: "drop-shadow(rgba(0, 0, 0, 0.25) -6px 7px 8px)",
+								}}
+							>
+								{props.project_live
+									? "Live"
+									: props.project_raised_amount >= props.project_goal_amount
+									? "Successful"
+									: props.project_raised_amount === 0
+									? "Soon"
+									: "Failed"}
+							</p>
 						</div>
 					</Col>
-					<Col xs={6}>
+					<Col xs={7} className="ps-0">
 						<div>
-							<h5>{props.title}</h5>
-							<div style={{ display: "inline-block" }}>
-								<p
-									style={{
-										backgroundColor: props.project_live
-											? "Red"
-											: props.project_raised_amount >= props.project_goal_amount
-											? "#5BB85C"
-											: props.project_raised_amount === 0
-											? "#cd77d3"
-											: "Red",
-										padding: "0.1rem 0.7rem 0.1rem 0.7rem",
-										borderRadius: "8px",
-										position: "absolute",
-										bottom: "0",
-										color: "white",
-									}}
-								>
-									{props.project_live
-										? "Live"
-										: props.project_raised_amount >= props.project_goal_amount
-										? "Successful"
-										: props.project_raised_amount === 0
-										? "Coming Soon"
-										: "Failed"}
-								</p>
-							</div>
-							{/* <p>By: {props.project_owner}</p> */}
+							<p
+								className="p-0 m-0"
+								style={{
+									display: "inline-flex",
+									alignItems: "center",
+									color: "black",
+									fontSize: "1rem",
+								}}
+							>
+								{props.title}
+							</p>
+							<p
+								className="horizontal-card-description"
+								style={{ color: "grey", fontSize: "0.9rem" }}
+							>
+								{truncateText(props.description)}
+							</p>
 						</div>
 					</Col>
 				</Row>
-				<hr className="hor_underline" />
+				{/* <hr className="hor_underline" /> */}
 			</div>
 		</Link>
 	);

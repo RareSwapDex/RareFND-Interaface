@@ -8,14 +8,11 @@ import useAxios from "../../utils/useAxios/useAxios";
 import { useState, useEffect, useContext } from "react";
 import AuthContext from "../../Context/AuthContext";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import comingSoon from "../../assets/coming-soon.png";
-import succeed from "../../assets/succeed.png";
 import LoadingSpinner from "../../components/LoadingSpinner";
-import { StarOutlined, FacebookFilled } from "@ant-design/icons";
+import { StarOutlined } from "@ant-design/icons";
 import { Image, Avatar } from "antd";
 import locationIcon from "../../assets/locationIcon.png";
 import {
-	FacebookShareCount,
 	EmailShareButton,
 	FacebookShareButton,
 	LinkedinShareButton,
@@ -32,8 +29,8 @@ import {
 	TwitterIcon,
 	WhatsappIcon,
 } from "react-share";
-import { DownOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Dropdown, message, Space, Tooltip } from "antd";
+import { Button } from "antd";
+import { useTranslation } from "react-i18next";
 
 export default function ProjectCard(props) {
 	let api = useAxios();
@@ -43,20 +40,19 @@ export default function ProjectCard(props) {
 	const [numberOfSubscribers, setNumberOfSubscribers] = useState(
 		props.numberOfSubscribers
 	);
+	const { t } = useTranslation();
 
 	const navigate = useNavigate();
 	const location = useLocation();
 	const shareUrl = window.location.href;
-	// const shareUrl =
-	// ("https://rarefnd.com/projects/OkoaHeros/Clean-Water-for-Bulamagi-Village");
 
 	useEffect(() => {
 		if (subscribed) {
-			setSubscribeButtonText("Subscribed");
+			setSubscribeButtonText(t("project.subscribed"));
 		} else {
-			setSubscribeButtonText("Remind me when live");
+			setSubscribeButtonText(t("project.subscribe"));
 		}
-	}, [subscribed]);
+	}, [subscribed, t]);
 
 	useEffect(() => {
 		if (
@@ -105,7 +101,8 @@ export default function ProjectCard(props) {
 				.then((response) => {
 					if (response.status === 200) {
 						setSubscribed(true);
-						document.getElementById("subscribe-btn").textContent = "Subscribed";
+						document.getElementById("subscribe-btn").textContent =
+							t("project.subscribed");
 						setNumberOfSubscribers(numberOfSubscribers + 1);
 						localStorage.removeItem("subscribeToProject");
 					} else {
@@ -123,35 +120,56 @@ export default function ProjectCard(props) {
 	};
 
 	return (
-		<div>
+		<div style={{ boxShadow: "0 0 8px 2px rgba(0, 0, 0, 0.25)" }}>
 			<Card
 				className="border-0 mb-5"
 				style={{ backgroundColor: "transparent" }}
 			>
-				<Row
-					// className={`w-100${
-					// 	window.innerWidth > 1000 ? " vertical-divider" : ""
-					// }`}
-					className={`w-100`}
-					style={{ margin: "0px" }}
-				>
-					<Col md={6} width="50%">
+				<Row className="w-100" style={{ margin: "0px" }}>
+					<Col md={6}>
 						<div
 							style={{
 								width: "100%",
 								height: "100%",
+								display: "flex",
+								flexDirection: "column",
+								alignItems: "center",
+								justifyContent: "center",
 							}}
-							// className="centerDiv"
 						>
+							{props.fundingDataUpdated && (
+								<div
+									style={{
+										width: "100%",
+										height: "30px",
+										color: "white",
+									}}
+									className="coming-soon-banner center-div"
+								>
+									{!props.projectLive ? (
+										props.projectSuccessfullyEnded === true ? (
+											<p style={{ margin: 0 }}>{t("project.successProject")}</p>
+										) : props.projectSuccessfullyEnded === false ? (
+											<p style={{ margin: 0 }}>{t("project.failedProject")}</p>
+										) : (
+											<p style={{ margin: 0 }}>{t("project.comingSoon")}</p>
+										)
+									) : (
+										t("project.liveProject")
+									)}
+								</div>
+							)}
 							<Image
 								src={props.image}
 								width="100%"
 								style={{
 									width: "100%",
+									height: "100%",
 									objectFit: "cover",
 								}}
 							/>
-							{!props.projectLive &&
+
+							{/* {!props.projectLive &&
 								props.projectSuccessfullyEnded !== false &&
 								props.projectSuccessfullyEnded !== true && (
 									<div
@@ -161,26 +179,13 @@ export default function ProjectCard(props) {
 											color: "white",
 											display: "none",
 										}}
-										className="coming-soon-banner centerDiv"
+										className="coming-soon-banner center-div"
 									>
-										<p style={{ margin: 0 }}>Coming Soon</p>
+										<p style={{ margin: 0 }}>{t("project.comingSoon")}</p>
 									</div>
-								)}
+								)} */}
 						</div>
 					</Col>
-					{window.innerWidth <= 767 && (
-						<div style={{ width: "100%" }}>
-							<hr
-								style={{
-									border: "3px solid",
-									color: "#cd77d3",
-									opacity: "1",
-									width: "100%",
-									marginLeft: "-1%",
-								}}
-							/>
-						</div>
-					)}
 					<Col md={6}>
 						<Card.Body
 							className="text-black text-center d-flex flex-column h-100"
@@ -192,7 +197,6 @@ export default function ProjectCard(props) {
 							}}
 						>
 							<div
-								// className="centerDiv"
 								style={{
 									display: "flex",
 									alignItems: "left",
@@ -203,32 +207,39 @@ export default function ProjectCard(props) {
 								}}
 							>
 								<div>
-									<button
-										className="primaryButton"
-										style={{ marginRight: "20px" }}
-										onClick={() => {
-											const element =
-												document.getElementById("project-rewards");
-											if (element) {
-												element.scrollIntoView({ block: "start" });
-											}
-										}}
-									>
-										Rewards
-									</button>
-									<button
-										className="primaryButton"
-										onClick={() => {
-											const element = document.getElementById(
-												"project-description"
-											);
-											if (element) {
-												element.scrollIntoView({ block: "start" });
-											}
-										}}
-									>
-										Description
-									</button>
+									{props.incentivesData && props.incentivesData.length > 0 && (
+										<button
+											className="primaryButton"
+											onClick={() => {
+												const element =
+													document.getElementById("project-rewards");
+												if (element) {
+													element.scrollIntoView({ block: "start" });
+												}
+											}}
+										>
+											{t("project.rewards")}
+										</button>
+									)}
+									{document.getElementById("project-description") && (
+										<button
+											className={`primaryButton ${
+												props.incentivesData &&
+												props.incentivesData.length > 0 &&
+												"mx-4"
+											}`}
+											onClick={() => {
+												const element = document.getElementById(
+													"project-description"
+												);
+												if (element) {
+													element.scrollIntoView({ block: "start" });
+												}
+											}}
+										>
+											{t("project.description")}
+										</button>
+									)}
 								</div>
 							</div>
 							<div
@@ -251,54 +262,17 @@ export default function ProjectCard(props) {
 											height: "100%",
 										}}
 									>
-										{!props.projectLive &&
-											(props.projectSuccessfullyEnded === true ? (
-												<div
-													style={{
-														position: "absolute",
-														top: "-5px",
-														right: "-15px",
-													}}
-												>
-													<img src={succeed} style={{ width: "5rem" }} />
-												</div>
-											) : props.projectSuccessfullyEnded === false ? (
-												<></>
-											) : (
-												<div
-													style={{
-														position: "absolute",
-														top: "-5px",
-														right: "-5px",
-													}}
-												>
-													<img
-														id="comingSoonImage"
-														src={comingSoon}
-														style={{ width: "7rem" }}
-													/>
-												</div>
-											))}
 										<h1 style={{ margin: "0", padding: "0" }}>
 											<Card.Title
 												style={{
-													fontSize: "xx-large",
-													textAlign: "left",
+													fontSize: "x-large",
 												}}
 											>
 												{props.title}
 											</Card.Title>
 										</h1>
 
-										<div
-										// style={{
-										// 	display:
-										// 		props.projectSuccessfullyEnded !== false &&
-										// 		props.projectSuccessfullyEnded !== true
-										// 			? "block"
-										// 			: "None",
-										// }}
-										>
+										<div>
 											<div style={{ display: "flex" }}>
 												<div style={{ width: "64px" }}>
 													<Avatar
@@ -337,7 +311,7 @@ export default function ProjectCard(props) {
 																	color: "grey",
 																}}
 															>
-																Project owner
+																{t("project.project_owner")}
 															</p>
 														</div>
 														<div
@@ -392,19 +366,23 @@ export default function ProjectCard(props) {
 														}
 													/>
 													{props.number_of_donators && (
-														<a
-															href={`https://bscscan.com/address/${props.staking_address}`}
-															target="_blank"
-															rel="noreferrer"
-															style={{
-																textDecoration: "underline",
-																color: "black",
-															}}
-														>
-															<p>
-																Total of {props.number_of_donators} contributors
-															</p>
-														</a>
+														<div className="center-div">
+															<a
+																href={`https://bscscan.com/address/${props.staking_address}`}
+																target="_blank"
+																rel="noreferrer"
+																style={{
+																	textDecoration: "underline",
+																	color: "black",
+																}}
+															>
+																<p>
+																	{t("project.total_of")}{" "}
+																	{props.number_of_donators}{" "}
+																	{t("project.contributors")}
+																</p>
+															</a>
+														</div>
 													)}
 												</div>
 											) : (
@@ -420,16 +398,18 @@ export default function ProjectCard(props) {
 														>
 															{subscribeButtonText}
 														</Button>
-														<p style={{ marginTop: "10px" }}>
-															{`${numberOfSubscribers} Subscribers`}
-														</p>
+														<div className="center-div mt-3">
+															<p style={{ margin: "0" }}>
+																{`${numberOfSubscribers} ${t(
+																	"project.subscribers"
+																)}`}
+															</p>
+														</div>
 													</div>
 												)
 											)}
 										</div>
 										<hr style={{ marginBottom: "10px 0 10px 0" }} />
-
-										{/* <EmailShareButton url={window.location.href} /> */}
 
 										<Row>
 											<Col md={6} style={{ marginBottom: "10px" }}>
@@ -452,7 +432,9 @@ export default function ProjectCard(props) {
 													}}
 												>
 													<div className="centerDiv">
-														<p style={{ margin: "0", padding: "0" }}>Share: </p>
+														<p style={{ margin: "0", padding: "0" }}>
+															{t("project.share")}:{" "}
+														</p>
 													</div>
 													<FacebookShareButton url={shareUrl}>
 														<FacebookIcon size={32} />

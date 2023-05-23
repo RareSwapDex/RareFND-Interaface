@@ -1,5 +1,4 @@
 import React from "react";
-import "antd/dist/antd.css";
 import { Card } from "antd";
 
 const { Meta } = Card;

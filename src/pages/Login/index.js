@@ -5,6 +5,7 @@ import "./index.css";
 import AuthContext from "../../Context/AuthContext";
 import { Link } from "react-router-dom";
 import { Modal, message, Input } from "antd";
+import { useTranslation } from "react-i18next";
 import axios from "axios";
 
 const { confirm } = Modal;
@@ -20,6 +21,7 @@ export default function (props) {
 	const [formErrors, setFormErrors] = useState({});
 	const [isSubmit, setIsSubmit] = useState(false);
 	const [messageApi, contextHolder] = message.useMessage();
+	const { t } = useTranslation();
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -95,26 +97,26 @@ export default function (props) {
 			{contextHolder}
 			<form className="Auth-form" onSubmit={handleSubmit}>
 				<div className="Auth-form-content">
-					<h3 className="Auth-form-title">Login</h3>
+					<h3 className="Auth-form-title">{t("logIn.logIn")}</h3>
 					<div className="form-group mt-3">
-						<label>Email address</label>
+						<label>{t("logIn.emailAddress")}</label>
 						<Input
 							type="email"
 							name="email"
 							className="form-control mt-1"
-							placeholder="Enter Email"
+							placeholder={t("logIn.enterEmailAddress")}
 							value={formValues.email}
 							onChange={handleChange}
 						/>
 						<p className="text-danger">{formErrors.email}</p>
 					</div>
 					<div className="form-group mt-3">
-						<label>Password</label>
+						<label>{t("logIn.password")}</label>
 						<Input.Password
 							type="password"
 							name="password"
-							className="form-control mt-1"
-							placeholder="Password"
+							placeholder={t("logIn.enterPassword")}
+							style={{ borderRadius: "0" }}
 							value={formValues.password}
 							onChange={handleChange}
 						/>
@@ -132,7 +134,7 @@ export default function (props) {
 								color: "white",
 							}}
 						>
-							Login
+							{t("logIn.logIn")}
 						</button>
 					</div>
 					<div
@@ -143,10 +145,10 @@ export default function (props) {
 							textDecoration: "underline",
 						}}
 					>
-						<p className="text-right mt-2">Forgot password?</p>
+						<p className="text-right mt-2">{t("logIn.forgotPassword")}</p>
 					</div>
 					<p className="text-right mt-2">
-						You don't have an account? <Link to="/signup">Sign Up</Link>
+						{t("logIn.noAccount")} <Link to="/signup">{t("logIn.signUp")}</Link>
 					</p>
 				</div>
 			</form>

@@ -1,7 +1,13 @@
 .horizontal_card_image {
-  width: 95%;
-  max-height: 120px;
+	width: 100%;
+	max-height: 120px;
 }
-.hor_underline{
-color: rgb(165, 164, 164);
+.hor_underline {
+	color: rgb(165, 164, 164);
+}
+
+@media screen and (max-width: 1200px) {
+	.horizontal-card-description {
+		display: none;
+	}
 }

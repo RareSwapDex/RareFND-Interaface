@@ -8,7 +8,7 @@ import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import axios from "axios";
 import token_info from "../../token.json";
-import { useParams } from "react-router";
+import supportedCurrencies from "../../data/supportedCurrencies.json";
 import { ProviderContext } from "../../web3/ProviderContext";
 import LoadingSpinner from "../LoadingSpinner";
 import {
@@ -17,15 +17,14 @@ import {
 	formatFnd,
 	sendTx,
 	USDT_DECIMALS,
-	popupError,
 	popupInfo,
-	switchNetwork,
 } from "../../utils/Helpers";
 import { TARGET_CHAIN } from "../../utils/Helpers";
-import Iframe from "react-iframe";
-import { sha512 } from "js-sha512";
 import { useSearchParams } from "react-router-dom";
 import { notification } from "antd";
+import { Input, Select } from "antd";
+import "./index.css";
+import { useTranslation } from "react-i18next";
 
 var regexp = /^\d+(\.\d{1,18})?$/;
 
@@ -37,6 +36,7 @@ const toHex = (num) => {
 let refreshStakingId = 0;
 
 export default function ContributeBtn(props) {
+	const { t } = useTranslation();
 	const [walletAddress, setWalletAddress] = useState();
 	const [chainId, setChainId] = useState();
 	const [readyToContribute, setReadyToContribute] = useState();
@@ -56,17 +56,8 @@ export default function ContributeBtn(props) {
 	const [txHash, setTxHash] = useState();
 	const [contributionEmail, setContributionEmail] = useState("");
 	const [contributionEmailErr, setContributionEmailErr] = useState("");
-	const [venlyWalletAddress, setVenlyWalletAddress] = useState("");
 	const [show, setShow] = useState(false);
-	const [showCard, setShowCard] = useState(false);
-	const [mercuryoCurrency, setMercuryoCurrency] = useState("");
-	const [mercuryoFiatCurrency, setMercuryoFiatCurrency] = useState("");
-	const [mercuryoBusdFee, setMercuryoBusdFee] = useState("");
-	const [mercuryoFiatCurrencyAmount, setMercuryoFiatCurrencyAmount] =
-		useState(0);
-	const [mercuryoCurrencyAmount, setMercuryoCurrencyAmount] = useState(0);
-	const [mercuryoRecievingAmount, setMercuryoRecievingAmount] = useState(0);
-	const [mercuryoPopupURL, setMercuryoPopupURL] = useState("");
+	const [selectedCurrency, setSelectedCurrency] = useState("USD");
 	const [paymentCompleted, setPaymentCompleted] = useState(false);
 	const [donationMethod, setDonationMethod] = useState(null);
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -78,30 +69,51 @@ export default function ContributeBtn(props) {
 
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
-	const handleCloseCard = () => setShowCard(false);
-	const handleShowCard = () => setShowCard(true);
 
 	const getAllowance = async (token_) => {
 		const allownce = await token_.allowance(walletAddress, stakingAddress);
 		setAllowance(allownce);
 	};
 
+	const convertContributionAmountToUSD = async (amount) => {
+		try {
+			const response = await axios.post(
+				`${process.env.REACT_APP_BASE_URL}/api/currency-exchange/`,
+				{
+					from: selectedCurrency,
+					amount: amount,
+				}
+			);
+
+			const usdAmount = response.data.result;
+			return usdAmount;
+		} catch (error) {
+			console.error(
+				`${t("project.convertContributionAmountToUSDError")}:`,
+				error
+			);
+			return 0;
+		}
+	};
+
 	useEffect(() => {
 		if (searchParams.get("payment_status") === "success") {
 			openNotification(
-				`${props.projectCategory === 2 ? "Donation" : "Contribution"} sent!`,
-				`You have successfully sent a ${
-					props.projectCategory === 2 ? "Donation" : "Contribution"
-				} to: "${
-					props.projectName
-				}"!\nPlease know that your payment might take some time to be processed`
+				`${t("project.success")}`,
+				`${
+					props.projectCategory === 2
+						? t("project.successfulDonation")
+						: t("project.successfulContribution")
+				}: "${props.projectName}"!\n${t("project.contributionTime")}`
 			);
 		} else if (searchParams.get("payment_status") === "failed") {
 			openNotification(
-				`${props.projectCategory === 2 ? "Donation" : "Contribution"} Failed!`,
-				`Your ${
-					props.projectCategory === 2 ? "Donation" : "Contribution"
-				} was not sent to: "${props.projectName}"!`
+				`${t("project.failed")}!`,
+				`${
+					props.projectCategory === 2
+						? t("project.donationWasNotSent")
+						: t("project.contributionWasNotSent")
+				}: "${props.projectName}"!`
 			);
 		}
 	}, [searchParams]);
@@ -169,8 +181,10 @@ export default function ContributeBtn(props) {
 	async function stake() {
 		if (!allowance || allowance.lte(0)) {
 			popupInfo(
-				`Please approve 2x transactions in your wallet to complete your ${
-					props.projectCategory === 2 ? "Donation" : "Contribution"
+				`${
+					props.projectCategory === 2
+						? t("project.approveDonation")
+						: t("project.approveContribution")
 				}!`
 			);
 			const approvalStatus = await approve();
@@ -182,8 +196,15 @@ export default function ContributeBtn(props) {
 		let contribution_amount =
 			document.getElementById("contribute-amount").value;
 
-		if (!regexp.test(contribution_amount)) {
-			return alert("Invalid contribution amount");
+		let usd_amount = 0;
+		if (selectedCurrency !== "USD") {
+			usd_amount = await convertContributionAmountToUSD(contribution_amount);
+		} else {
+			usd_amount = contribution_amount;
+		}
+
+		if (!regexp.test(usd_amount)) {
+			return alert(t("project.invalidAmount"));
 		} else {
 			await isReadyToContribute();
 			if (!walletAddress || (walletAddress && chainId !== TARGET_CHAIN)) {
@@ -193,12 +214,14 @@ export default function ContributeBtn(props) {
 					setPending(true);
 					const tx = () =>
 						staking?.stakeUsd(
-							ethers.utils.parseUnits(contribution_amount, USDT_DECIMALS)
+							ethers.utils.parseUnits(usd_amount, USDT_DECIMALS)
 						);
 					const status = await sendTx(
 						tx,
-						`You have successfully ${
-							props.projectCategory === 2 ? "Donated" : "Contributed"
+						`${
+							props.projectCategory === 2
+								? t("project.youHaveSuccessfullyDonated")
+								: t("project.youHaveSuccessfullyContributed")
 						}!`
 					);
 					setPending(false);
@@ -209,7 +232,7 @@ export default function ContributeBtn(props) {
 							{
 								hash: status.hash,
 								project: id,
-								selected_incentive: AutoIncentive(),
+								selected_incentive: AutoIncentive(usd_amount),
 							}
 						);
 					}
@@ -220,16 +243,12 @@ export default function ContributeBtn(props) {
 		}
 	}
 
-	// setTxHash(
-	// 	"0x54550f395515300ca206b5e3f1e6c6a1e0b408fa280ffc84cc34adb946f4499d"
-	// );
-
 	async function approve() {
 		setPending(true);
 		// stacking address -> smart contract address and the max amount
 		const approveTx = () =>
 			token?.approve(stakingAddress, ethers.constants.MaxInt256);
-		const status = await sendTx(approveTx, "Approved successfully!");
+		const status = await sendTx(approveTx, t("project.approved"));
 		setPending(false);
 		status.valid && setAllowance(ethers.constants.MaxInt256);
 		return status;
@@ -243,7 +262,7 @@ export default function ContributeBtn(props) {
 	async function claim() {
 		setPending(true);
 		const tx = () => staking?.claim();
-		await sendTx(tx, "You have successfully claimed!");
+		await sendTx(tx, t("project.claimedSuccessfully"));
 		setPending(false);
 	}
 
@@ -310,8 +329,10 @@ export default function ContributeBtn(props) {
 
 		if (!regexp.test(contribution_amount)) {
 			popupInfo(
-				`Please enter amount to complete your ${
-					props.projectCategory === 2 ? "Donation" : "Contribution"
+				`${
+					props.projectCategory === 2
+						? t("project.enterAmountDonation")
+						: t("project.enterAmountContribution")
 				}!`
 			);
 			// return alert("Invalid contribution amount");
@@ -320,35 +341,45 @@ export default function ContributeBtn(props) {
 		}
 	}
 
-	function donateByCardOrCrypto() {
+	async function donateByCardOrCrypto() {
 		let contribution_amount =
 			document.getElementById("contribute-amount").value;
 
+		let usd_amount = 0;
+		if (selectedCurrency !== "USD") {
+			usd_amount = await convertContributionAmountToUSD(contribution_amount);
+		} else {
+			usd_amount = contribution_amount;
+		}
+
 		if (!contributionEmail) {
-			setContributionEmailErr("Email field is required.");
-		} else if (donationMethod === "donate-card" && contribution_amount < 16) {
-			popupInfo(
-				`${
-					props.projectCategory === 2 ? "Donation" : "Contribution"
-				} amount should at least be $16 or more`
-			);
+			setContributionEmailErr(t("project.emailRequired"));
+		} else if (donationMethod === "donate-card") {
+			console.log(t("project.amountNotEnough"), usd_amount);
+			if (selectedCurrency === "USD" && contribution_amount < 16.5) {
+				popupInfo(`${t("project.amountNotEnough")}`);
+			} else if (selectedCurrency !== "USD" && usd_amount < 16.5) {
+				const currency_rate = usd_amount / contribution_amount;
+				popupInfo(
+					`${t("project.amountShouldBe")}  ${(16.5 / currency_rate).toFixed(
+						2
+					)} ${selectedCurrency} ${t("project.orMore")}`
+				);
+			} else {
+				document.getElementById("submit-email-form").disabled = true;
+				if (usd_amount >= 5000) {
+					donateByStripe(usd_amount);
+				} else {
+					donateByMercuryo(usd_amount);
+				}
+			}
 		} else {
 			document.getElementById("submit-email-form").disabled = true;
-			if (donationMethod === "donate-card") {
-				if (Number(contribution_amount) >= 5000) {
-					donateByStripe();
-				} else {
-					createVenlyWallet();
-				}
-			} else {
-				donateByCrypto();
-			}
+			donateByCrypto(usd_amount);
 		}
 	}
 
-	function donateByStripe() {
-		let contribution_amount =
-			document.getElementById("contribute-amount").value;
+	function donateByStripe(contribution_amount) {
 		const payload = {
 			projectName: props.projectName,
 			contributorEmail: contributionEmail,
@@ -356,7 +387,7 @@ export default function ContributeBtn(props) {
 			contributionAmount: contribution_amount,
 			projectId: id,
 			projectURL: window.location.href,
-			selectedIncentive: AutoIncentive(),
+			selectedIncentive: AutoIncentive(contribution_amount),
 		};
 		axios
 			.post(
@@ -371,9 +402,7 @@ export default function ContributeBtn(props) {
 			.catch((err) => console.log(err));
 	}
 
-	function donateByCrypto() {
-		let contribution_amount =
-			document.getElementById("contribute-amount").value;
+	function donateByCrypto(contribution_amount) {
 		const payload = {
 			projectName: props.projectName,
 			contributorEmail: contributionEmail,
@@ -381,7 +410,7 @@ export default function ContributeBtn(props) {
 			contributionAmount: contribution_amount,
 			projectId: id,
 			projectURL: window.location.href,
-			selectedIncentive: AutoIncentive(),
+			selectedIncentive: AutoIncentive(contribution_amount),
 		};
 		axios
 			.post(
@@ -400,65 +429,26 @@ export default function ContributeBtn(props) {
 		window.location.replace(payment_url);
 	}
 
-	function createVenlyWallet() {
-		let contribution_amount =
-			document.getElementById("contribute-amount").value;
-		if (contribution_amount >= 16) {
-			const payload = {
-				contributionEmail: contributionEmail,
-				contributionAmount: contribution_amount,
-				stakingAddress: stakingAddress,
-				projectId: id,
-				selectedIncentive: AutoIncentive() ? AutoIncentive() : 0,
-				redirectURL: window.location.href,
-			};
-			axios
-				.post(
-					process.env.REACT_APP_BASE_URL + "/api/mercuryo/checkout_url/",
-					payload
-				)
-				.then((res) => {
-					if (res.status === 200)
-						window.location.replace(res.data.checkout_url);
-				})
-				.catch((err) => console.log(err));
-		} else {
-			popupInfo("Donation amount must be at least be $16 or more");
-		}
-	}
-
-	function redirectToMercuryo(address, email) {
-		let contribution_amount =
-			document.getElementById("contribute-amount").value;
-		const stringSec = "rarefndproduction";
-		sha512(address + stringSec);
-		var hash = sha512.update(address + stringSec);
-		// hash.update(address + stringSec);
-		const sigHax = hash.hex();
-
-		if (contribution_amount >= 16) {
-			const data = {
-				type: "buy",
-				// address: venlyWalletAddress,
-				from: mercuryoFiatCurrency ? mercuryoFiatCurrency : "USD",
-				to: mercuryoCurrency ? mercuryoCurrency : "BNB",
-				// amount: mercuryoFiatCurrency,
-				amount: contribution_amount, // user input
-				// widget_id: "c95bbe0f-334f-4848-a138-25125125b4b7",
-				widget_id: "41201352-8bc9-416b-b822-4393027afcd2",
-				address: address,
-				signature: sigHax,
-				email: email,
-				// redirect_url: window.location.href + `?payment_status=success`,
-				redirect_url: `https://temporary-rarefnd.netlify.app/?message=completed`,
-			};
-
-			window.location.replace(
-				`https://exchange.mercuryo.io/?widget_id=${data.widget_id}&address=${data.address}&signature=${data.signature}&fiat_amount=${data.amount}&type=${data.type}&fiat_currency=${data.from}&currency=${data.to}&email=${data.email}&redirect_url=${data.redirect_url}&merchant_transaction_id=${data.amount}-${id}`
-			);
-		} else {
-			popupInfo("Donation amount should at least be $16 or more");
-		}
+	function donateByMercuryo(contribution_amount) {
+		const payload = {
+			contributionEmail: contributionEmail,
+			contributionAmount: contribution_amount,
+			stakingAddress: stakingAddress,
+			projectId: id,
+			selectedIncentive: AutoIncentive(contribution_amount)
+				? AutoIncentive(contribution_amount)
+				: 0,
+			redirectURL: window.location.href,
+		};
+		axios
+			.post(
+				process.env.REACT_APP_BASE_URL + "/api/mercuryo/checkout_url/",
+				payload
+			)
+			.then((res) => {
+				if (res.status === 200) window.location.replace(res.data.checkout_url);
+			})
+			.catch((err) => console.log(err));
 	}
 
 	const openNotification = (notificationTitle, notificationBody) => {
@@ -477,36 +467,28 @@ export default function ContributeBtn(props) {
 		}
 	};
 
-	// function handleAmountInputChange(e) {
-	// 	const { value } = e.target;
-	// 	let maxEligibleIncentive = null;
-	// 	let localIncentive = null;
-	// 	for (let i = 0; i < props.incentivesData.length; i++) {
-	// 		let incentive = props.incentivesData[i];
-	// 		if (
-	// 			value >= incentive.price &&
-	// 			(!maxEligibleIncentive || incentive.price > maxEligibleIncentive)
-	// 		) {
-	// 			maxEligibleIncentive = incentive.price;
-	// 			localIncentive = incentive;
-	// 		}
-	// 	}
-	// 	if (!props.selectedIncentive() && localIncentive) {
-	// 		props.setSelectedIncentive(localIncentive.id);
-	// 	}
-	// 	console.log(
-	// 		maxEligibleIncentive,
-	// 		localIncentive,
-	// 		props.selectedIncentive(),
-	// 		props.selectedIncentive()
-	// 			? props.incentivesData[props.selectedIncentive() - 1]
-	// 			: 0
-	// 	);
-	// }
+	const { Option } = Select;
 
-	function AutoIncentive() {
-		const contribution_amount =
-			document.getElementById("contribute-amount").value;
+	const mercuryoCurrencies = supportedCurrencies.supported_currencies;
+
+	const currenciesInput = (
+		<Select
+			defaultValue="USD"
+			style={{ border: "none" }}
+			onChange={(value) => {
+				setSelectedCurrency(value);
+			}}
+			bordered={false}
+		>
+			{mercuryoCurrencies.map((currency) => (
+				<Option value={currency} key={currency}>
+					{currency}
+				</Option>
+			))}
+		</Select>
+	);
+
+	function AutoIncentive(contribution_amount) {
 		let maxEligibleIncentive = null;
 		let localIncentive = null;
 		const globalSelectedIncentive = props.selectedIncentive();
@@ -549,25 +531,23 @@ export default function ContributeBtn(props) {
 					onHide={() => setPaymentCompleted(false)}
 				>
 					<Modal.Header closeButton>
-						<Modal.Title>Payment received and in processing</Modal.Title>
+						<Modal.Title>{t("project.paymentReceivedTitle")}</Modal.Title>
 					</Modal.Header>
-					<Modal.Body>
-						We have received your payment and soon your contribution will be
-						added!
-					</Modal.Body>
+					<Modal.Body>{t("project.paymentReceivedDescription")}</Modal.Body>
 					<Modal.Footer>
 						<Button
 							variant="secondary"
 							onClick={() => setPaymentCompleted(false)}
 						>
-							Close
+							{t("project.close")}
 						</Button>
 					</Modal.Footer>
 				</Modal>
 			</div>
 			{!!walletAddress && (
 				<div>
-					Balance | {formatFnd(balance)} FND (${formatUsd(usdBalance || 0)})
+					{t("project.balance")}: {formatFnd(balance)}FND ($
+					{formatUsd(usdBalance || 0)})
 				</div>
 			)}
 			{finishedTokenInfoUpdate ? (
@@ -575,19 +555,19 @@ export default function ContributeBtn(props) {
 					{!!stakingOptions && stakingOptions[6] && (
 						<span>
 							<div>
-								{!!stakingData ? formatFnd(stakingData[0]) : "-"} FND Pending
-								Gains
+								{t("project.pendingGains")}:{" "}
+								{!!stakingData ? formatFnd(stakingData[0]) : "-"}FND{" "}
 							</div>
 							<div>
-								{!!stakingData ? formatFnd(stakingData[1]) : "-"} FND Total
-								Gains
+								{t("project.totalGains")}:{" "}
+								{!!stakingData ? formatFnd(stakingData[1]) : "-"}FND{" "}
 							</div>
 						</span>
 					)}
 					{!!stakingData && (
 						<div>
-							${formatUsd(stakingData[3])} Total Contributed (
-							{formatFnd(stakingData[2])} FND)
+							{t("project.totalContributed")}: {formatFnd(stakingData[2])}FND ($
+							{formatUsd(stakingData[3])})
 						</div>
 					)}
 					{projectLive && (
@@ -618,25 +598,17 @@ export default function ContributeBtn(props) {
 													display: "flex",
 													justifyContent: "center",
 													alignItems: "center",
+													height: "2rem",
 												}}
 											>
-												<p
-													style={{
-														padding: "0",
-														margin: "0",
-														fontSize: "1.2rem",
-														borderRight: "1px solid",
-														paddingRight: "10px",
-														borderColor: "#cd77d3",
-													}}
-												>
-													$
-												</p>
-												<input
+												<Input
+													className="contribute-amount"
+													// addonAfter={currenciesInput}
 													id="contribute-amount"
 													placeholder={"100"}
 													autoComplete="off"
 													type="text"
+													bordered={false}
 													onKeyPress={(e) => {
 														if (
 															e.key === "." &&
@@ -650,43 +622,30 @@ export default function ContributeBtn(props) {
 															!e.target.value.includes(".") &&
 															e.preventDefault();
 													}}
-													// onChange={(e) => handleAmountInputChange(e)}
 													pattern="^[0-9]*[.]?[0-9]*$"
-													// disabled={!allowance || allowance <= 0}
 													style={{
 														backgroundColor: "transparent",
-														border: "none",
+														border: "none !important",
 														width: "100%",
-														// minWidth: "250px",
-														// minHeight: "59px",
 														height: "100%",
 														fontSize:
 															!allowance || allowance <= 0 ? "1 rem" : "1.2rem",
-														// color: !allowance || allowance <= 0 ? "red" : "black",
 														color: "black",
-														// fontFamily: "'Kaisei Opti', sans-serif",
 														outline: "none",
-														paddingLeft: "10px",
+														// paddingLeft: "10px",
 													}}
-												></input>
+												></Input>
 
 												<Button
 													style={{
-														// padding: "0",
-														// margin: "0",
-														// fontSize: "1.5rem",
-														// borderLeft: "1px solid",
-														// paddingLeft: "10px",
-														// borderColor: "#cd77d3",
 														backgroundColor: "#cd77d3",
 														borderRadius: "35px",
 														border: "none",
 													}}
 													size="sm"
-													// variant="outline-warning"
 													onClick={() => setInputValue(usdBalance || "0")}
 												>
-													MAX
+													{t("project.max")}
 												</Button>
 											</div>
 										</Col>
@@ -715,7 +674,6 @@ export default function ContributeBtn(props) {
 										{provider ? (
 											<Button
 												id="contribute-fnd-btn"
-												// variant="warning"
 												size="lg"
 												style={{
 													width: "100%",
@@ -729,7 +687,6 @@ export default function ContributeBtn(props) {
 												onClick={() => {
 													if (chainId === TARGET_CHAIN) {
 														stake();
-														// console.log(AutoIncentive());
 													} else {
 														switchNetwork();
 													}
@@ -742,13 +699,14 @@ export default function ContributeBtn(props) {
 													pending
 												}
 											>
-												{props.projectCategory === 2 ? "Donate" : "Contribute"}{" "}
-												by FND
+												{props.projectCategory === 2
+													? t("project.donate")
+													: t("project.contribute")}{" "}
+												{t("project.byFnd")}
 											</Button>
 										) : (
 											<Button
 												id="contribute-fnd-btn-2"
-												// variant="warning"
 												size="lg"
 												style={{
 													width: "100%",
@@ -764,8 +722,10 @@ export default function ContributeBtn(props) {
 												}
 												disabled={!projectLive}
 											>
-												{props.projectCategory === 2 ? "Donate" : "Contribute"}{" "}
-												by FND
+												{props.projectCategory === 2
+													? t("project.donate")
+													: t("project.contribute")}{" "}
+												{t("project.byFnd")}
 											</Button>
 										)}
 									</Col>
@@ -788,7 +748,6 @@ export default function ContributeBtn(props) {
 										maxWidth: "500px",
 									}}
 								>
-									{/* {id === 34 && ( */}
 									<Col className="p-1 w-30" style={{ width: "100%" }}>
 										<Button
 											id="donate-crypto"
@@ -806,11 +765,12 @@ export default function ContributeBtn(props) {
 											onClick={(e) => openPopUp(e)}
 											disabled={!projectLive}
 										>
-											{props.projectCategory === 2 ? "Donate" : "Contribute"} by
-											crypto
+											{props.projectCategory === 2
+												? t("project.donate")
+												: t("project.contribute")}{" "}
+											{t("project.byCrypto")}
 										</Button>
 									</Col>
-									{/* )} */}
 									<Col className="p-1 w-30" style={{ width: "100%" }}>
 										<Button
 											id="contribute-usd-btn"
@@ -828,8 +788,10 @@ export default function ContributeBtn(props) {
 											onClick={(e) => openPopUp(e)}
 											disabled={!projectLive}
 										>
-											{props.projectCategory === 2 ? "Donate" : "Contribute"} by
-											card
+											{props.projectCategory === 2
+												? t("project.donate")
+												: t("project.contribute")}{" "}
+											{t("project.byCard")}
 										</Button>
 									</Col>
 								</Row>
@@ -847,7 +809,6 @@ export default function ContributeBtn(props) {
 						>
 							<Button
 								id="claim-btn"
-								// variant="warning"
 								size="lg"
 								style={{
 									width: "100%",
@@ -860,7 +821,7 @@ export default function ContributeBtn(props) {
 								}}
 								onClick={() => claim()}
 							>
-								Claim
+								{t("project.claim")}
 							</Button>
 						</Row>
 					)}
@@ -870,15 +831,11 @@ export default function ContributeBtn(props) {
 							style={{
 								backgroundColor: "#09ce00",
 								color: "white",
-								// height: "50px",
-								// display: "flex",
-								// justifyContent: "center",
-								// alignItems: "center",
 								padding: "5px",
 							}}
 						>
 							<p style={{ margin: "0", padding: "0" }}>
-								Transaction Hash:{" "}
+								{t("project.transactionHash")}:{" "}
 								<a
 									href={`https://bscscan.com/tx/${txHash}`}
 									target="_blank"
@@ -894,33 +851,14 @@ export default function ContributeBtn(props) {
 				<LoadingSpinner color="#cd77d3" />
 			)}
 
-			{/* >>>>>>>>>>>> POPUP PAYMENT WITH Mercuryo */}
-			{mercuryoPopupURL ? (
-				<>
-					<div id="mercuryo-widget">
-						<Iframe
-							url={mercuryoPopupURL}
-							width="640px"
-							height="320px"
-							id=""
-							className=""
-							display="block"
-							position="relative"
-						/>
-					</div>
-				</>
-			) : (
-				<></>
-			)}
-
 			<Modal show={show} onHide={handleClose}>
 				<Modal.Header closeButton>
-					<Modal.Title>Enter you email address:</Modal.Title>
+					<Modal.Title>{t("project.enterEmail")}:</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					<Form>
 						<Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-							<Form.Label>Email</Form.Label>
+							<Form.Label>{t("project.email")}</Form.Label>
 							<Form.Control
 								type="email"
 								value={contributionEmail}
@@ -945,7 +883,7 @@ export default function ContributeBtn(props) {
 							border: "none",
 						}}
 					>
-						Close
+						{t("project.close")}
 					</Button>
 					<Button
 						onClick={donateByCardOrCrypto}
@@ -958,7 +896,7 @@ export default function ContributeBtn(props) {
 							border: "none",
 						}}
 					>
-						Submit
+						{t("project.submit")}
 					</Button>
 				</Modal.Footer>
 			</Modal>

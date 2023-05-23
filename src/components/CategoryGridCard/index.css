@@ -4,7 +4,7 @@
 	font-size: 1.3rem;
 	line-height: 1.8rem;
 }
-.descript {
+.description {
 	padding-top: 1rem;
 	margin-bottom: 1.8rem;
 	color: #656969;
@@ -22,15 +22,18 @@
 	border-left: 1px solid #a4a9a9;
 	height: 700px;
 }
+
 @media screen and (max-width: 1240px) {
 	.vl {
 		height: 600px;
 	}
 }
-@media screen and (max-width: 750px) {
-	.vl {
-		display: none;
+@media screen and (max-width: 768px) {
+	.featured-project-container {
+		border-right: none !important;
+		border-left: none !important;
 	}
+
 	#hor_separator {
 		display: block;
 	}

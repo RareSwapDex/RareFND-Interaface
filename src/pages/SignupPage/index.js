@@ -2,13 +2,13 @@ import { useState, useEffect, useContext, useCallback } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import React from "react";
 import "./index.css";
-import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import axios from "axios";
 import { ProviderContext } from "../../web3/ProviderContext";
 import { Link } from "react-router-dom";
 import DialogPopup from "../../components/DialogPopup";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 var regexp = /^[\s()+-]*([0-9][\s()+-]*){6,20}$/;
 function isValidPhonenumber(value) {
@@ -29,6 +29,7 @@ export default function () {
 	const [, updateState] = useState();
 	const forceUpdate = useCallback(() => updateState({}), []);
 	const navigate = useNavigate();
+	const { t } = useTranslation();
 
 	const getWalletAddress = async () => {
 		const accounts = await provider.listAccounts();
@@ -82,7 +83,7 @@ export default function () {
 					if (!response.data.valid) {
 						setRealTimeFormErrors({
 							...realTimeFormErrors,
-							username: "Username already exists",
+							username: t("signUp.usernameExists"),
 						});
 					} else if (
 						document.getElementById("username") &&
@@ -90,7 +91,7 @@ export default function () {
 					) {
 						setRealTimeFormErrors({
 							...realTimeFormErrors,
-							username: "Username must be more than 5 characters",
+							username: t("signUp.username5Chars"),
 						});
 					} else if (
 						document.getElementById("username") &&
@@ -98,7 +99,7 @@ export default function () {
 					) {
 						setRealTimeFormErrors({
 							...realTimeFormErrors,
-							username: "Username cannot exceed more than 20 characters",
+							username: t("signUp.usernameMoreThan20"),
 						});
 					} else {
 						delete realTimeFormErrors.username;
@@ -119,12 +120,12 @@ export default function () {
 					if (!response.data.valid) {
 						setRealTimeFormErrors({
 							...realTimeFormErrors,
-							email: "Email already exists",
+							email: t("signUp.emailExists"),
 						});
 					} else if (!regex.test(document.getElementById("email").value)) {
 						setRealTimeFormErrors({
 							...realTimeFormErrors,
-							email: "This is not a valid email format!",
+							email: t("signUp.notValidEmailFormat"),
 						});
 					} else {
 						delete realTimeFormErrors.email;
@@ -178,16 +179,16 @@ export default function () {
 		<div className="Sign-Up-Auth-form-container p-5">
 			<form className="Auth-form" onSubmit={handleSubmit}>
 				<div className="Auth-form-content">
-					<h3 className="Auth-form-title">Sign Up</h3>
+					<h3 className="Auth-form-title">{t("signUp.signUp")}</h3>
 					<div className="form-group mt-3">
 						<label>
-							Username <span className="text-danger">*</span>
+							{t("signUp.userName")} <span className="text-danger">*</span>
 						</label>
 						<input
 							id="username"
 							name="username"
 							className="form-control mt-1"
-							placeholder="Enter Username"
+							placeholder={t("signUp.enterUserName")}
 							value={formValues.username}
 							onChange={handleChange}
 						/>
@@ -195,14 +196,14 @@ export default function () {
 					</div>
 					<div className="form-group mt-3">
 						<label>
-							Email address <span className="text-danger">*</span>
+							{t("signUp.emailAddress")} <span className="text-danger">*</span>
 						</label>
 						<input
 							id="email"
 							type="email"
 							name="email"
 							className="form-control mt-1"
-							placeholder="Enter Email"
+							placeholder={t("signUp.enterEmailAddress")}
 							value={formValues.email}
 							onChange={handleChange}
 						/>
@@ -210,13 +211,13 @@ export default function () {
 					</div>
 					<div className="form-group mt-3">
 						<label>
-							Password <span className="text-danger">*</span>
+							{t("signUp.password")} <span className="text-danger">*</span>
 						</label>
 						<input
 							type="password"
 							name="password"
 							className="form-control mt-1"
-							placeholder="Password"
+							placeholder={t("signUp.enterPassword")}
 							value={formValues.password}
 							onChange={handleChange}
 						/>
@@ -224,79 +225,19 @@ export default function () {
 					</div>
 					<div className="form-group mt-3">
 						<label>
-							Confirm password <span className="text-danger">*</span>
+							{t("signUp.confirmPassword")}{" "}
+							<span className="text-danger">*</span>
 						</label>
 						<input
 							type="password"
 							name="password2"
 							className="form-control mt-1"
-							placeholder="Enter Password"
+							placeholder={t("signUp.confirmPassword")}
 							value={formValues.password2}
 							onChange={handleChange}
 						/>
 						<p className="text-danger">{formErrors.password2}</p>
 					</div>
-
-					{/* <div className="form-group mt-3">
-						<label>First Name</label>
-						<input
-							type="text"
-							name="firstname"
-							className="form-control mt-1"
-							placeholder="Enter Your First Name (Optional)"
-							value={formValues.firstname}
-							onChange={handleChange}
-						/>
-						<p className="text-danger">{formErrors.firstname}</p>
-					</div>
-
-					<div className="form-group mt-3">
-						<label>Last Name</label>
-						<input
-							type="text"
-							name="lastname"
-							className="form-control mt-1"
-							placeholder="Enter Your Last Name (Optional)"
-							value={formValues.lastname}
-							onChange={handleChange}
-						/>
-						<p className="text-danger">{formErrors.lastname}</p>
-					</div>
-
-					<div className="form-group mt-3">
-						<label>Phone Number</label>
-						<PhoneInput
-							id="phonenumber"
-							name="phone"
-							className="mt-1"
-							inputStyle={{ width: "100%" }}
-							placeholder="Enter Phone Number (Optional)"
-							value={formValues.phone}
-							onChange={(value) =>
-								setFormValues({ ...formValues, phone: value })
-							}
-							inputProps={{
-								name: "phone",
-								// required: true,
-								autoFocus: true,
-							}}
-						/>
-						<p className="text-danger">{formErrors.phone}</p>
-					</div>
-
-					<div className="form-group mt-3">
-						<label>Wallet Address</label>
-						{walletAddress ? (
-							<p className="text-success mt-2">
-								{walletAddress.slice(0, 10) +
-									"....." +
-									walletAddress.slice(-10)}
-							</p>
-						) : (
-							<p>No wallet connected</p>
-						)}
-						<p className="text-danger">{formErrors.walletAddress}</p>
-					</div> */}
 
 					<div className="d-grid gap-2 mt-3">
 						<button
@@ -310,18 +251,19 @@ export default function () {
 								color: "white",
 							}}
 						>
-							Sign up
+							{t("signUp.signUp")}
 						</button>
 					</div>
 					<p className="forgot-password text-right mt-2">
-						Have an account? <Link to="/login">Login</Link>
+						{t("signUp.haveAnAccount")}{" "}
+						<Link to="/login">{t("signUp.login")}</Link>
 					</p>
 				</div>
 			</form>
 			{accountCreated && (
 				<DialogPopup
-					title="Verify your email"
-					description="You will receive an email confirmation (PLEASE CHECK THE SPAM SECTION TOO), and follow the instructions to verify your account."
+					title={t("signUp.verifyEmail")}
+					description={t("signUp.verifyEmailParagraph")}
 					show={true}
 					function_={() => {
 						setAccountCreated(false);

@@ -1,29 +1,23 @@
-import Main from "./Main.js";
-import NavBar from "./components/Navbar";
-import Footer from "./components/Footer/Footer";
-import TopBanner from "./components/TopBanner";
-import { useState } from "react";
+import React, { useState } from "react";
 import { ProviderContext } from "./web3/ProviderContext";
 import { AuthProvider } from "./Context/AuthContext/index.js";
 import ScrollToTop from "./Context/ScrollToTop/index.js";
+import { LanguageProvider } from "./Context/LanguageContext";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import AppContent from "./AppContent";
 
 export default function App() {
 	const [provider, setProvider] = useState();
+
 	return (
-		<div className="App">
+		<LanguageProvider>
 			<ScrollToTop />
 			<AuthProvider>
 				<ProviderContext.Provider value={{ provider, setProvider }}>
-					{/* <TopBanner
-						text="Donate now and benefit from Give2Earn at Rare FND"
-						href="https://rarefnd.zendesk.com/hc/en-gb/articles/7408695124125-Introducing-Give2Earn"
-					/> */}
-
-					<NavBar />
-					<Main />
-					<Footer />
+					<AppContent provider={provider} setProvider={setProvider} />
 				</ProviderContext.Provider>
 			</AuthProvider>
-		</div>
+		</LanguageProvider>
 	);
 }

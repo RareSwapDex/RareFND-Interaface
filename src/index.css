@@ -73,7 +73,8 @@ textarea:invalid {
 	width: 100%;
 }
 
-.centerDiv {
+.centerDiv,
+.center-div {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -192,4 +193,25 @@ textarea:invalid {
 	color: #fff;
 	padding: 10px 20px;
 	font-weight: 700;
+}
+
+.primaryButton-all-radius {
+	border-radius: 35px 35px 35px 35px;
+	background: linear-gradient(
+		to right,
+		#6c7fdd 0%,
+		#cd77d3 54.09%,
+		#e4bad0 100%
+	);
+	border: none;
+	height: 2.5rem;
+	/* box-shadow: 0px 3px 20px rgba(0, 0, 0, 0.16); */
+	color: #fff;
+	padding: 10px 20px;
+	font-weight: 700;
+}
+
+a {
+	color: #cd77d3 !important;
+	text-decoration: none !important;
 }
