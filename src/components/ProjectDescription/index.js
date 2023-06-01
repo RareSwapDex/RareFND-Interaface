@@ -77,9 +77,10 @@ export default function ProjectDescription(props) {
 									}
 								></img> */}
 							</div>
+
 							<div
 								className="centerDiv"
-								style={{ textDecoration: "underline #000000", color: "Dark" }}
+								style={{ textDecoration: "underline", color: "Dark" }}
 							>
 								<h3>
 									{props.ownerUsername !== "dean"
@@ -92,7 +93,7 @@ export default function ProjectDescription(props) {
 					{incentivesData && incentivesData.length > 0 && (
 						<div>
 							<h1 className="text-center" id="project-rewards">
-								Rewards
+								{t("project.rewards")}
 							</h1>
 							{incentivesData &&
 								Array.from(incentivesData).map((_, idx) => (

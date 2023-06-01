@@ -25,6 +25,7 @@ import { notification } from "antd";
 import { Input, Select } from "antd";
 import "./index.css";
 import { useTranslation } from "react-i18next";
+import LanguageContext from "../../Context/LanguageContext";
 
 var regexp = /^\d+(\.\d{1,18})?$/;
 
@@ -57,7 +58,10 @@ export default function ContributeBtn(props) {
 	const [contributionEmail, setContributionEmail] = useState("");
 	const [contributionEmailErr, setContributionEmailErr] = useState("");
 	const [show, setShow] = useState(false);
-	const [selectedCurrency, setSelectedCurrency] = useState("USD");
+	const { language, setLanguage } = useContext(LanguageContext);
+	const [selectedCurrency, setSelectedCurrency] = useState(
+		language === "arabic" ? "AED" : "USD"
+	);
 	const [paymentCompleted, setPaymentCompleted] = useState(false);
 	const [donationMethod, setDonationMethod] = useState(null);
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -473,7 +477,7 @@ export default function ContributeBtn(props) {
 
 	const currenciesInput = (
 		<Select
-			defaultValue="USD"
+			defaultValue={language === "arabic" ? "AED" : "USD"}
 			style={{ border: "none" }}
 			onChange={(value) => {
 				setSelectedCurrency(value);
@@ -598,12 +602,11 @@ export default function ContributeBtn(props) {
 													display: "flex",
 													justifyContent: "center",
 													alignItems: "center",
-													height: "2rem",
 												}}
 											>
 												<Input
 													className="contribute-amount"
-													// addonAfter={currenciesInput}
+													addonAfter={currenciesInput}
 													id="contribute-amount"
 													placeholder={"100"}
 													autoComplete="off"

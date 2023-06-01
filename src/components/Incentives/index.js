@@ -2,8 +2,10 @@ import Button from "react-bootstrap/Button";
 import { Col, Row } from "react-bootstrap";
 import ContributeBtn from "../Web3ContributeButton";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function Incentive(props) {
+	const { t } = useTranslation();
 	const included_incentives = props.included_incentives;
 
 	return (
@@ -19,7 +21,7 @@ export default function Incentive(props) {
 			}}
 		>
 			<p className="incentive-price" style={{ fontSize: "20px" }}>
-				Contribute ${props.price} or more
+				{t("project.contributeWith")} ${props.price} {t("project.orMore")}
 			</p>
 			<p
 				className="incentive-title"
@@ -36,7 +38,7 @@ export default function Incentive(props) {
 						className="incentive-includes fw-bold"
 						style={{ fontSize: "15px" }}
 					>
-						INCLUDES:
+						{t("project.includes")}:
 					</p>
 					<ul className="included-incentives" style={{ fontSize: "13px" }}>
 						{Array.from(included_incentives).map((_, idx) => (
@@ -47,7 +49,7 @@ export default function Incentive(props) {
 			)}
 
 			<p className="estimated-delivery" style={{ fontSize: "13px" }}>
-				<span className="fw-bold">ESTIMATED DELIVERY</span>
+				<span className="fw-bold">{t("project.estimatedDelivery")}</span>
 				<br />
 				{new Date(props.estimated_delivery).toDateString()}
 			</p>
@@ -63,7 +65,7 @@ export default function Incentive(props) {
 						className="d-flex"
 					>
 						<div className="reserved-incentives d-flex w-100 justify-content-center align-self-center">
-							{props.reserved} Contributors
+							{props.reserved} {t("project.contributors")}
 						</div>
 					</div>
 				</Col>
@@ -78,7 +80,7 @@ export default function Incentive(props) {
 						className="d-flex"
 					>
 						<div className="limited-incentives d-flex w-100 justify-content-center align-self-center">
-							{props.available_items} Left
+							{props.available_items} {t("project.left")}
 						</div>
 					</div>
 				</Col>
@@ -141,7 +143,7 @@ export default function Incentive(props) {
 							}
 						}}
 					>
-						CONTINUE
+						{t("project.continue")}
 					</Button>
 				</Col>
 			</Row>

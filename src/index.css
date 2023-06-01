@@ -9,6 +9,16 @@ img {
 	/* background-image: linear-gradient(to left top, #bfb7ec 0%, #fef9d7 100%); */
 }
 
+.text-ltr {
+	direction: ltr !important;
+	text-align: left !important;
+}
+
+.text-rtl {
+	direction: rtl !important;
+	text-align: right !important;
+}
+
 ::-webkit-scrollbar {
 	width: 10px;
 }

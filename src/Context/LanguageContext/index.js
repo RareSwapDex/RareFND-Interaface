@@ -10,6 +10,10 @@ export const LanguageProvider = ({ children }) => {
 	const { t, i18n } = useTranslation();
 
 	useEffect(() => {
+		if (navigator.language.startsWith("ar")) setLanguage("arabic");
+	}, []);
+
+	useEffect(() => {
 		if (language === "arabic") {
 			i18n.changeLanguage("ar");
 		} else {

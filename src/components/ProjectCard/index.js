@@ -31,8 +31,16 @@ import {
 } from "react-share";
 import { Button } from "antd";
 import { useTranslation } from "react-i18next";
+import LanguageContext from "../../Context/LanguageContext";
+
+function isArabic(text) {
+	const arabicRegex =
+		/[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+	return arabicRegex.test(text);
+}
 
 export default function ProjectCard(props) {
+	const { language } = useContext(LanguageContext);
 	let api = useAxios();
 	let { user } = useContext(AuthContext);
 	const [subscribed, setSubscribed] = useState(false);
@@ -333,10 +341,12 @@ export default function ProjectCard(props) {
 										<br></br>
 										<div className="centerDiv" style={{ height: "100%" }}>
 											<Card.Text
+												className={
+													isArabic(props.text) ? "text-rtl" : "text-ltr"
+												}
 												style={{
 													fontSize: "1.1rem",
 													color: "grey",
-													textAlign: "left",
 													whiteSpace: "pre-wrap",
 												}}
 											>

@@ -13,7 +13,7 @@
 	"home": {
 		"IntroSection": {
 			"title": {
-				"span": "ابحث",
+				"span": "إبحث في النوادر",
 				"rest": "ثم موّل"
 			},
 			"paragraph": "المنصة الوحيدة للتمويل الجماعي التي تدفع لك مقابل بدء رحلتك في جمع التمويل! لفترة محدودة، انطلق بحملتك بنسبة 10% مجانًا لمساعدتك في الوصول إلى هدفك!",
@@ -79,6 +79,7 @@
 		"all": "جميع المشاريع"
 	},
 	"project": {
+		"continue": "المواصلة",
 		"comingSoon": "قريباً",
 		"successProject": "تم تحقيق الهدف التمويلي",
 		"liveProject": "مباشر الآن",
@@ -89,10 +90,12 @@
 		"total_of": "إجمالي",
 		"contributor": "مساهم",
 		"contributors": "مساهمين",
+		"left": "متبقي",
 		"share": "مشاركة",
+		"address": "العنوان",
 		"subscribe": "ذكرني عند البدأ",
 		"subscribed": "تم الاشتراك",
-		"subscribers": "مشترك",
+		"subscribers": "مشتركين",
 		"convertContributionAmountToUSDError": "حدث خطأ في تحويل العملة",
 		"success": "تمت العملية بنجاح",
 		"donation": "التبرع",
@@ -117,6 +120,8 @@
 		"usdAmountShouldBe": "يجب أن يكون المبلغ على الأقل 16.5 دولار أو أكثر.",
 		"amountShouldBe": "المبلغ يجب أن يكون على الأقل",
 		"orMore": "أو أكثر",
+		"includes": "تشمل",
+		"estimatedDelivery": "الوقت المتوقع للتسليم",
 		"paymentReceivedTitle": "تم استلام الدفعة وجاري المعالجة",
 		"paymentReceivedDescription": "لقد تلقينا مدفوعاتك وسيتم إضافة مساهمتك قريبا!",
 		"close": "اغلق",
@@ -127,6 +132,7 @@
 		"max": "الأقصى",
 		"donate": "التبرع",
 		"contribute": "المساهمة",
+		"contributeWith": "ساهم ب",
 		"byFnd": "ب FND",
 		"byCrypto": "بالكريبتو",
 		"byCard": "بالبطاقة الائتمانية",

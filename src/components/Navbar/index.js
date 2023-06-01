@@ -176,7 +176,7 @@ function NavBar() {
 										>
 											{t("navBar.topBanner.buttons.dashboard")}
 										</button>
-										{/* <button
+										<button
 											className="sign_up"
 											onClick={() =>
 												language === "arabic"
@@ -185,7 +185,7 @@ function NavBar() {
 											}
 										>
 											{language === "arabic" ? "English" : "عربي"}
-										</button> */}
+										</button>
 									</div>
 								) : (
 									<div className="d-flex justify-content-end">
@@ -201,7 +201,7 @@ function NavBar() {
 										>
 											{t("navBar.topBanner.buttons.signUp")}
 										</button>
-										{/* <button
+										<button
 											className="sign_up"
 											onClick={() =>
 												language === "arabic"
@@ -210,7 +210,7 @@ function NavBar() {
 											}
 										>
 											{language === "arabic" ? "English" : "عربي"}
-										</button> */}
+										</button>
 									</div>
 								)}
 							</Col>
