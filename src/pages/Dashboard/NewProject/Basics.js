@@ -116,12 +116,12 @@ export default function Basics(props) {
 							name="projectTitle"
 							placeholder="Aloe Bud: Self-care pocket companion for iOS"
 							type="text"
-							value={
+							defaultValue={
 								props.projectData &&
 								props.projectData["basics"] &&
 								props.projectData["basics"].projectTitle
 							}
-							onChange={(event) => props.updateProjectData(event, "basics")}
+							onBlur={(event) => props.updateProjectData(event, "basics")}
 						/>
 						<p className="invalid-input-p">
 							{props.formErrors && props.formErrors.projectTitle}
@@ -142,12 +142,12 @@ export default function Basics(props) {
 							maxLength="135"
 							name="projectHead"
 							placeholder="Gently brings awareness to self-care activities, using encouraging push notifications, rather than guilt or shame."
-							value={
+							defaultValue={
 								props.projectData &&
 								props.projectData["basics"] &&
 								props.projectData["basics"].projectHead
 							}
-							onChange={(event) => props.updateProjectData(event, "basics")}
+							onBlur={(event) => props.updateProjectData(event, "basics")}
 						></textarea>
 						<p className="invalid-input-p">
 							{props.formErrors && props.formErrors.projectHead}
@@ -309,12 +309,12 @@ export default function Basics(props) {
 							name="projectAddress"
 							placeholder="DMCC Crypto Centre, 48th Floor, Almas Tower, JLT"
 							type="text"
-							value={
+							defaultValue={
 								props.projectData &&
 								props.projectData["basics"] &&
 								props.projectData["basics"].projectAddress
 							}
-							onChange={(event) => props.updateProjectData(event, "basics")}
+							onBlur={(event) => props.updateProjectData(event, "basics")}
 						/>
 						<p className="invalid-input-p">
 							{props.formErrors && props.formErrors.projectAddress}

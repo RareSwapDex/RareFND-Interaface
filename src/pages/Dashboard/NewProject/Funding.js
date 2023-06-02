@@ -60,7 +60,7 @@ export default function Funding(props) {
 							name="projectFundsAmount"
 							placeholder="$ 0.0"
 							type="text"
-							onChange={(event) => props.updateProjectData(event, "funding")}
+							onBlur={(event) => props.updateProjectData(event, "funding")}
 							onKeyPress={(e) => {
 								if (
 									(e.key === "." &&
@@ -75,7 +75,7 @@ export default function Funding(props) {
 									e.preventDefault();
 							}}
 							pattern="(^[0-9]{0,1000}$)|(^[0-9]{0,10000}\.[0-9]{0,18}$)"
-							value={
+							defaultValue={
 								props.projectData &&
 								props.projectData["funding"] &&
 								props.projectData["funding"].projectFundsAmount

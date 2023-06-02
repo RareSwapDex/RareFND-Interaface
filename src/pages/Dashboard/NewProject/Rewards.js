@@ -97,8 +97,8 @@ export default function Funding(props) {
 											name={`incentiveTitle`}
 											placeholder="Title"
 											type="text"
-											onChange={(e) => handleInputChanges(e, `${item}`)}
-											value={
+											onBlur={(e) => handleInputChanges(e, `${item}`)}
+											defaultValue={
 												props.projectData &&
 												props.projectData.rewards &&
 												props.projectData.rewards[`${item}`] &&
@@ -127,8 +127,8 @@ export default function Funding(props) {
 											maxLength="135"
 											name={`incentiveDescription`}
 											placeholder="Gently brings awareness to self-care activities, using encouraging push notifications, rather than guilt or shame."
-											onChange={(e) => handleInputChanges(e, `${item}`)}
-											value={
+											onBlur={(e) => handleInputChanges(e, `${item}`)}
+											defaultValue={
 												(props.projectData &&
 													props.projectData.rewards &&
 													props.projectData.rewards[`${item}`] &&
@@ -193,9 +193,9 @@ export default function Funding(props) {
 											name={`availableIncentives`}
 											placeholder="0"
 											type="text"
-											onChange={(e) => handleInputChanges(e, `${item}`)}
+											onBlur={(e) => handleInputChanges(e, `${item}`)}
 											pattern="(^[0-9]{0,1000}$)|(^[0-9]{0,10000}\.[0-9]{0,18}$)"
-											value={
+											defaultValue={
 												props.projectData &&
 												props.projectData["rewards"] &&
 												props.projectData["rewards"][`${item}`] &&
@@ -226,9 +226,9 @@ export default function Funding(props) {
 											name="incentivePrice"
 											placeholder="$ 0.0"
 											type="text"
-											onChange={(e) => handleInputChanges(e, `${item}`)}
+											onBlur={(e) => handleInputChanges(e, `${item}`)}
 											pattern="(^[0-9]{0,1000}$)|(^[0-9]{0,10000}\.[0-9]{0,18}$)"
-											value={
+											defaultValue={
 												props.projectData &&
 												props.projectData["rewards"] &&
 												props.projectData["rewards"][`${item}`] &&

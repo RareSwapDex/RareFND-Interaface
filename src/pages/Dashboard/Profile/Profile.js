@@ -151,7 +151,7 @@ export default function DashboardProfile(props) {
 				<SideBar />
 			) : null}
 			<div className="dashboard-profile-container">
-				{Object.keys(userData).length > 0 ? (
+				{userData && Object.keys(userData).length > 0 ? (
 					<div className="row" style={{ width: "100%" }}>
 						<div className="col-md-5 border-right">
 							<div className="d-flex flex-column align-items-center text-center p-3 py-5">
@@ -177,9 +177,7 @@ export default function DashboardProfile(props) {
 												/>
 											}
 										/>
-										<div
-										// style={{ position: "absolute", bottom: "0", right: "0" }}
-										>
+										<div>
 											{
 												<div>
 													<label htmlFor="fileUpload" className="centerDiv">

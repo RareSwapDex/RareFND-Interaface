@@ -230,14 +230,12 @@ export default function Payment(props) {
 									name="companyName"
 									placeholder="Enter your company name"
 									type="text"
-									value={
+									defaultValue={
 										props.projectData &&
 										props.projectData["payment"] &&
 										props.projectData["payment"].companyName
 									}
-									onChange={(event) =>
-										props.updateProjectData(event, "payment")
-									}
+									onBlur={(event) => props.updateProjectData(event, "payment")}
 								/>
 								<p className="invalid-input-p">
 									{props.formErrors && props.formErrors.companyName}
@@ -260,14 +258,12 @@ export default function Payment(props) {
 									name="natureOfBusiness"
 									placeholder="Enter your nature of business"
 									type="text"
-									value={
+									defaultValue={
 										props.projectData &&
 										props.projectData["payment"] &&
 										props.projectData["payment"].natureOfBusiness
 									}
-									onChange={(event) =>
-										props.updateProjectData(event, "payment")
-									}
+									onBlur={(event) => props.updateProjectData(event, "payment")}
 								/>
 								<p className="invalid-input-p">
 									{props.formErrors && props.formErrors.natureOfBusiness}
@@ -298,14 +294,12 @@ export default function Payment(props) {
 									name="companyAddress"
 									placeholder="Enter your company address"
 									type="text"
-									value={
+									defaultValue={
 										props.projectData &&
 										props.projectData["payment"] &&
 										props.projectData["payment"].companyAddress
 									}
-									onChange={(event) =>
-										props.updateProjectData(event, "payment")
-									}
+									onBlur={(event) => props.updateProjectData(event, "payment")}
 								/>
 								<p className="invalid-input-p">
 									{props.formErrors && props.formErrors.companyAddress}
@@ -328,14 +322,12 @@ export default function Payment(props) {
 									name="companyCity"
 									placeholder="Enter your company city"
 									type="text"
-									value={
+									defaultValue={
 										props.projectData &&
 										props.projectData["payment"] &&
 										props.projectData["payment"].companyCity
 									}
-									onChange={(event) =>
-										props.updateProjectData(event, "payment")
-									}
+									onBlur={(event) => props.updateProjectData(event, "payment")}
 								/>
 								<p className="invalid-input-p">
 									{props.formErrors && props.formErrors.companyCity}
@@ -366,14 +358,12 @@ export default function Payment(props) {
 									name="companyZipCode"
 									placeholder="Enter your company address zip code"
 									type="text"
-									value={
+									defaultValue={
 										props.projectData &&
 										props.projectData["payment"] &&
 										props.projectData["payment"].companyZipCode
 									}
-									onChange={(event) =>
-										props.updateProjectData(event, "payment")
-									}
+									onBlur={(event) => props.updateProjectData(event, "payment")}
 								/>
 								<p className="invalid-input-p">
 									{props.formErrors && props.formErrors.companyZipCode}
@@ -462,15 +452,13 @@ export default function Payment(props) {
 									name="companyRegistrationNumber"
 									placeholder="Company Reg No"
 									type="text"
-									value={
+									defaultValue={
 										props.projectData &&
 										props.projectData["payment"] &&
 										props.projectData["payment"].companyRegistrationNumber
 									}
 									pattern="(^[0-9]{0,1000}$)|(^[0-9]{0,10000}\.[0-9]{0,18}$)"
-									onChange={(event) =>
-										props.updateProjectData(event, "payment")
-									}
+									onBlur={(event) => props.updateProjectData(event, "payment")}
 								/>
 								<p className="invalid-input-p">
 									{props.formErrors &&
@@ -495,14 +483,12 @@ export default function Payment(props) {
 									name="companyEstimatedAnnualTurnover"
 									placeholder="Estimated annual turnover"
 									type="text"
-									value={
+									defaultValue={
 										props.projectData &&
 										props.projectData["payment"] &&
 										props.projectData["payment"].companyEstimatedAnnualTurnover
 									}
-									onChange={(event) =>
-										props.updateProjectData(event, "payment")
-									}
+									onBlur={(event) => props.updateProjectData(event, "payment")}
 								/>
 								<p className="invalid-input-p">
 									{props.formErrors &&
@@ -565,14 +551,12 @@ export default function Payment(props) {
 									placeholder="Company tax identification number"
 									pattern="(^[0-9]{0,1000}$)|(^[0-9]{0,10000}\.[0-9]{0,18}$)"
 									type="text"
-									value={
+									defaultValue={
 										props.projectData &&
 										props.projectData["payment"] &&
 										props.projectData["payment"].taxIdNumber
 									}
-									onChange={(event) =>
-										props.updateProjectData(event, "payment")
-									}
+									onBlur={(event) => props.updateProjectData(event, "payment")}
 								/>
 								<p className="invalid-input-p">
 									{props.formErrors && props.formErrors.taxIdNumber}
@@ -595,14 +579,12 @@ export default function Payment(props) {
 									name="ownerWalletAddress"
 									placeholder="(Optional) Your Wallet Address"
 									type="text"
-									value={
+									defaultValue={
 										props.projectData &&
 										props.projectData["payment"] &&
 										props.projectData["payment"].ownerWalletAddress
 									}
-									onChange={(event) =>
-										props.updateProjectData(event, "payment")
-									}
+									onBlur={(event) => props.updateProjectData(event, "payment")}
 								/>
 								<p className="invalid-input-p">
 									{props.formErrors && props.formErrors.ownerWalletAddress}
@@ -633,12 +615,12 @@ export default function Payment(props) {
 									name="whitePaperUrl"
 									placeholder="Company White paper URL"
 									type="text"
-									value={
+									defaultValue={
 										props.projectData &&
 										props.projectData["payment"] &&
 										props.projectData["payment"].whitePaperUrl
 									}
-									onChange={(event) =>
+									onBlur={(event) =>
 										props.updateProjectData(event, "payment")
 									}
 								/>
@@ -660,12 +642,12 @@ export default function Payment(props) {
 									name="tokenomicsUrl"
 									placeholder="Company Tokenomics URL"
 									type="text"
-									value={
+									defaultValue={
 										props.projectData &&
 										props.projectData["payment"] &&
 										props.projectData["payment"].tokenomicsUrl
 									}
-									onChange={(event) =>
+									onBlur={(event) =>
 										props.updateProjectData(event, "payment")
 									}
 								/>
@@ -797,8 +779,8 @@ export default function Payment(props) {
 														name={`fullName`}
 														placeholder={`UBO ${item} - full name`}
 														type="text"
-														onChange={(e) => handleInputChanges(e, `${item}`)}
-														value={
+														onBlur={(e) => handleInputChanges(e, `${item}`)}
+														defaultValue={
 															projectDataRef.current &&
 															projectDataRef.current["payment"] &&
 															projectDataRef.current["payment"]["UBOs"] &&
@@ -842,8 +824,8 @@ export default function Payment(props) {
 															name={`position`}
 															placeholder={`UBO ${item} - position`}
 															type="text"
-															onChange={(e) => handleInputChanges(e, `${item}`)}
-															value={
+															onBlur={(e) => handleInputChanges(e, `${item}`)}
+															defaultValue={
 																projectDataRef.current &&
 																projectDataRef.current["payment"] &&
 																projectDataRef.current["payment"]["UBOs"] &&
@@ -881,7 +863,7 @@ export default function Payment(props) {
 																rowId={item}
 																name="dateOfBirth"
 																source="payment"
-																value={
+																defaultValue={
 																	projectDataRef.current &&
 																	projectDataRef.current["payment"] &&
 																	projectDataRef.current["payment"][`UBOs`] &&
