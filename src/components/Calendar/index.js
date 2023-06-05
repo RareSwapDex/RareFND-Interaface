@@ -33,11 +33,23 @@ export default function MyApp(props) {
 				[props.name]: value,
 			};
 			props.setProjectData(projectData_);
+		} else if (props.setProjectData && props.source === "funding") {
+			props.handleInputErrors(props.name, value, `funding.${props.rowId}`);
+			let projectData_ = { ...props.projectDataRef.current };
+			projectData_["funding"]["fundingSpend"][props.rowId] = {
+				...projectData_["funding"]["fundingSpend"][props.rowId],
+				[props.name]: value,
+			};
+			props.setProjectData(projectData_);
 		}
 	}, [value]);
 	return (
 		<div>
-			<DatePicker onChange={onChange} value={value} />
+			<DatePicker
+				minDate={props.minDate ? props.minDate() : null}
+				onChange={onChange}
+				value={value}
+			/>
 		</div>
 	);
 }

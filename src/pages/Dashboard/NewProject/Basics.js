@@ -7,6 +7,7 @@ import "./project.scss";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import { useState, useEffect } from "react";
+import LoadingSpinner from "../../../components/LoadingSpinner";
 
 export default function Basics(props) {
 	const [categories, setCategories] = useState([{}]);
@@ -24,7 +25,7 @@ export default function Basics(props) {
 			.get(process.env.REACT_APP_BASE_URL + "/api/eligible_country/")
 			.then((response) => {
 				let eligible_countries = response.data.eligible_countries;
-				console.log(eligible_countries);
+				console.log("-----------", eligible_countries);
 				eligible_countries.sort((a, b) =>
 					a.nicename > b.nicename ? 1 : b.nicename > a.nicename ? -1 : 0
 				);
@@ -37,7 +38,8 @@ export default function Basics(props) {
 			props.projectData &&
 			props.projectData["basics"] &&
 			props.projectData["basics"].projectCategory &&
-			props.projectData["basics"].projectCategory !== category
+			props.projectData["basics"].projectCategory !== category &&
+			document.getElementById("projectSubcategory")
 		) {
 			document.getElementById("projectSubcategory").textContent =
 				"Choose a subcategory";
@@ -62,12 +64,67 @@ export default function Basics(props) {
 		}
 	}, [props.projectData]);
 
-	return (
+	return countries.length > 0 ? (
 		<div className="DashboardCreateProjectBasics">
 			<DashboardCreateProjectItemHead
 				title="Start with the basics"
 				head="Make it easy for people to learn about your project."
 			/>
+			<Row
+				style={{
+					padding: "3vw",
+					margin: "0px",
+				}}
+			>
+				<Col md={6}>
+					<div className="grid-col-12 grid-col-4-lg hide block-md">
+						<h2
+							className="type-14 type-18-md book mb0 medium soft-black"
+							aria-level="2"
+						>
+							Company or Individual
+						</h2>
+						<div className="type-13 type-14-md book dark-grey-500 mt1 mb2 mb0-lg">
+							<p className="">
+								<span>
+									Please specify whether you're an individual or a company. This
+									information helps us to better understand who our project
+									creators are and can help potential contributors know more
+									about who's behind the project.
+								</span>
+							</p>
+						</div>
+					</div>
+				</Col>
+				<Col md={6}>
+					<div className="input-with-title">
+						<p
+							style={{
+								marginBottom: "3px",
+							}}
+						>
+							Individual or Company?
+							<span className="required-asterisk">*</span>
+						</p>
+						<DropDown
+							title="Choose an option"
+							id="projectOwnerType"
+							name="projectOwnerType"
+							options={["Individual", "Company"]}
+							function_={(event) => props.updateProjectData(event, "basics")}
+							value={
+								props.projectData &&
+								props.projectData["basics"] &&
+								props.projectData["basics"].projectOwnerType
+							}
+						/>
+						<p className="invalid-input-p">
+							{props.formErrors && props.formErrors.projectOwnerType}
+						</p>
+					</div>
+				</Col>
+			</Row>
+			<hr />
 			<Row
 				style={{
 					padding: "3vw",
@@ -92,9 +149,9 @@ export default function Basics(props) {
 							</p>
 							<p className="">
 								<span>
-									Potential backers will also see them if your project appears
-									on category pages, search results, or in emails we send to our
-									community.
+									Potential contributors will also see them if your project
+									appears on category pages, search results, or in emails we
+									send to our community.
 								</span>
 							</p>
 						</div>
@@ -168,8 +225,8 @@ export default function Basics(props) {
 						<div className="type-13 type-14-md book dark-grey-500 mt1 mb2 mb0-lg">
 							<p className="">
 								<span>
-									Choose a primary category and subcategory to help backers find
-									your project.
+									Choose a primary category and subcategory to help contributors
+									find your project.
 								</span>
 							</p>
 							<p className="">
@@ -370,7 +427,7 @@ export default function Basics(props) {
 				</Col>
 				<Col md={6}>
 					<div className="input-with-title h-100">
-						<div
+						<Row
 							className="h-100"
 							style={{
 								display: "flex",
@@ -378,27 +435,33 @@ export default function Basics(props) {
 								alignItems: "center",
 							}}
 						>
-							<p style={{ margin: "0px" }}>
-								Upload Image (.gif,.jpg,.jpeg,.png)
-								<span className="required-asterisk">*</span>
-							</p>
-							<UploadButton
-								title="Select image"
-								accepted_formats=".gif,.jpg,.jpeg,.png"
-								updateProjectData={props.updateProjectData}
-								name="projectImageFile"
-								value={
-									props.projectData &&
-									props.projectData["basics"] &&
-									props.projectData["basics"].projectImageFile &&
-									props.projectData["basics"].projectImageFile.name
-								}
-								source="basics"
-							/>
-							<p className="invalid-input-p">
-								{props.formErrors && props.formErrors.projectImageFile}
-							</p>
-						</div>
+							<Col md="5">
+								<p style={{ margin: "0px" }}>
+									Upload Image (.gif,.jpg,.jpeg,.png)
+									<span className="required-asterisk">*</span>
+								</p>
+							</Col>
+							<Col md="2">
+								<UploadButton
+									title="Select image"
+									accepted_formats=".gif,.jpg,.jpeg,.png"
+									updateProjectData={props.updateProjectData}
+									name="projectImageFile"
+									value={
+										props.projectData &&
+										props.projectData["basics"] &&
+										props.projectData["basics"].projectImageFile &&
+										props.projectData["basics"].projectImageFile.name
+									}
+									source="basics"
+								/>
+							</Col>
+							<Col md="5">
+								<p className="invalid-input-p">
+									{props.formErrors && props.formErrors.projectImageFile}
+								</p>
+							</Col>
+						</Row>
 					</div>
 				</Col>
 			</Row>
@@ -517,5 +580,7 @@ export default function Basics(props) {
 				</div>
 			</Row>
 		</div>
+	) : (
+		<LoadingSpinner color="#cd77d3" />
 	);
 }

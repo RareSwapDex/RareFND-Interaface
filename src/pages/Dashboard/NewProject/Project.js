@@ -28,6 +28,7 @@ export default function DashboardProjects() {
 			? JSON.parse(localStorage.getItem("createProjectData"))
 			: {
 					basics: {
+						projectOwnerType: "",
 						projectTitle: "",
 						projectHead: "",
 						projectCategory: "",
@@ -39,7 +40,14 @@ export default function DashboardProjects() {
 						projectLaunchDate: null,
 						projectDeadlineDate: null,
 					},
-					funding: { projectFundsAmount: "", projectBudgetFile: null },
+					funding: {
+						projectFundsAmount: "",
+						projectBudgetFile: null,
+						fundingSpend: {
+							1: {},
+							2: {},
+						},
+					},
 					rewards: {},
 					story: { projectStory: "" },
 					payment: {
@@ -54,11 +62,13 @@ export default function DashboardProjects() {
 						companyEstimatedAnnualTurnover: "",
 						projectTaxCountry: "",
 						taxIdNumber: "",
+						ownerWalletAddress: "",
 						whitePaperUrl: "",
 						tokenomicsUrl: "",
 						certificateOfIncumbencyFile: null,
 						companyStructureChart: null,
 						UBOs: {},
+						ownerPassportFile: null,
 					},
 			  }
 	);
@@ -78,9 +88,9 @@ export default function DashboardProjects() {
 		localStorage.removeItem("createProjectData");
 	}
 
-	// useEffect(() => {
-	// 	console.log("formErrors", formErrors);
-	// }, [formErrors]);
+	useEffect(() => {
+		console.log("formErrors", formErrors);
+	}, [formErrors]);
 
 	const addErrorPath = (errorPath) => {
 		if (!tmpFormErrors[errorPath.split(".")[0]]) {
@@ -134,6 +144,7 @@ export default function DashboardProjects() {
 				((input.includes("File") && !value.name) ||
 					(!input.includes("File") && isEmpty(value))))
 		) {
+			console.log("------1", input, value);
 			addInputError(input, errorMessage, errorPath);
 		} else {
 			removeInputError(input, errorPath);
@@ -169,7 +180,58 @@ export default function DashboardProjects() {
 		}
 	};
 
-	const handleInputErrors = (name, value, errorPath = null) => {
+	const handleFundingSpendAmountErrors = (
+		value,
+		input,
+		maxValue,
+		errorMessage,
+		errorPath = null
+	) => {
+		// Initialize totalSpend to 0
+		let totalSpend = 0;
+
+		// Calculate the sum of all fundingSpendAmount values if projectData.funding.fundingSpend exists
+		if (
+			projectData &&
+			projectData.funding &&
+			projectData.funding.fundingSpend
+		) {
+			totalSpend = Object.values(projectData.funding.fundingSpend).reduce(
+				(total, item) => total + Number(item.fundingSpendAmount),
+				0
+			);
+		}
+
+		// Compare the sum against the maxValue
+		if (maxValue && totalSpend !== Number(maxValue)) {
+			console.log("maxValue", maxValue, "totalSpend", totalSpend);
+			addInputError(
+				"MilestoneSumError",
+				"Total milestone amount must equal the funding target!"
+			);
+		} else {
+			removeInputError("MilestoneSumError");
+		}
+		if (
+			!value ||
+			value === "" ||
+			value === null ||
+			(typeof value === "object" &&
+				((input.includes("File") && !value.name) ||
+					(!input.includes("File") && isEmpty(value))))
+		) {
+			addInputError(input, "Amount is required!", errorPath);
+		} else {
+			removeInputError(input, errorPath);
+		}
+	};
+
+	const handleInputErrors = (
+		name,
+		value,
+		errorPath = null,
+		maxValue = null
+	) => {
 		if (errorPath !== null) {
 			addErrorPath(errorPath);
 		}
@@ -187,6 +249,15 @@ export default function DashboardProjects() {
 						)})`
 					);
 				}
+				break;
+			case "projectCategory":
+				handleNonSelectedDropMenu(
+					value,
+					"Choose an option",
+					name,
+					"Please select an option!"
+				);
+				handleEmptyInputError(value, name, "Please select an option!");
 				break;
 			case "projectCategory":
 				handleNonSelectedDropMenu(
@@ -241,6 +312,26 @@ export default function DashboardProjects() {
 					"Project Funding Amount is required!"
 				);
 				break;
+			case "fundingSpendDescription":
+				handleEmptyInputError(
+					value,
+					name,
+					"Description is required!",
+					errorPath
+				);
+				break;
+			case "fundingSpendAmount":
+				handleFundingSpendAmountErrors(
+					value,
+					name,
+					maxValue,
+					"A Milestone must be less then the funding amount target",
+					errorPath
+				);
+				break;
+			case "fundingSpendDate":
+				handleEmptyInputError(value, name, "Date is required!", errorPath);
+				break;
 			case "incentiveTitle":
 				handleEmptyInputError(
 					value,
@@ -282,72 +373,110 @@ export default function DashboardProjects() {
 				);
 				break;
 			case "companyName":
-				handleEmptyInputError(value, name, "Company name is required!");
+				if (projectData.basics.projectOwnerType === "Company")
+					handleEmptyInputError(value, name, "Company name is required!");
+				else removeInputError(name);
 				break;
 			case "natureOfBusiness":
-				handleEmptyInputError(value, name, "Nature of business is required!");
+				if (projectData.basics.projectOwnerType === "Company")
+					handleEmptyInputError(value, name, "Nature of business is required!");
+				else removeInputError(name);
 				break;
 			case "companyAddress":
-				handleEmptyInputError(value, name, "Company address is required!");
+				if (projectData.basics.projectOwnerType === "Company")
+					handleEmptyInputError(value, name, "Company address is required!");
+				else removeInputError(name);
 				break;
 			case "companyCity":
-				handleEmptyInputError(value, name, "Company city is required!");
+				if (projectData.basics.projectOwnerType === "Company")
+					handleEmptyInputError(value, name, "Company city is required!");
+				else removeInputError(name);
 				break;
 			case "companyZipCode":
-				handleEmptyInputError(value, name, "Company zip code is required!");
+				if (projectData.basics.projectOwnerType === "Company")
+					handleEmptyInputError(value, name, "Company zip code is required!");
+				else removeInputError(name);
 				break;
 			case "projectIncorporationDate":
-				handleEmptyInputError(
-					value,
-					name,
-					"Company Incorporation date is required!"
-				);
+				if (projectData.basics.projectOwnerType === "Company")
+					handleEmptyInputError(
+						value,
+						name,
+						"Company Incorporation date is required!"
+					);
+				else removeInputError(name);
 				break;
 			case "companyCountry":
-				handleNonSelectedDropMenu(
-					value,
-					"Choose a country",
-					name,
-					"Company country is required!"
-				);
-				handleEmptyInputError(value, name, "Company country is required!");
+				if (projectData.basics.projectOwnerType === "Company")
+					handleNonSelectedDropMenu(
+						value,
+						"Choose a country",
+						name,
+						"Company country is required!"
+					);
+				else removeInputError(name);
+				if (projectData.basics.projectOwnerType === "Company")
+					handleEmptyInputError(value, name, "Company country is required!");
+				else removeInputError(name);
 				break;
 			case "companyRegistrationNumber":
-				handleEmptyInputError(
-					value,
-					name,
-					"Company registration number is required!"
-				);
+				if (projectData.basics.projectOwnerType === "Company")
+					handleEmptyInputError(
+						value,
+						name,
+						"Company registration number is required!"
+					);
+				else removeInputError(name);
 				break;
 			case "companyEstimatedAnnualTurnover":
-				handleEmptyInputError(
-					value,
-					name,
-					"Company estimated annual turnover is required!"
-				);
+				if (projectData.basics.projectOwnerType === "Company")
+					handleEmptyInputError(
+						value,
+						name,
+						"Company estimated annual turnover is required!"
+					);
+				else removeInputError(name);
 				break;
 			case "projectTaxCountry":
-				handleNonSelectedDropMenu(
-					value,
-					"Choose a country",
-					name,
-					"Company Tax country is required!"
-				);
-				handleEmptyInputError(value, name, "Company Tax country is required!");
+				if (projectData.basics.projectOwnerType === "Company")
+					handleNonSelectedDropMenu(
+						value,
+						"Choose a country",
+						name,
+						"Company Tax country is required!"
+					);
+				else removeInputError(name);
+				if (projectData.basics.projectOwnerType === "Company")
+					handleEmptyInputError(
+						value,
+						name,
+						"Company Tax country is required!"
+					);
+				else removeInputError(name);
 				break;
 			case "taxIdNumber":
-				handleEmptyInputError(
-					value,
-					name,
-					"Tax identification number is required!"
-				);
+				if (projectData.basics.projectOwnerType === "Company")
+					handleEmptyInputError(
+						value,
+						name,
+						"Tax identification number is required!"
+					);
+				else removeInputError(name);
 				break;
 			case "certificateOfIncumbencyFile":
-				handleEmptyInputError(
-					value,
-					name,
-					"Certificate of incorporation is required!"
-				);
+				if (projectData.basics.projectOwnerType === "Company")
+					handleEmptyInputError(
+						value,
+						name,
+						"Certificate of incorporation is required!"
+					);
+				else removeInputError(name);
+				break;
+			case "ownerPassportFile":
+				console.log("------2", name, value);
+				if (projectData.basics.projectOwnerType === "Individual")
+					handleEmptyInputError(value, name, "Passport is required!");
+				else removeInputError(name);
 				break;
 			case "projectStory":
 				handleEmptyInputError(value, name, "Project story is required!");
@@ -414,6 +543,32 @@ export default function DashboardProjects() {
 			"projectFundsAmount",
 			projectData.funding.projectFundsAmount
 		);
+		for (
+			let index = 0;
+			index < Object.keys(projectData.funding.fundingSpend).length;
+			index++
+		) {
+			const key = Object.keys(projectData.funding.fundingSpend)[index];
+			for (
+				let index = 0;
+				index < Object.keys(projectData.funding.fundingSpend[key]).length;
+				index++
+			) {
+				const key_2 = Object.keys(projectData.funding.fundingSpend[key])[index];
+				handleInputErrors(
+					key_2,
+					projectData.funding.fundingSpend[key][key_2] || null,
+					`funding.${key}`
+				);
+				if (key_2 === "fundingSpendAmount")
+					handleInputErrors(
+						"fundingSpendAmount",
+						projectData.funding.fundingSpend[key][key_2] || null,
+						`funding.${key}`,
+						projectData["funding"].projectFundsAmount
+					);
+			}
+		}
 
 		// Test Rewards
 		for (
@@ -517,6 +672,9 @@ export default function DashboardProjects() {
 						projectData={projectData}
 						updateProjectData={updateProjectData}
 						formErrors={formErrors}
+						setProjectData={setProjectData}
+						handleInputErrors={handleInputErrors}
+						setFormErrors={setFormErrors}
 					/>
 				);
 				break;

@@ -59,7 +59,7 @@ export default function Funding(props) {
 		<div className="DashboardCreateProjectRewards">
 			<DashboardCreateProjectItemHead
 				title="Add your rewards"
-				head="Offer simple, meaningful ways to bring backers closer to your project and celebrate it coming to life."
+				head="Offer simple, meaningful ways to bring contributors closer to your project and celebrate it coming to life."
 			/>
 			<Row style={{ padding: "3vw", marginLeft: "0px", marginRight: "0px" }}>
 				{Object.keys(props.projectData["rewards"]).map((item, i) => {

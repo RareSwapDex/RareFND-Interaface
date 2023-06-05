@@ -74,6 +74,17 @@ export default function Payment(props) {
 			}
 			if (empty_rewards) delete tmp.rewards;
 		}
+		if (tmp.funding) {
+			let empty_funding = true;
+			for (let i = 0; i < Object.keys(tmp.funding).length; i++) {
+				const key = Object.keys(tmp.funding)[i];
+				if (tmp.funding[key] && Object.keys(tmp.funding[key]).length > 0) {
+					empty_funding = false;
+					break;
+				}
+			}
+			if (empty_funding) delete tmp.funding;
+		}
 		if (tmp.payment) {
 			let empty_payment = true;
 			for (let i = 0; i < Object.keys(tmp.payment).length; i++) {
@@ -93,8 +104,8 @@ export default function Payment(props) {
 
 		if (Object.keys(cleanedErrorsForm).length > 0) {
 			setPopUpData({
-				title: "Missing Inputs!",
-				description: `Please check this missing inputs\n${JSON.stringify(
+				title: "Incorrect or missing Inputs!",
+				description: `Please check this incorrect or missing inputs\n${JSON.stringify(
 					cleanedErrorsForm,
 					undefined,
 					2
@@ -204,395 +215,419 @@ export default function Payment(props) {
 				head="Confirm who’s raising funds and receiving them if this project reaches its funding goal. 
         Double-check your information—you agree the details you provide are true and acknowledge they can’t be changed once submitted."
 			/>
-			<div>
-				<Row style={{ padding: "3vw", marginLeft: "0px", marginRight: "0px" }}>
-					<h1 style={{ marginBottom: "30px" }}>Company Details</h1>
+			{props.projectData.basics.projectOwnerType === "Company" ? (
+				<div>
 					<Row
-						style={{
-							marginBottom: "20px",
-							marginLeft: "0px",
-							marginRight: "0px",
-						}}
+						style={{ padding: "3vw", marginLeft: "0px", marginRight: "0px" }}
 					>
-						<Col md={6}>
-							<div className="input-with-title">
-								<p
-									style={{
-										marginBottom: "3px",
-									}}
-								>
-									Company Name<span className="required-asterisk">*</span>
-								</p>
-								<input
-									className="atomic-text-input w-100"
-									id="companyName"
-									maxLength="60"
-									name="companyName"
-									placeholder="Enter your company name"
-									type="text"
-									defaultValue={
-										props.projectData &&
-										props.projectData["payment"] &&
-										props.projectData["payment"].companyName
-									}
-									onBlur={(event) => props.updateProjectData(event, "payment")}
-								/>
-								<p className="invalid-input-p">
-									{props.formErrors && props.formErrors.companyName}
-								</p>
-							</div>
-						</Col>
-						<Col md={6}>
-							<div className="input-with-title">
-								<p
-									style={{
-										marginBottom: "3px",
-									}}
-								>
-									Nature of Business<span className="required-asterisk">*</span>
-								</p>
-								<input
-									className="atomic-text-input w-100"
-									id="natureOfBusiness"
-									maxLength="60"
-									name="natureOfBusiness"
-									placeholder="Enter your nature of business"
-									type="text"
-									defaultValue={
-										props.projectData &&
-										props.projectData["payment"] &&
-										props.projectData["payment"].natureOfBusiness
-									}
-									onBlur={(event) => props.updateProjectData(event, "payment")}
-								/>
-								<p className="invalid-input-p">
-									{props.formErrors && props.formErrors.natureOfBusiness}
-								</p>
-							</div>
-						</Col>
-					</Row>
-					<Row
-						style={{
-							marginBottom: "20px",
-							marginLeft: "0px",
-							marginRight: "0px",
-						}}
-					>
-						<Col md={6}>
-							<div className="input-with-title">
-								<p
-									style={{
-										marginBottom: "3px",
-									}}
-								>
-									Address<span className="required-asterisk">*</span>
-								</p>
-								<input
-									className="atomic-text-input w-100"
-									id="companyAddress"
-									maxLength="200"
-									name="companyAddress"
-									placeholder="Enter your company address"
-									type="text"
-									defaultValue={
-										props.projectData &&
-										props.projectData["payment"] &&
-										props.projectData["payment"].companyAddress
-									}
-									onBlur={(event) => props.updateProjectData(event, "payment")}
-								/>
-								<p className="invalid-input-p">
-									{props.formErrors && props.formErrors.companyAddress}
-								</p>
-							</div>
-						</Col>
-						<Col md={6}>
-							<div className="input-with-title">
-								<p
-									style={{
-										marginBottom: "3px",
-									}}
-								>
-									City<span className="required-asterisk">*</span>
-								</p>
-								<input
-									className="atomic-text-input w-100"
-									id="companyCity"
-									maxLength="60"
-									name="companyCity"
-									placeholder="Enter your company city"
-									type="text"
-									defaultValue={
-										props.projectData &&
-										props.projectData["payment"] &&
-										props.projectData["payment"].companyCity
-									}
-									onBlur={(event) => props.updateProjectData(event, "payment")}
-								/>
-								<p className="invalid-input-p">
-									{props.formErrors && props.formErrors.companyCity}
-								</p>
-							</div>
-						</Col>
-					</Row>
-					<Row
-						style={{
-							marginBottom: "20px",
-							marginLeft: "0px",
-							marginRight: "0px",
-						}}
-					>
-						<Col md={6}>
-							<div className="input-with-title">
-								<p
-									style={{
-										marginBottom: "3px",
-									}}
-								>
-									Zip Code<span className="required-asterisk">*</span>
-								</p>
-								<input
-									className="atomic-text-input w-100"
-									id="companyZipCode"
-									maxLength="50"
-									name="companyZipCode"
-									placeholder="Enter your company address zip code"
-									type="text"
-									defaultValue={
-										props.projectData &&
-										props.projectData["payment"] &&
-										props.projectData["payment"].companyZipCode
-									}
-									onBlur={(event) => props.updateProjectData(event, "payment")}
-								/>
-								<p className="invalid-input-p">
-									{props.formErrors && props.formErrors.companyZipCode}
-								</p>
-							</div>
-						</Col>
-						<Col md={6}>
-							<div className="input-with-title">
-								<p
-									style={{
-										marginBottom: "3px",
-									}}
-								>
-									Country<span className="required-asterisk">*</span>
-								</p>
+						<h1 style={{ marginBottom: "30px" }}>Company Details</h1>
+						<Row
+							style={{
+								marginBottom: "20px",
+								marginLeft: "0px",
+								marginRight: "0px",
+							}}
+						>
+							<Col md={6}>
 								<div className="input-with-title">
-									<DropDown
-										title="Choose a country"
-										id="companyCountry"
-										options={countries.map((country) => country.nicename)}
-										function_={(event) =>
-											props.updateProjectData(event, "payment")
-										}
-										value={
+									<p
+										style={{
+											marginBottom: "3px",
+										}}
+									>
+										Company Name<span className="required-asterisk">*</span>
+									</p>
+									<input
+										className="atomic-text-input w-100"
+										id="companyName"
+										maxLength="60"
+										name="companyName"
+										placeholder="Enter your company name"
+										type="text"
+										defaultValue={
 											props.projectData &&
 											props.projectData["payment"] &&
-											props.projectData["payment"].companyCountry
+											props.projectData["payment"].companyName
+										}
+										onBlur={(event) =>
+											props.updateProjectData(event, "payment")
 										}
 									/>
 									<p className="invalid-input-p">
-										{props.formErrors && props.formErrors.companyCountry}
+										{props.formErrors && props.formErrors.companyName}
 									</p>
 								</div>
-							</div>
-						</Col>
-					</Row>
-					<Row
-						style={{
-							marginBottom: "20px",
-							marginLeft: "0px",
-							marginRight: "0px",
-						}}
-					>
-						<Col lg={4}>
-							<div className="input-with-title">
-								<p
-									style={{
-										marginBottom: "3px",
-									}}
-								>
-									Incorporation date<span className="required-asterisk">*</span>
-								</p>
+							</Col>
+							<Col md={6}>
 								<div className="input-with-title">
-									<Calendar
-										updateProjectData={props.updateProjectData}
-										handleInputErrors={props.handleInputErrors}
-										name="projectIncorporationDate"
-										value={
+									<p
+										style={{
+											marginBottom: "3px",
+										}}
+									>
+										Nature of Business
+										<span className="required-asterisk">*</span>
+									</p>
+									<input
+										className="atomic-text-input w-100"
+										id="natureOfBusiness"
+										maxLength="60"
+										name="natureOfBusiness"
+										placeholder="Enter your nature of business"
+										type="text"
+										defaultValue={
 											props.projectData &&
 											props.projectData["payment"] &&
-											props.projectData["payment"].projectIncorporationDate
+											props.projectData["payment"].natureOfBusiness
 										}
-										source="payment"
+										onBlur={(event) =>
+											props.updateProjectData(event, "payment")
+										}
+									/>
+									<p className="invalid-input-p">
+										{props.formErrors && props.formErrors.natureOfBusiness}
+									</p>
+								</div>
+							</Col>
+						</Row>
+						<Row
+							style={{
+								marginBottom: "20px",
+								marginLeft: "0px",
+								marginRight: "0px",
+							}}
+						>
+							<Col md={6}>
+								<div className="input-with-title">
+									<p
+										style={{
+											marginBottom: "3px",
+										}}
+									>
+										Address<span className="required-asterisk">*</span>
+									</p>
+									<input
+										className="atomic-text-input w-100"
+										id="companyAddress"
+										maxLength="200"
+										name="companyAddress"
+										placeholder="Enter your company address"
+										type="text"
+										defaultValue={
+											props.projectData &&
+											props.projectData["payment"] &&
+											props.projectData["payment"].companyAddress
+										}
+										onBlur={(event) =>
+											props.updateProjectData(event, "payment")
+										}
+									/>
+									<p className="invalid-input-p">
+										{props.formErrors && props.formErrors.companyAddress}
+									</p>
+								</div>
+							</Col>
+							<Col md={6}>
+								<div className="input-with-title">
+									<p
+										style={{
+											marginBottom: "3px",
+										}}
+									>
+										City<span className="required-asterisk">*</span>
+									</p>
+									<input
+										className="atomic-text-input w-100"
+										id="companyCity"
+										maxLength="60"
+										name="companyCity"
+										placeholder="Enter your company city"
+										type="text"
+										defaultValue={
+											props.projectData &&
+											props.projectData["payment"] &&
+											props.projectData["payment"].companyCity
+										}
+										onBlur={(event) =>
+											props.updateProjectData(event, "payment")
+										}
+									/>
+									<p className="invalid-input-p">
+										{props.formErrors && props.formErrors.companyCity}
+									</p>
+								</div>
+							</Col>
+						</Row>
+						<Row
+							style={{
+								marginBottom: "20px",
+								marginLeft: "0px",
+								marginRight: "0px",
+							}}
+						>
+							<Col md={6}>
+								<div className="input-with-title">
+									<p
+										style={{
+											marginBottom: "3px",
+										}}
+									>
+										Zip Code<span className="required-asterisk">*</span>
+									</p>
+									<input
+										className="atomic-text-input w-100"
+										id="companyZipCode"
+										maxLength="50"
+										name="companyZipCode"
+										placeholder="Enter your company address zip code"
+										type="text"
+										defaultValue={
+											props.projectData &&
+											props.projectData["payment"] &&
+											props.projectData["payment"].companyZipCode
+										}
+										onBlur={(event) =>
+											props.updateProjectData(event, "payment")
+										}
+									/>
+									<p className="invalid-input-p">
+										{props.formErrors && props.formErrors.companyZipCode}
+									</p>
+								</div>
+							</Col>
+							<Col md={6}>
+								<div className="input-with-title">
+									<p
+										style={{
+											marginBottom: "3px",
+										}}
+									>
+										Country<span className="required-asterisk">*</span>
+									</p>
+									<div className="input-with-title">
+										<DropDown
+											title="Choose a country"
+											id="companyCountry"
+											options={countries.map((country) => country.nicename)}
+											function_={(event) =>
+												props.updateProjectData(event, "payment")
+											}
+											value={
+												props.projectData &&
+												props.projectData["payment"] &&
+												props.projectData["payment"].companyCountry
+											}
+										/>
+										<p className="invalid-input-p">
+											{props.formErrors && props.formErrors.companyCountry}
+										</p>
+									</div>
+								</div>
+							</Col>
+						</Row>
+						<Row
+							style={{
+								marginBottom: "20px",
+								marginLeft: "0px",
+								marginRight: "0px",
+							}}
+						>
+							<Col lg={4}>
+								<div className="input-with-title">
+									<p
+										style={{
+											marginBottom: "3px",
+										}}
+									>
+										Incorporation date
+										<span className="required-asterisk">*</span>
+									</p>
+									<div className="input-with-title">
+										<Calendar
+											updateProjectData={props.updateProjectData}
+											handleInputErrors={props.handleInputErrors}
+											name="projectIncorporationDate"
+											value={
+												props.projectData &&
+												props.projectData["payment"] &&
+												props.projectData["payment"].projectIncorporationDate
+											}
+											source="payment"
+										/>
+										<p className="invalid-input-p">
+											{props.formErrors &&
+												props.formErrors.projectIncorporationDate}
+										</p>
+									</div>
+								</div>
+							</Col>
+							<Col lg={4}>
+								<div className="input-with-title">
+									<p
+										style={{
+											marginBottom: "3px",
+										}}
+									>
+										Company Registration Number
+										<span className="required-asterisk">*</span>
+									</p>
+									<input
+										className="atomic-text-input w-100"
+										id="companyRegistrationNumber"
+										maxLength="80"
+										name="companyRegistrationNumber"
+										placeholder="Company Reg No"
+										type="text"
+										defaultValue={
+											props.projectData &&
+											props.projectData["payment"] &&
+											props.projectData["payment"].companyRegistrationNumber
+										}
+										pattern="(^[0-9]{0,1000}$)|(^[0-9]{0,10000}\.[0-9]{0,18}$)"
+										onBlur={(event) =>
+											props.updateProjectData(event, "payment")
+										}
 									/>
 									<p className="invalid-input-p">
 										{props.formErrors &&
-											props.formErrors.projectIncorporationDate}
+											props.formErrors.companyRegistrationNumber}
 									</p>
 								</div>
-							</div>
-						</Col>
-						<Col lg={4}>
-							<div className="input-with-title">
-								<p
-									style={{
-										marginBottom: "3px",
-									}}
-								>
-									Company Registration Number
-									<span className="required-asterisk">*</span>
-								</p>
-								<input
-									className="atomic-text-input w-100"
-									id="companyRegistrationNumber"
-									maxLength="80"
-									name="companyRegistrationNumber"
-									placeholder="Company Reg No"
-									type="text"
-									defaultValue={
-										props.projectData &&
-										props.projectData["payment"] &&
-										props.projectData["payment"].companyRegistrationNumber
-									}
-									pattern="(^[0-9]{0,1000}$)|(^[0-9]{0,10000}\.[0-9]{0,18}$)"
-									onBlur={(event) => props.updateProjectData(event, "payment")}
-								/>
-								<p className="invalid-input-p">
-									{props.formErrors &&
-										props.formErrors.companyRegistrationNumber}
-								</p>
-							</div>
-						</Col>
-						<Col lg={4}>
-							<div className="input-with-title">
-								<p
-									style={{
-										marginBottom: "3px",
-									}}
-								>
-									Estimated annual turnover
-									<span className="required-asterisk">*</span>
-								</p>
-								<input
-									className="atomic-text-input w-100"
-									id="companyEstimatedAnnualTurnover"
-									maxLength="80"
-									name="companyEstimatedAnnualTurnover"
-									placeholder="Estimated annual turnover"
-									type="text"
-									defaultValue={
-										props.projectData &&
-										props.projectData["payment"] &&
-										props.projectData["payment"].companyEstimatedAnnualTurnover
-									}
-									onBlur={(event) => props.updateProjectData(event, "payment")}
-								/>
-								<p className="invalid-input-p">
-									{props.formErrors &&
-										props.formErrors.companyEstimatedAnnualTurnover}
-								</p>
-							</div>
-						</Col>
-					</Row>
-					<Row
-						style={{
-							marginBottom: "20px",
-							marginLeft: "0px",
-							marginRight: "0px",
-						}}
-					>
-						<Col md={4}>
-							<div className="input-with-title">
-								<p
-									style={{
-										marginBottom: "3px",
-									}}
-								>
-									Tax Country<span className="required-asterisk">*</span>
-								</p>
+							</Col>
+							<Col lg={4}>
 								<div className="input-with-title">
-									<DropDown
-										title="Choose a country"
-										id="projectTaxCountry"
-										options={countries.map((country) => country.nicename)}
-										function_={(event) =>
-											props.updateProjectData(event, "payment")
-										}
-										value={
+									<p
+										style={{
+											marginBottom: "3px",
+										}}
+									>
+										Estimated annual turnover
+										<span className="required-asterisk">*</span>
+									</p>
+									<input
+										className="atomic-text-input w-100"
+										id="companyEstimatedAnnualTurnover"
+										maxLength="80"
+										name="companyEstimatedAnnualTurnover"
+										placeholder="Estimated annual turnover"
+										type="text"
+										defaultValue={
 											props.projectData &&
 											props.projectData["payment"] &&
-											props.projectData["payment"].projectTaxCountry
+											props.projectData["payment"]
+												.companyEstimatedAnnualTurnover
+										}
+										onBlur={(event) =>
+											props.updateProjectData(event, "payment")
 										}
 									/>
 									<p className="invalid-input-p">
-										{props.formErrors && props.formErrors.projectTaxCountry}
+										{props.formErrors &&
+											props.formErrors.companyEstimatedAnnualTurnover}
 									</p>
 								</div>
-							</div>
-						</Col>
-						<Col md={4}>
-							<div className="input-with-title">
-								<p
-									style={{
-										marginBottom: "3px",
-									}}
-								>
-									Tax identification number
-									<span className="required-asterisk">*</span>
-								</p>
-								<input
-									className="atomic-text-input w-100"
-									id="taxIdNumber"
-									maxLength="80"
-									name="taxIdNumber"
-									placeholder="Company tax identification number"
-									pattern="(^[0-9]{0,1000}$)|(^[0-9]{0,10000}\.[0-9]{0,18}$)"
-									type="text"
-									defaultValue={
-										props.projectData &&
-										props.projectData["payment"] &&
-										props.projectData["payment"].taxIdNumber
-									}
-									onBlur={(event) => props.updateProjectData(event, "payment")}
-								/>
-								<p className="invalid-input-p">
-									{props.formErrors && props.formErrors.taxIdNumber}
-								</p>
-							</div>
-						</Col>
-						<Col md={4}>
-							<div className="input-with-title">
-								<p
-									style={{
-										marginBottom: "3px",
-									}}
-								>
-									Your Wallet Address (to receive funds when target reached)
-								</p>
-								<input
-									className="atomic-text-input w-100"
-									id="ownerWalletAddress"
-									maxLength="80"
-									name="ownerWalletAddress"
-									placeholder="(Optional) Your Wallet Address"
-									type="text"
-									defaultValue={
-										props.projectData &&
-										props.projectData["payment"] &&
-										props.projectData["payment"].ownerWalletAddress
-									}
-									onBlur={(event) => props.updateProjectData(event, "payment")}
-								/>
-								<p className="invalid-input-p">
-									{props.formErrors && props.formErrors.ownerWalletAddress}
-								</p>
-							</div>
-						</Col>
-					</Row>
-					{/* <Row
+							</Col>
+						</Row>
+						<Row
+							style={{
+								marginBottom: "20px",
+								marginLeft: "0px",
+								marginRight: "0px",
+							}}
+						>
+							<Col md={4}>
+								<div className="input-with-title">
+									<p
+										style={{
+											marginBottom: "3px",
+										}}
+									>
+										Tax Country<span className="required-asterisk">*</span>
+									</p>
+									<div className="input-with-title">
+										<DropDown
+											title="Choose a country"
+											id="projectTaxCountry"
+											options={countries.map((country) => country.nicename)}
+											function_={(event) =>
+												props.updateProjectData(event, "payment")
+											}
+											value={
+												props.projectData &&
+												props.projectData["payment"] &&
+												props.projectData["payment"].projectTaxCountry
+											}
+										/>
+										<p className="invalid-input-p">
+											{props.formErrors && props.formErrors.projectTaxCountry}
+										</p>
+									</div>
+								</div>
+							</Col>
+							<Col md={4}>
+								<div className="input-with-title">
+									<p
+										style={{
+											marginBottom: "3px",
+										}}
+									>
+										Tax identification number
+										<span className="required-asterisk">*</span>
+									</p>
+									<input
+										className="atomic-text-input w-100"
+										id="taxIdNumber"
+										maxLength="80"
+										name="taxIdNumber"
+										placeholder="Company tax identification number"
+										pattern="(^[0-9]{0,1000}$)|(^[0-9]{0,10000}\.[0-9]{0,18}$)"
+										type="text"
+										defaultValue={
+											props.projectData &&
+											props.projectData["payment"] &&
+											props.projectData["payment"].taxIdNumber
+										}
+										onBlur={(event) =>
+											props.updateProjectData(event, "payment")
+										}
+									/>
+									<p className="invalid-input-p">
+										{props.formErrors && props.formErrors.taxIdNumber}
+									</p>
+								</div>
+							</Col>
+							<Col md={4}>
+								<div className="input-with-title">
+									<p
+										style={{
+											marginBottom: "3px",
+										}}
+									>
+										Your Wallet Address (to receive funds when target reached)
+									</p>
+									<input
+										className="atomic-text-input w-100"
+										id="ownerWalletAddress"
+										maxLength="80"
+										name="ownerWalletAddress"
+										placeholder="(Optional) Your Wallet Address"
+										type="text"
+										defaultValue={
+											props.projectData &&
+											props.projectData["payment"] &&
+											props.projectData["payment"].ownerWalletAddress
+										}
+										onBlur={(event) =>
+											props.updateProjectData(event, "payment")
+										}
+									/>
+									<p className="invalid-input-p">
+										{props.formErrors && props.formErrors.ownerWalletAddress}
+									</p>
+								</div>
+							</Col>
+						</Row>
+						{/* <Row
 						style={{
 							marginBottom: "20px",
 							marginLeft: "0px",
@@ -654,16 +689,94 @@ export default function Payment(props) {
 							</div>
 						</Col>
 					</Row> */}
+						<Row
+							style={{
+								marginBottom: "20px",
+								marginLeft: "0px",
+								marginRight: "0px",
+							}}
+						>
+							<Col md={6}>
+								<div className="input-with-title h-100">
+									<div
+										className="h-100"
+										style={{
+											display: "flex",
+											gap: "20px",
+											alignItems: "center",
+										}}
+									>
+										<p style={{ margin: "0px" }}>
+											Upload certificate of incumbency/incorporation (.jpg,
+											.jpeg, .png, .pdf)
+											<span className="required-asterisk">*</span>
+										</p>
+										<UploadButton
+											title="Select File"
+											accepted_formats=".jpg, .jpeg, .png, .pdf"
+											updateProjectData={props.updateProjectData}
+											name="certificateOfIncumbencyFile"
+											value={
+												props.projectData &&
+												props.projectData["payment"] &&
+												props.projectData["payment"]
+													.certificateOfIncumbencyFile &&
+												props.projectData["payment"].certificateOfIncumbencyFile
+													.name
+											}
+											source="payment"
+										/>
+										<p className="invalid-input-p">
+											{props.formErrors &&
+												props.formErrors.certificateOfIncumbencyFile}
+										</p>
+									</div>
+								</div>
+							</Col>
+							<Col md={6}>
+								<div className="input-with-title h-100">
+									<div
+										className="h-100"
+										style={{
+											display: "flex",
+											gap: "20px",
+											alignItems: "center",
+										}}
+									>
+										<p style={{ margin: "0px" }}>
+											Upload company structure chart (.jpg, .jpeg, .png, .pdf)
+										</p>
+										<UploadButton
+											title="Select File"
+											accepted_formats=".jpg, .jpeg, .png, .pdf"
+											updateProjectData={props.updateProjectData}
+											name="companyStructureChart"
+											value={
+												props.projectData &&
+												props.projectData["payment"] &&
+												props.projectData["payment"].companyStructureChart &&
+												props.projectData["payment"].companyStructureChart.name
+											}
+											source="payment"
+										/>
+									</div>
+								</div>
+							</Col>
+						</Row>
+					</Row>
+				</div>
+			) : (
+				<div>
 					<Row
 						style={{
-							marginBottom: "20px",
-							marginLeft: "0px",
-							marginRight: "0px",
+							marginTop: "20px",
+							marginLeft: "2rem",
+							marginRight: "2rem",
 						}}
 					>
-						<Col md={6}>
+						<Col md={7}>
 							<div className="input-with-title h-100">
-								<div
+								<Row
 									className="h-100"
 									style={{
 										display: "flex",
@@ -671,361 +784,116 @@ export default function Payment(props) {
 										alignItems: "center",
 									}}
 								>
-									<p style={{ margin: "0px" }}>
-										Upload certificate of incumbency/incorporation (.jpg, .jpeg,
-										.png, .pdf)<span className="required-asterisk">*</span>
-									</p>
-									<UploadButton
-										title="Select File"
-										accepted_formats=".jpg, .jpeg, .png, .pdf"
-										updateProjectData={props.updateProjectData}
-										name="certificateOfIncumbencyFile"
-										value={
-											props.projectData &&
-											props.projectData["payment"] &&
-											props.projectData["payment"]
-												.certificateOfIncumbencyFile &&
-											props.projectData["payment"].certificateOfIncumbencyFile
-												.name
-										}
-										source="payment"
-									/>
-									<p className="invalid-input-p">
-										{props.formErrors &&
-											props.formErrors.certificateOfIncumbencyFile}
-									</p>
-								</div>
+									<Col md={5}>
+										<p style={{ margin: "0px" }}>
+											Upload your passport (.jpg, .jpeg, .png, .pdf)
+											<span className="required-asterisk">*</span>
+										</p>
+									</Col>
+									<Col md={2}>
+										<UploadButton
+											title="Select File"
+											accepted_formats=".jpg, .jpeg, .png, .pdf"
+											updateProjectData={props.updateProjectData}
+											name="ownerPassportFile"
+											value={
+												props.projectData &&
+												props.projectData["payment"] &&
+												props.projectData["payment"].ownerPassportFile &&
+												props.projectData["payment"].ownerPassportFile.name
+											}
+											source="payment"
+										/>
+									</Col>
+									<Col md={5}>
+										<p className="invalid-input-p">
+											{props.formErrors && props.formErrors.ownerPassportFile}
+										</p>
+									</Col>
+								</Row>
 							</div>
 						</Col>
-						<Col md={6}>
-							<div className="input-with-title h-100">
-								<div
-									className="h-100"
+						<Col md={5}>
+							<div className="input-with-title">
+								<p
 									style={{
-										display: "flex",
-										gap: "20px",
-										alignItems: "center",
+										marginBottom: "3px",
 									}}
 								>
-									<p style={{ margin: "0px" }}>
-										Upload company structure chart (.jpg, .jpeg, .png, .pdf)
-									</p>
-									<UploadButton
-										title="Select File"
-										accepted_formats=".jpg, .jpeg, .png, .pdf"
-										updateProjectData={props.updateProjectData}
-										name="companyStructureChart"
-										value={
-											props.projectData &&
-											props.projectData["payment"] &&
-											props.projectData["payment"].companyStructureChart &&
-											props.projectData["payment"].companyStructureChart.name
-										}
-										source="payment"
-									/>
-								</div>
+									Your Wallet Address (to receive funds when target reached)
+								</p>
+								<input
+									className="atomic-text-input w-100"
+									id="ownerWalletAddress"
+									maxLength="80"
+									name="ownerWalletAddress"
+									placeholder="(Optional) Your Wallet Address"
+									type="text"
+									defaultValue={
+										props.projectData &&
+										props.projectData["payment"] &&
+										props.projectData["payment"].ownerWalletAddress
+									}
+									onBlur={(event) => props.updateProjectData(event, "payment")}
+								/>
+								<p className="invalid-input-p">
+									{props.formErrors && props.formErrors.ownerWalletAddress}
+								</p>
 							</div>
 						</Col>
 					</Row>
-				</Row>
-				{/* <hr />
-				<Row style={{ padding: "3vw", marginLeft: "0px", marginRight: "0px" }}>
-					<h1 style={{ marginBottom: "30px" }}>UBOs Details</h1>
-					{
-						///////////
-						props.projectData &&
-							props.projectData["payment"] &&
-							props.projectData["payment"]["UBOs"] &&
-							Object.keys(props.projectData["payment"]["UBOs"]).map(
-								(item, i) => {
-									return (
-										<div
-											style={{ marginBottom: "20px", position: "relative" }}
-											id={`row-${item}`}
-										>
-											<div
-												style={{ position: "absolute", right: "0", top: "0" }}
-											>
-												<img
-													src={closeIcon}
-													style={{
-														width: "30px",
-														cursor: "pointer",
-													}}
-													onClick={(e) => removeUBO(e, `${item}`)}
-												/>
-											</div>
-											<h3>{`UBO ${item} details`}</h3>
-											<Row
-												style={{
-													marginBottom: "20px",
-													marginLeft: "0px",
-													marginRight: "0px",
-												}}
-											>
-												<div className="input-with-title">
-													<p
-														style={{
-															marginBottom: "3px",
-														}}
-													>
-														{`UBO ${item} - full name`}
-														<span className="required-asterisk">*</span>
-													</p>
-													<input
-														className="atomic-text-input w-100"
-														id={`ubo-${item}-full-name`}
-														maxLength="100"
-														name={`fullName`}
-														placeholder={`UBO ${item} - full name`}
-														type="text"
-														onBlur={(e) => handleInputChanges(e, `${item}`)}
-														defaultValue={
-															projectDataRef.current &&
-															projectDataRef.current["payment"] &&
-															projectDataRef.current["payment"]["UBOs"] &&
-															projectDataRef.current["payment"]["UBOs"][
-																`${item}`
-															] &&
-															projectDataRef.current["payment"]["UBOs"][
-																`${item}`
-															]["fullName"]
-														}
-													/>
-													<p className="invalid-input-p">
-														{props.formErrors &&
-															props.formErrors.payment &&
-															props.formErrors.payment[item] &&
-															props.formErrors.payment[item].fullName}
-													</p>
-												</div>
-											</Row>
-											<Row
-												style={{
-													marginBottom: "20px",
-													marginLeft: "0px",
-													marginRight: "0px",
-												}}
-											>
-												<Col md={6}>
-													<div className="input-with-title">
-														<p
-															style={{
-																marginBottom: "3px",
-															}}
-														>
-															{`UBO ${item} - position`}
-															<span className="required-asterisk">*</span>
-														</p>
-														<input
-															className="atomic-text-input w-100"
-															id={`ubo-${item}-position`}
-															maxLength="100"
-															name={`position`}
-															placeholder={`UBO ${item} - position`}
-															type="text"
-															onBlur={(e) => handleInputChanges(e, `${item}`)}
-															defaultValue={
-																projectDataRef.current &&
-																projectDataRef.current["payment"] &&
-																projectDataRef.current["payment"]["UBOs"] &&
-																projectDataRef.current["payment"]["UBOs"][
-																	`${item}`
-																] &&
-																projectDataRef.current["payment"]["UBOs"][
-																	`${item}`
-																]["position"]
-															}
-														/>
-														<p className="invalid-input-p">
-															{props.formErrors &&
-																props.formErrors.payment &&
-																props.formErrors.payment[item] &&
-																props.formErrors.payment[item].position}
-														</p>
-													</div>
-												</Col>
-												<Col md={6}>
-													<div className="input-with-title">
-														<p
-															style={{
-																marginBottom: "3px",
-															}}
-														>
-															{`UBO ${item} - Date of Birth`}
-															<span className="required-asterisk">*</span>
-														</p>
-														<div className="input-with-title">
-															<Calendar
-																setProjectData={props.setProjectData}
-																handleInputErrors={props.handleInputErrors}
-																projectDataRef={projectDataRef}
-																rowId={item}
-																name="dateOfBirth"
-																source="payment"
-																defaultValue={
-																	projectDataRef.current &&
-																	projectDataRef.current["payment"] &&
-																	projectDataRef.current["payment"][`UBOs`] &&
-																	projectDataRef.current["payment"][`UBOs`][
-																		`${item}`
-																	] &&
-																	projectDataRef.current["payment"][`UBOs`][
-																		`${item}`
-																	]["dateOfBirth"]
-																}
-															/>
-															<p className="invalid-input-p">
-																{props.formErrors &&
-																	props.formErrors.payment &&
-																	props.formErrors.payment[item] &&
-																	props.formErrors.payment[item].dateOfBirth}
-															</p>
-														</div>
-													</div>
-												</Col>
-											</Row>
-											<Row
-												style={{
-													marginBottom: "20px",
-													marginLeft: "0px",
-													marginRight: "0px",
-												}}
-											>
-												<Col md={6}>
-													<div className="input-with-title h-100">
-														<div
-															className="h-100"
-															style={{
-																display: "flex",
-																gap: "20px",
-																alignItems: "center",
-															}}
-														>
-															<p style={{ margin: "0px" }}>
-																{`UBO ${item} - Upload passport or ID Card`}{" "}
-																(.jpg, .jpeg, .png, .pdf)
-																<span className="required-asterisk">*</span>
-															</p>
-															<UploadButton
-																title="Select File"
-																accepted_formats=".jpg, .jpeg, .png, .pdf"
-																name="idFile"
-																function_={handleInputChanges}
-																rowId={item}
-																valueFunction={getUploadedFileName}
-															/>
-														</div>
-														<p className="invalid-input-p">
-															{props.formErrors &&
-																props.formErrors.payment &&
-																props.formErrors.payment[item] &&
-																props.formErrors.payment[item].idFile}
-														</p>
-													</div>
-												</Col>
-												<Col md={6}>
-													<div className="input-with-title h-100">
-														<div
-															className="h-100"
-															style={{
-																display: "flex",
-																gap: "20px",
-																alignItems: "center",
-															}}
-														>
-															<p style={{ margin: "0px" }}>
-																{`UBO ${item} - Upload proof of address`} (.jpg,
-																.jpeg, .png, .pdf)
-																<span className="required-asterisk">*</span>
-															</p>
-															<UploadButton
-																title="Select File"
-																accepted_formats=".jpg, .jpeg, .png, .pdf"
-																name="proofOfAddressFile"
-																function_={handleInputChanges}
-																rowId={item}
-																valueFunction={getUploadedFileName}
-															/>
-														</div>
-														<p className="invalid-input-p">
-															{props.formErrors &&
-																props.formErrors.payment &&
-																props.formErrors.payment[item] &&
-																props.formErrors.payment[item]
-																	.proofOfAddressFile}
-														</p>
-													</div>
-												</Col>
-											</Row>
-											<hr />
-										</div>
-									);
-								}
-							)
-					}
-					<Button
-						// variant="warning"
-						size="lg"
-						onMouseDown={(e) => e.preventDefault()}
-						onClick={addUBORow}
-						style={{ borderRadius: "0px" }}
-					>
-						Add UBO
-					</Button>
-				</Row> */}
-
-				<Row style={{ padding: "3vw", marginLeft: "0px", marginRight: "0px" }}>
-					<div style={{ display: "flex", justifyContent: "space-between" }}>
-						<div style={{ textAlign: "left" }}>
-							<Button
-								onMouseDown={(e) => e.preventDefault()}
-								size="md"
-								onClick={props.previousTabFunction}
-								style={{
-									background:
-										"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
-									border: "none",
-									color: "white",
-									borderRadius: "0px",
-									width: "8vw",
-									minWidth: "100px",
-								}}
-							>
-								Previous
-							</Button>
-						</div>
-
-						<div style={{ textAlign: "right" }}>
-							<DialogPopup
-								button={
-									<Button
-										onMouseDown={(e) => e.preventDefault()}
-										size="md"
-										style={{
-											background:
-												"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
-											border: "none",
-											color: "white",
-											borderRadius: "0px",
-											width: "8vw",
-											minWidth: "100px",
-										}}
-										onClick={handleFinish}
-									>
-										Finish
-									</Button>
-								}
-								title={popUpData.title}
-								description={popUpData.description}
-								closeFunction={() => {
-									setPopUpData({ title: "Please Wait...", description: "" });
-								}}
-							/>
-						</div>
+				</div>
+			)}
+			<Row style={{ padding: "3vw", marginLeft: "0px", marginRight: "0px" }}>
+				<div style={{ display: "flex", justifyContent: "space-between" }}>
+					<div style={{ textAlign: "left" }}>
+						<Button
+							onMouseDown={(e) => e.preventDefault()}
+							size="md"
+							onClick={props.previousTabFunction}
+							style={{
+								background:
+									"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+								border: "none",
+								color: "white",
+								borderRadius: "0px",
+								width: "8vw",
+								minWidth: "100px",
+							}}
+						>
+							Previous
+						</Button>
 					</div>
-				</Row>
-			</div>
+
+					<div style={{ textAlign: "right" }}>
+						<DialogPopup
+							button={
+								<Button
+									onMouseDown={(e) => e.preventDefault()}
+									size="md"
+									style={{
+										background:
+											"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+										border: "none",
+										color: "white",
+										borderRadius: "0px",
+										width: "8vw",
+										minWidth: "100px",
+									}}
+									onClick={handleFinish}
+								>
+									Finish
+								</Button>
+							}
+							title={popUpData.title}
+							description={popUpData.description}
+							closeFunction={() => {
+								setPopUpData({ title: "Please Wait...", description: "" });
+							}}
+						/>
+					</div>
+				</div>
+			</Row>
 		</div>
 	);
 }

@@ -9,6 +9,10 @@ import { ConfigProvider } from "antd";
 import "antd/dist/reset.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+// Disable console.log() in production
+if (process.env.NODE_ENV === "production") {
+	console.log = function () {};
+}
 root.render(
 	<ConfigProvider
 		theme={{
@@ -17,13 +21,13 @@ root.render(
 			},
 		}}
 	>
-		<React.StrictMode>
-			<Router>
-				<ConfigProvider>
-					<App />
-				</ConfigProvider>
-			</Router>
-		</React.StrictMode>
+		{/* <React.StrictMode> */}
+		<Router>
+			<ConfigProvider>
+				<App />
+			</ConfigProvider>
+		</Router>
+		{/* </React.StrictMode> */}
 	</ConfigProvider>
 );
 reportWebVitals();
