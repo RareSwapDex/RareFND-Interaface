@@ -24,7 +24,9 @@ export default function DashboardProjects() {
 	const [projectData, setProjectData] = useState(
 		localStorage.getItem("createProjectData") &&
 			"certificateOfIncumbencyFile" in
-				JSON.parse(localStorage.getItem("createProjectData")).payment
+				JSON.parse(localStorage.getItem("createProjectData")).payment &&
+			"fundingSpend" in
+				JSON.parse(localStorage.getItem("createProjectData")).funding
 			? JSON.parse(localStorage.getItem("createProjectData"))
 			: {
 					basics: {
