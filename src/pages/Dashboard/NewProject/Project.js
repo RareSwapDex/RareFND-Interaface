@@ -92,8 +92,7 @@ export default function DashboardProjects() {
 		if (
 			projectData &&
 			projectData.funding &&
-			(!projectData.funding.fundingSpend ||
-				Object.keys(projectData.funding.fundingSpend).length === 0)
+			!projectData.funding.fundingSpend
 		) {
 			localStorage.removeItem("createProjectData");
 			window.location.reload();
