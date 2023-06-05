@@ -1,7 +1,8 @@
 import { Row } from "react-bootstrap";
 import DashboardCreateProjectItemHead from "../../../components/DashboardCreateProjectItemHead";
 // import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import ClassicEditor from "ckeditorbuild";
+// import ClassicEditor from "ckeditorbuild";
+const ClassicEditor = require("ckeditorbuild");
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import Button from "react-bootstrap/Button";
 import useAxios from "../../../utils/useAxios/useAxios";
