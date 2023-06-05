@@ -79,28 +79,35 @@ export default function DashboardProjects() {
 	var tmpFormErrors = {};
 
 	if (
-		localStorage.getItem("createProjectData") &&
-		!(
-			"certificateOfIncumbencyFile" in
-			JSON.parse(localStorage.getItem("createProjectData")).payment
-		)
-	) {
-		localStorage.removeItem("createProjectData");
-	}
-
-	useEffect(() => {
-		if (
-			projectData &&
+		(localStorage.getItem("createProjectData") &&
+			!(
+				"certificateOfIncumbencyFile" in
+				JSON.parse(localStorage.getItem("createProjectData")).payment
+			)) ||
+		(projectData &&
 			projectData.funding &&
 			!(
 				"fundingSpend" in
 				JSON.parse(localStorage.getItem("createProjectData")).funding
-			)
-		) {
-			localStorage.removeItem("createProjectData");
-			window.location.reload();
-		}
-	}, []);
+			))
+	) {
+		localStorage.removeItem("createProjectData");
+		window.location.reload();
+	}
+
+	// useEffect(() => {
+	// 	if (
+	// 		projectData &&
+	// 		projectData.funding &&
+	// 		!(
+	// 			"fundingSpend" in
+	// 			JSON.parse(localStorage.getItem("createProjectData")).funding
+	// 		)
+	// 	) {
+	// 		localStorage.removeItem("createProjectData");
+	// 		window.location.reload();
+	// 	}
+	// }, []);
 
 	useEffect(() => {
 		console.log("formErrors", formErrors);
