@@ -92,7 +92,6 @@ export default function DashboardProjects() {
 			))
 	) {
 		localStorage.removeItem("createProjectData");
-		window.location.reload();
 	}
 
 	// useEffect(() => {
