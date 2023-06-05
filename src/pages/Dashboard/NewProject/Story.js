@@ -2,7 +2,15 @@ import { Row } from "react-bootstrap";
 import DashboardCreateProjectItemHead from "../../../components/DashboardCreateProjectItemHead";
 // import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 // import ClassicEditor from "ckeditorbuild";
-const ClassicEditor = require("ckeditorbuild");
+let ClassicEditor;
+
+import("../../../CKEditorBuild/ckeditor")
+	.then((ckeditor) => {
+		ClassicEditor = ckeditor.default || ckeditor;
+	})
+	.catch((error) => {
+		throw new Error("Failed to load CKEditor: " + error);
+	});
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import Button from "react-bootstrap/Button";
 import useAxios from "../../../utils/useAxios/useAxios";
