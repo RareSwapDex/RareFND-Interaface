@@ -89,6 +89,18 @@ export default function DashboardProjects() {
 	}
 
 	useEffect(() => {
+		if (
+			projectData &&
+			projectData.funding &&
+			(!projectData.funding.fundingSpend ||
+				Object.keys(projectData.funding.fundingSpend).length === 0)
+		) {
+			localStorage.removeItem("createProjectData");
+			window.location.reload();
+		}
+	}, []);
+
+	useEffect(() => {
 		console.log("formErrors", formErrors);
 	}, [formErrors]);
 
