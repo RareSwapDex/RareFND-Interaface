@@ -92,7 +92,10 @@ export default function DashboardProjects() {
 		if (
 			projectData &&
 			projectData.funding &&
-			!projectData.funding.fundingSpend
+			!(
+				"fundingSpend" in
+				JSON.parse(localStorage.getItem("createProjectData")).funding
+			)
 		) {
 			localStorage.removeItem("createProjectData");
 			window.location.reload();
