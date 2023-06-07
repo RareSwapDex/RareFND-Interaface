@@ -31,7 +31,7 @@ const IntroSection = () => {
 							</span>
 							<button
 								className="start_project"
-								onClick={() => navigate("/dashboard/projects")}
+								onClick={() => navigate("/dashboard/new-project")}
 							>
 								{t("home.IntroSection.buttons.startProject")}
 							</button>

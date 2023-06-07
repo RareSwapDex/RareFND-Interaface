@@ -24,7 +24,7 @@ const Mission = () => {
 								<h4>{t("home.mission.subTitle")}</h4>
 								<p>{t("home.mission.paragraph")}</p>
 
-								<button onClick={() => navigate("/dashboard/projects")}>
+								<button onClick={() => navigate("/dashboard/new-project")}>
 									{t("home.mission.button")}
 								</button>
 							</div>

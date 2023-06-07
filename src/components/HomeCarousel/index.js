@@ -89,7 +89,7 @@ export default function HomeCarousel() {
 										<p style={{ color: "#3d3d3d" }}>
 											Or,{" "}
 											<Link
-												to="/dashboard/projects"
+												to="/dashboard/new-project"
 												style={{
 													lineHeight: "3",
 													textDecoration: "underline",
@@ -101,12 +101,12 @@ export default function HomeCarousel() {
 										</p>
 									</>
 								) : (
-									<Link to="/dashboard/projects">
+									<Link to="/dashboard/new-project">
 										<Button
 											variant="warning"
 											className="rise-button"
 											size="lg"
-											to="/dashboard/projects"
+											to="/dashboard/new-project"
 											onMouseDown={(e) => e.preventDefault()}
 											style={{
 												fontFamily: "'Poppins', sans-serif",

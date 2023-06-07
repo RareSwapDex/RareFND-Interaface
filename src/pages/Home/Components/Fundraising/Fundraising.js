@@ -18,7 +18,7 @@ const Fundraising = () => {
 							<h1>{t("home.fundraisingSolution.title")}</h1>
 							<p>{t("home.fundraisingSolution.paragraph")}</p>
 
-							<button onClick={() => navigate("/dashboard/projects")}>
+							<button onClick={() => navigate("/dashboard/new-project")}>
 								{t("home.fundraisingSolution.button")}
 							</button>
 						</div>
