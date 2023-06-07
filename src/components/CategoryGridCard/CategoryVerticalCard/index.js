@@ -30,7 +30,7 @@ export default function CategoryVerticalCard(props) {
 							? "#5BB85C"
 							: props.project_raised_amount === 0
 							? "#cd77d3"
-							: "Red",
+							: "lightgrey",
 						borderRadius: "8px",
 						position: "absolute",
 						top: "5px",
@@ -49,7 +49,7 @@ export default function CategoryVerticalCard(props) {
 						? "Successful"
 						: props.project_raised_amount === 0
 						? "Soon"
-						: "Failed"}
+						: "Finished"}
 				</p>
 				<div>
 					<img

@@ -141,7 +141,7 @@ export default function CategorySlick(props) {
 																	? "#5BB85C"
 																	: project.raised_amount === 0
 																	? "#cd77d3"
-																	: "Red",
+																	: "lightgrey",
 																borderRadius: "8px",
 																position: "absolute",
 																top: "5px",
@@ -161,7 +161,7 @@ export default function CategorySlick(props) {
 																? "Successful"
 																: project.raised_amount === 0
 																? "Soon"
-																: "Failed"}
+																: "Finished"}
 														</p>
 													</div>
 												</div>
