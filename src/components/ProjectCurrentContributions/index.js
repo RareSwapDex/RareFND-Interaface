@@ -75,7 +75,6 @@ export default function ProjectCurrentContributions(props) {
 							<div
 								className="h3 fw-bold text-light fw-bold"
 								style={{
-									// fontFamily: "'Kaisei Opti', sans-serif",
 									whiteSpace: "pre-line",
 								}}
 							>
@@ -84,7 +83,6 @@ export default function ProjectCurrentContributions(props) {
 							<div
 								className="display-6 fw-bold"
 								style={{
-									// fontFamily: "'Kaisei Opti', sans-serif",
 									whiteSpace: "pre-line",
 									color: "white",
 								}}
@@ -96,7 +94,6 @@ export default function ProjectCurrentContributions(props) {
 							<div
 								className="h3 fw-bold text-white fw-bold"
 								style={{
-									// fontFamily: "'Kaisei Opti', sans-serif",
 									color: "white",
 								}}
 							>
@@ -105,7 +102,6 @@ export default function ProjectCurrentContributions(props) {
 							<div
 								className="display-6 fw-bold"
 								style={{
-									// fontFamily: "'Kaisei Opti', sans-serif",
 									whiteSpace: "pre-line",
 									color: "white",
 								}}

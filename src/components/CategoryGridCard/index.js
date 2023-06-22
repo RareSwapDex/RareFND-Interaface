@@ -51,6 +51,7 @@ export default function CategoryGridCard(props) {
 										</h3>
 										<div>
 											<CategoryVerticalCard
+												project={categoryProjects.featured_projects[0]}
 												owner_username={
 													categoryProjects.featured_projects[0].owner_username
 												}
@@ -78,6 +79,7 @@ export default function CategoryGridCard(props) {
 										{categoryProjects.recommended_projects.map((_, idx) => (
 											<div key={idx} className="my-3">
 												<CategoryHorizontalCard
+													project={_}
 													owner_username={_.owner_username}
 													title={_.title}
 													src={_.thumbnail}

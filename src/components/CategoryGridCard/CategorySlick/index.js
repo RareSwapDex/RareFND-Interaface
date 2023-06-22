@@ -5,10 +5,12 @@ import { useTranslation } from "react-i18next";
 import LanguageContext from "../../../Context/LanguageContext";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { Col, Container, Row } from "react-bootstrap";
+import { Progress } from "antd";
+import { Container } from "react-bootstrap";
 
 export default function CategorySlick(props) {
 	const { language } = useContext(LanguageContext);
+
 	const CustomArrowLeft = ({ className, style, onClick }) => (
 		<FiArrowLeft
 			className={className}
@@ -106,18 +108,18 @@ export default function CategorySlick(props) {
 							project.title != "Test" && (
 								<div key={project.title} className="slick-item center-div">
 									<div style={{ width: "250px" }} className="center-div">
-										<Link
-											to={`/projects/${project.owner_username.replace(
-												/\s+/g,
-												"-"
-											)}/${project.title.replace(/\s+/g, "-")}`}
-											className="w-100"
+										<div
+											style={{
+												position: "relative",
+												width: "100%",
+											}}
 										>
-											<div
-												style={{
-													position: "relative",
-													width: "100%",
-												}}
+											<Link
+												to={`/projects/${project.owner_username.replace(
+													/\s+/g,
+													"-"
+												)}/${project.title.replace(/\s+/g, "-")}`}
+												className="w-100"
 											>
 												<div>
 													<div style={{ position: "relative" }}>
@@ -186,8 +188,39 @@ export default function CategorySlick(props) {
 														</p>
 													</div>
 												</div>
-											</div>
-										</Link>
+											</Link>
+											<Link to={`/profile/${project.owner_username}`}>
+												<p
+													className="horizontal-card-by m-0 p-0"
+													style={{ fontSize: "0.8rem" }}
+												>
+													By {truncateText(project.owner_username)}
+												</p>
+											</Link>
+											{(project.live ||
+												project.raised_amount >= project.fund_amount) && (
+												<Progress
+													percent={Math.round(
+														((Number(project.raised_amount) +
+															Number(project.current_reward)) /
+															Number(project.fund_amount)) *
+															100
+													)}
+													size="small"
+													status="active"
+													strokeColor={
+														((Number(project.raised_amount) +
+															Number(project.current_reward)) /
+															Number(project.fund_amount)) *
+															100 >=
+														100
+															? "#5BB85C"
+															: "#CD77D3"
+													}
+													showInfo={false}
+												/>
+											)}
+										</div>
 									</div>
 								</div>
 							)

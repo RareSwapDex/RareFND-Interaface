@@ -1,21 +1,45 @@
 import "./sideBar.scss";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import {
 	BsFillArrowRightSquareFill,
 	BsFillArrowLeftSquareFill,
 } from "react-icons/bs";
-import { useState } from "react";
+import { RxDashboard } from "react-icons/rx";
+import { useContext, useEffect } from "react";
+import { FiPlusSquare } from "react-icons/fi";
+import DashboardSideBarContext from "../../Context/DashboardSideBarContext";
+import { useLocation } from "react-router-dom";
 
 export default function SideBar() {
-	const [displaySideBarTitles, setDisplaySideBarTitles] = useState(true);
+	let {
+		ShowDashboardSideBar,
+		setShowDashboardSideBar,
+		selectedTabIndex,
+		setSelectedTabIndex,
+	} = useContext(DashboardSideBarContext);
+
+	const { pathname } = useLocation();
+
 	function expandSideBar() {
-		setDisplaySideBarTitles(!displaySideBarTitles);
+		setShowDashboardSideBar(!ShowDashboardSideBar);
 	}
 
+	useEffect(() => {
+		console.log("lplpl", pathname);
+		if (pathname.includes("/profile") || pathname === "/dashboard")
+			setSelectedTabIndex(0);
+	}, []);
+
 	return (
-		<div className="dashboard-sidebar" style={{ position: "relative" }}>
+		<div
+			className="dashboard-sidebar"
+			style={{
+				position: "relative",
+				minWidth: ShowDashboardSideBar ? "200px" : "auto",
+				zIndex: "3",
+			}}
+		>
 			<div className="center mt-3">
 				<ul>
 					<Link
@@ -24,26 +48,45 @@ export default function SideBar() {
 							textDecoration: "none",
 						}}
 					>
-						<li>
+						<li
+							style={{ backgroundColor: selectedTabIndex === 0 && "#ebcbdc" }}
+							onClick={() => setSelectedTabIndex(0)}
+						>
 							<AccountBoxIcon className="dashboard-icon" />
 							<span
-								style={{ display: displaySideBarTitles ? "block" : "none" }}
+								style={{ display: ShowDashboardSideBar ? "block" : "none" }}
 							>
 								Profile
 							</span>
 						</li>
 					</Link>
-					{/* <Link to="/dashboard/projects" style={{ textDecoration: "none" }}>
-						<li>
-							<AssignmentIcon className="dashboard-icon" />
-							<span>Your Projects</span>
-						</li>
-					</Link> */}
-					<Link to="/dashboard/new-project" style={{ textDecoration: "none" }}>
-						<li>
-							<AddIcon className="dashboard-icon" />
+					<Link
+						to="/dashboard/projects"
+						style={{ textDecoration: "none" }}
+						onClick={() => setSelectedTabIndex(1)}
+					>
+						<li
+							style={{ backgroundColor: selectedTabIndex === 1 && "#ebcbdc" }}
+						>
+							<RxDashboard className="dashboard-icon" />
 							<span
-								style={{ display: displaySideBarTitles ? "block" : "none" }}
+								style={{ display: ShowDashboardSideBar ? "block" : "none" }}
+							>
+								Your Projects
+							</span>
+						</li>
+					</Link>
+					<Link
+						to="/dashboard/new-project"
+						style={{ textDecoration: "none" }}
+						onClick={() => setSelectedTabIndex(2)}
+					>
+						<li
+							style={{ backgroundColor: selectedTabIndex === 2 && "#ebcbdc" }}
+						>
+							<FiPlusSquare className="dashboard-icon" />
+							<span
+								style={{ display: ShowDashboardSideBar ? "block" : "none" }}
 							>
 								Add New Project
 							</span>
@@ -51,7 +94,7 @@ export default function SideBar() {
 					</Link>
 				</ul>
 			</div>
-			{displaySideBarTitles ? (
+			{ShowDashboardSideBar ? (
 				<BsFillArrowLeftSquareFill
 					className="expand-side-bar-icon"
 					style={{

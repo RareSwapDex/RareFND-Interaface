@@ -19,6 +19,7 @@ import AuthContext from "./Context/AuthContext";
 import DashboardHome from "./pages/Dashboard/Home/Home.js";
 import Stats from "./pages/Dashboard/Stats/Stats.js";
 import Profile from "./pages/Dashboard/Profile/Profile.js";
+import ProjectEdit from "./pages/Dashboard/Projects/projectEdit.js";
 import DashboardNewProject from "./pages/Dashboard/NewProject/Project.js";
 import DashboardProjects from "./pages/Dashboard/Projects/Projects.js";
 import CommingSoon from "./components/CommingSoon/CommingSoon";
@@ -61,7 +62,7 @@ export default function Main() {
 				<Route exact path="/signup" element={<Signup />} />
 				<Route exact path="/privacy-policy" element={<PrivacyPolicy />} />
 				<Route exact path="/terms-of-service" element={<TermsOfService />} />
-				<Route exact path="/profile/:id" element={<PublicProfile />} />
+				<Route exact path="/profile/:username" element={<PublicProfile />} />
 				<Route
 					exact
 					path="/user/reset_password/:email/:token"
@@ -79,14 +80,19 @@ export default function Main() {
 				/>
 				<Route
 					exact
-					path="/dashboard/profile"
-					element={<PrivateRoute Component={Profile} />}
+					path="/dashboard/edit-project/:projectTitle"
+					element={<PrivateRoute Component={ProjectEdit} />}
 				/>
 				<Route
 					exact
+					path="/dashboard/profile"
+					element={<PrivateRoute Component={Profile} />}
+				/>
+				{/* <Route
+					exact
 					path="/dashboard/stats"
 					element={<PrivateRoute Component={Stats} />}
-				/>
+				/> */}
 				<Route
 					exact
 					path="/dashboard/projects"

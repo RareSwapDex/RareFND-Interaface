@@ -17,6 +17,12 @@ const UploadButton = (props) => {
 				{ target: { name: props.name, value: file } },
 				props.rowId
 			);
+		} else if (file && props.function_2) {
+			console.log("lplplplpl", props.name, file);
+			props.function_2({
+				...props.projectData,
+				[props.name]: file,
+			});
 		}
 	}, [file]);
 

@@ -48,7 +48,7 @@ export default function ProjectDescription(props) {
 						}}
 					>
 						<Link
-							to={`/profile/${props.ownerId}`}
+							to={`/profile/${props.ownerUsername}`}
 							style={{ textDecoration: "none" }}
 						>
 							<div className="centerDiv" style={{ color: "black" }}>

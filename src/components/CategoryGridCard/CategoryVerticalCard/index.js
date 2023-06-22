@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./index.css";
+import { Progress } from "antd";
 
 export default function CategoryVerticalCard(props) {
 	function truncateText(text, maxLength = 220) {
@@ -7,6 +8,11 @@ export default function CategoryVerticalCard(props) {
 			? text.substring(0, maxLength) + "..."
 			: text;
 	}
+	const project = props.project;
+	const currentPercentage =
+		((Number(project.raised_amount) + Number(project.current_reward)) /
+			Number(project.fund_amount)) *
+		100;
 
 	const s = { ...props.imageStyle };
 	return (
@@ -74,8 +80,29 @@ export default function CategoryVerticalCard(props) {
 					<p style={{ width: "100%", color: "grey" }}>
 						{truncateText(props.description)}
 					</p>
-					<div style={{ display: "inline-block", marginTop: "2rem" }}></div>
 				</div>
+				<Link to={`/profile/${project.owner_username}`}>
+					<p
+						className="horizontal-card-by m-0 p-0"
+						style={{ fontSize: "0.8rem" }}
+					>
+						By {truncateText(project.owner_username)}
+					</p>
+				</Link>
+				{(project.live || project.raised_amount >= project.fund_amount) && (
+					<Progress
+						percent={Math.round(
+							((Number(project.raised_amount) +
+								Number(project.current_reward)) /
+								Number(project.fund_amount)) *
+								100
+						)}
+						size="small"
+						status="active"
+						strokeColor={currentPercentage >= 100 ? "#5BB85C" : "#CD77D3"}
+						showInfo={false}
+					/>
+				)}
 			</div>
 		</Link>
 	);

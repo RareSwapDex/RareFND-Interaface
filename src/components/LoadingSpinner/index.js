@@ -21,13 +21,6 @@ function LoadingSpinner(props) {
 				alignItems: "center",
 			}}
 		>
-			{/* <button onClick={() => setLoading(!loading)}>Toggle Loader</button>
-			<input
-				value={color}
-				onChange={(input) => setColor(input.target.value)}
-				placeholder="Color of the loader"
-			/> */}
-
 			<BeatLoader
 				loading={loading}
 				cssOverride={override}

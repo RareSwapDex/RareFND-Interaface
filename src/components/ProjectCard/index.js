@@ -294,7 +294,7 @@ export default function ProjectCard(props) {
 													/>
 												</div>
 												<Link
-													to={`/profile/${props.ownerId}`}
+													to={`/profile/${props.ownerUsername}`}
 													target="_blank"
 													rel="noopener noreferrer"
 												>

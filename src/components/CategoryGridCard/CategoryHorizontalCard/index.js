@@ -2,32 +2,38 @@ import { Link } from "react-router-dom";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import "./index.css";
+import { Progress } from "antd";
 
 export default function CategoryHorizontalCard(props) {
-	function truncateText(text, maxLength = 190) {
+	function truncateText(text, maxLength = 80) {
 		return text.length > maxLength
 			? text.substring(0, maxLength) + "..."
 			: text;
 	}
+	const project = props.project;
+	const currentPercentage =
+		((Number(project.raised_amount) + Number(project.current_reward)) /
+			Number(project.fund_amount)) *
+		100;
 
 	return (
-		<Link
-			to={`/projects/${props.owner_username.replace(
-				/\s+/g,
-				"-"
-			)}/${props.title.replace(/\s+/g, "-")}`}
-			className="subnav_link"
-		>
-			<div>
-				<Row
-					style={{
-						width: "100%",
-						height: "100%",
-						padding: "1vw 0vw 0vw 0vw",
-						position: "relative",
-					}}
-				>
-					<Col xs={5} style={{ height: "100%" }}>
+		<div>
+			<Row
+				style={{
+					width: "100%",
+					height: "100%",
+					padding: "1vw 0vw 0vw 0vw",
+					position: "relative",
+				}}
+			>
+				<Col xs={5} style={{ height: "100%" }}>
+					<Link
+						to={`/projects/${props.owner_username.replace(
+							/\s+/g,
+							"-"
+						)}/${props.title.replace(/\s+/g, "-")}`}
+						className="subnav_link"
+					>
 						<div style={{ position: "relative" }}>
 							<img
 								className="horizontal_card_image w-100"
@@ -70,9 +76,18 @@ export default function CategoryHorizontalCard(props) {
 									: "Finished"}
 							</p>
 						</div>
-					</Col>
-					<Col xs={7} className="ps-0">
-						<div>
+					</Link>
+				</Col>
+
+				<Col xs={7} className="ps-0">
+					<div>
+						<Link
+							to={`/projects/${props.owner_username.replace(
+								/\s+/g,
+								"-"
+							)}/${props.title.replace(/\s+/g, "-")}`}
+							className="subnav_link"
+						>
 							<p
 								className="p-0 m-0"
 								style={{
@@ -85,16 +100,37 @@ export default function CategoryHorizontalCard(props) {
 								{props.title}
 							</p>
 							<p
-								className="horizontal-card-description"
+								className="horizontal-card-description m-0 p-0"
 								style={{ color: "grey", fontSize: "0.9rem" }}
 							>
 								{truncateText(props.description)}
 							</p>
-						</div>
-					</Col>
-				</Row>
-				{/* <hr className="hor_underline" /> */}
-			</div>
-		</Link>
+						</Link>
+						<Link to={`/profile/${project.owner_username}`}>
+							<p
+								className="horizontal-card-by m-0 p-0"
+								style={{ fontSize: "0.8rem" }}
+							>
+								By {truncateText(project.owner_username)}
+							</p>
+						</Link>
+						{(project.live || project.raised_amount >= project.fund_amount) && (
+							<Progress
+								percent={Math.round(
+									((Number(project.raised_amount) +
+										Number(project.current_reward)) /
+										Number(project.fund_amount)) *
+										100
+								)}
+								size="small"
+								status="active"
+								strokeColor={currentPercentage >= 100 ? "#5BB85C" : "#CD77D3"}
+								showInfo={false}
+							/>
+						)}
+					</div>
+				</Col>
+			</Row>
+		</div>
 	);
 }

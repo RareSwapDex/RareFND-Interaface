@@ -5,12 +5,12 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import { Image, Avatar } from "antd";
 
 export default function PublicProfile() {
-	const profileId = window.location.href.split("/").at(-1);
+	const profileUsername = window.location.href.split("/").at(-1);
 	const [profileInfo, setProfileInfo] = useState(null);
 
 	useEffect(() => {
 		axios
-			.get(process.env.REACT_APP_BASE_URL + `/api/profile/${profileId}/`)
+			.get(process.env.REACT_APP_BASE_URL + `/api/profile/${profileUsername}/`)
 			.then((response) => {
 				if (response.status === 200) {
 					setProfileInfo(response.data);
