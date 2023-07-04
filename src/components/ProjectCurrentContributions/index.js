@@ -11,15 +11,65 @@ export default function ProjectCurrentContributions(props) {
 	const id = props.projectId;
 	const [projectData, setProjectData] = useState(null);
 	const [usdRaisedAmount, setUsdRaisedAmount] = useState(0);
+	const [currencyRaisedAmount, setCurrencyRaisedAmount] = useState(0);
+	const [currencyFundAmount, setCurrencyFundAmount] = useState(0);
+
 	const { t } = useTranslation();
+
+	const convertContributionAmountToUSD = async (amount, selectedCurrency) => {
+		try {
+			const response = await axios.post(
+				`${process.env.REACT_APP_BASE_URL}/api/currency-exchange/`,
+				{
+					from: selectedCurrency,
+					amount: amount,
+				}
+			);
+
+			const usdAmount = response.data.result;
+			return usdAmount;
+		} catch (error) {
+			console.error(
+				`${t("project.convertContributionAmountToUSDError")}:`,
+				error
+			);
+			return 0;
+		}
+	};
+
 	useEffect(() => {
 		let interval = setInterval(() => {
+			// let oldRaisedValue = 0;
 			axios
 				.get(process.env.REACT_APP_BASE_URL + `/api/project/${id}/`)
 				.then((response) => response.data)
-				.then((data) => {
+				.then(async function g(data) {
 					setProjectData(data);
+
+					if (
+						!currencyFundAmount &&
+						data &&
+						data.currency &&
+						data.currency.toLowerCase() !== "usd"
+					) {
+						setCurrencyFundAmount(Number(data.fund_amount) / 0.27226);
+					}
 					setUsdRaisedAmount(Number(data.raised_amount) + data.current_reward);
+					// if (
+					// 	Number(data.raised_amount) + data.current_reward !==
+					// 	oldRaisedValue
+					// )
+
+					if (
+						projectData &&
+						projectData.currency &&
+						projectData.currency.toLowerCase() !== "usd"
+					) {
+						setCurrencyRaisedAmount(
+							(Number(data.raised_amount) + data.current_reward) / 0.27226
+						);
+					}
+					// oldRaisedValue = Number(data.raised_amount) + data.current_reward;
 					if (
 						Number(data.raised_amount) + data.current_reward >=
 						data.fund_amount
@@ -49,12 +99,26 @@ export default function ProjectCurrentContributions(props) {
 					<Row className="justify-content-md-center">
 						<Col md={12} className="text-center" style={{ color: "white" }}>
 							<h1 className="display-6 fw-bold" style={{ color: "white" }}>
-								{`$ ${
-									Number(usdRaisedAmount).toLocaleString(undefined, {
+								{`${
+									projectData.currency &&
+									projectData.currency.toLowerCase() !== "usd"
+										? projectData.currency
+										: "$"
+								} ${
+									Number(
+										projectData.currency &&
+											projectData.currency.toLowerCase() !== "usd"
+											? currencyRaisedAmount
+											: usdRaisedAmount
+									).toLocaleString(undefined, {
 										minimumFractionDigits: 2,
 									})
 									// .toFixed(2).toLocaleString()
-								} / ${projectData.fund_amount.toLocaleString()}`}
+								} / ${(projectData.currency &&
+								projectData.currency.toLowerCase() !== "usd"
+									? currencyFundAmount
+									: projectData.fund_amount
+								).toLocaleString()}`}
 							</h1>
 							<ProgressBar
 								animated
@@ -87,7 +151,12 @@ export default function ProjectCurrentContributions(props) {
 									color: "white",
 								}}
 							>
-								{`$ ${Number(projectData.current_reward).toFixed(2)}`}
+								{`${
+									projectData.currency &&
+									projectData.currency.toLowerCase() !== "usd"
+										? projectData.currency
+										: "$"
+								} ${Number(projectData.current_reward).toFixed(2)}`}
 							</div>
 						</Col>
 						<Col md={6} className="text-center mt-1" style={{ color: "black" }}>
@@ -106,7 +175,11 @@ export default function ProjectCurrentContributions(props) {
 									color: "white",
 								}}
 							>
-								$ {Number(projectData.rewarded_amount).toLocaleString()}
+								{projectData.currency &&
+								projectData.currency.toLowerCase() !== "usd"
+									? projectData.currency
+									: "$"}{" "}
+								{Number(projectData.rewarded_amount).toLocaleString()}
 							</div>
 						</Col>
 					</Row>

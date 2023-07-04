@@ -113,6 +113,7 @@ export default function Project(props) {
 							projectId={projectData.id}
 							incentivesData={incentivesData}
 							projectLive={projectData.live}
+							projectData={projectData}
 							setSelectedIncentive={(id) => setSelectedIncentive(id)}
 						/>
 					)}

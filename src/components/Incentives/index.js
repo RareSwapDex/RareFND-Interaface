@@ -1,11 +1,18 @@
 import Button from "react-bootstrap/Button";
 import { Col, Row } from "react-bootstrap";
 import ContributeBtn from "../Web3ContributeButton";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
+import ContributionCurrencyContext from "../../Context/ContributionCurrencyContext";
 
 export default function Incentive(props) {
 	const { t } = useTranslation();
+	const {
+		selectedCurrency,
+		setSelectedCurrency,
+		contributionAmount,
+		setContributionAmount,
+	} = useContext(ContributionCurrencyContext);
 	const included_incentives = props.included_incentives;
 
 	return (
@@ -21,7 +28,20 @@ export default function Incentive(props) {
 			}}
 		>
 			<p className="incentive-price" style={{ fontSize: "20px" }}>
-				{t("project.contributeWith")} ${props.price} {t("project.orMore")}
+				{t("project.contributeWith")}{" "}
+				{props.projectData &&
+				props.projectData.currency &&
+				props.projectData.currency.toLowerCase() !== "usd"
+					? props.projectData.currency
+					: "$"}
+				{props.projectData &&
+				props.projectData.currency &&
+				props.projectData.currency.toLowerCase() !== "usd"
+					? Number(props.price / 0.27226).toLocaleString(undefined, {
+							minimumFractionDigits: 0,
+					  })
+					: props.price}{" "}
+				{t("project.orMore")}
 			</p>
 			<p
 				className="incentive-title"
@@ -99,7 +119,18 @@ export default function Incentive(props) {
 							autoComplete="off"
 							type="text"
 							pattern="(^[0-9]{0,1000}$)|(^[0-9]{0,10000}\.[0-9]{0,18}$)"
-							placeholder={" $  " + `+${props.price}`}
+							placeholder={
+								" $  " +
+								`+${
+									props.projectData &&
+									props.projectData.currency &&
+									props.projectData.currency.toLowerCase() !== "usd"
+										? Number(props.price / 0.27226).toLocaleString(undefined, {
+												minimumFractionDigits: 0,
+										  })
+										: props.price
+								}`
+							}
 							style={{ outline: "none", border: "none" }}
 							className="w-100 h-100"
 							onKeyPress={(e) => {
@@ -115,7 +146,13 @@ export default function Incentive(props) {
 									!e.target.value.includes(".") &&
 									e.preventDefault();
 							}}
-							value={props.price}
+							value={
+								props.projectData &&
+								props.projectData.currency &&
+								props.projectData.currency.toLowerCase() !== "usd"
+									? Number(props.price / 0.27226)
+									: props.price
+							}
 						/>
 					</div>
 				</Col>
@@ -132,11 +169,22 @@ export default function Incentive(props) {
 						}}
 						disabled={!props.projectLive || props.available_items <= 0}
 						onClick={() => {
-							document.getElementById("contribute-amount").value =
-								document.getElementById(
-									`contribute-amount-2-${props.index}`
-								).value;
+							setContributionAmount(
+								document.getElementById(`contribute-amount-2-${props.index}`)
+									.value
+							);
+							// document.getElementById("contribute-amount").value = "10";
+							// document.getElementById(
+							// 	`contribute-amount-2-${props.index}`
+							// ).value;
 							props.setSelectedIncentive(props.incentiveId);
+							if (
+								props.projectData &&
+								props.projectData.currency &&
+								props.projectData.currency.toLowerCase() !== "usd"
+							) {
+								setSelectedCurrency(props.projectData.currency.toUpperCase());
+							}
 							const element = document.getElementById("contribute-amount");
 							if (element) {
 								element.scrollIntoView({ block: "center" });

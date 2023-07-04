@@ -109,6 +109,7 @@ export default function ProjectDescription(props) {
 										project={_.project}
 										projectLive={props.projectLive}
 										index={idx}
+										projectData={props.projectData}
 										setSelectedIncentive={(id) =>
 											props.setSelectedIncentive(id)
 										}

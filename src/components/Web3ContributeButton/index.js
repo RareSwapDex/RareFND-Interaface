@@ -26,6 +26,7 @@ import { Input, Select } from "antd";
 import "./index.css";
 import { useTranslation } from "react-i18next";
 import LanguageContext from "../../Context/LanguageContext";
+import ContributionCurrencyContext from "../../Context/ContributionCurrencyContext";
 
 var regexp = /^\d+(\.\d{1,18})?$/;
 
@@ -59,9 +60,13 @@ export default function ContributeBtn(props) {
 	const [contributionEmailErr, setContributionEmailErr] = useState("");
 	const [show, setShow] = useState(false);
 	const { language, setLanguage } = useContext(LanguageContext);
-	const [selectedCurrency, setSelectedCurrency] = useState(
-		language === "arabic" ? "AED" : "USD"
-	);
+	const {
+		selectedCurrency,
+		setSelectedCurrency,
+		contributionAmount,
+		setContributionAmount,
+	} = useContext(ContributionCurrencyContext);
+
 	const [paymentCompleted, setPaymentCompleted] = useState(false);
 	const [donationMethod, setDonationMethod] = useState(null);
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -89,7 +94,7 @@ export default function ContributeBtn(props) {
 				}
 			);
 
-			const usdAmount = response.data.result;
+			const usdAmount = response.data.conversion_result;
 			return usdAmount;
 		} catch (error) {
 			console.error(
@@ -197,12 +202,13 @@ export default function ContributeBtn(props) {
 				return;
 			}
 		}
-		let contribution_amount =
-			document.getElementById("contribute-amount").value;
+		let contribution_amount = contributionAmount;
 
 		let usd_amount = 0;
 		if (selectedCurrency !== "USD") {
-			usd_amount = await convertContributionAmountToUSD(contribution_amount);
+			usd_amount = (
+				await convertContributionAmountToUSD(contribution_amount)
+			).toString();
 		} else {
 			usd_amount = contribution_amount;
 		}
@@ -211,15 +217,18 @@ export default function ContributeBtn(props) {
 			return alert(t("project.invalidAmount"));
 		} else {
 			await isReadyToContribute();
+
 			if (!walletAddress || (walletAddress && chainId !== TARGET_CHAIN)) {
 				document.querySelector("#connect-btn").click();
 			} else if (walletAddress && chainId === TARGET_CHAIN) {
 				try {
 					setPending(true);
+					console.log("contributionAmount-2", usd_amount);
 					const tx = () =>
 						staking?.stakeUsd(
 							ethers.utils.parseUnits(usd_amount, USDT_DECIMALS)
 						);
+					console.log(tx);
 					const status = await sendTx(
 						tx,
 						`${
@@ -261,6 +270,7 @@ export default function ContributeBtn(props) {
 	function setInputValue(usdAmount) {
 		document.getElementById("contribute-amount").value =
 			formatUsdInput(usdAmount);
+		setSelectedCurrency("USD");
 	}
 
 	async function claim() {
@@ -326,8 +336,7 @@ export default function ContributeBtn(props) {
 	}, [donationMethod]);
 
 	function openPopUp(e) {
-		let contribution_amount =
-			document.getElementById("contribute-amount").value;
+		let contribution_amount = contributionAmount;
 
 		setDonationMethod(e.target.name);
 
@@ -346,8 +355,7 @@ export default function ContributeBtn(props) {
 	}
 
 	async function donateByCardOrCrypto() {
-		let contribution_amount =
-			document.getElementById("contribute-amount").value;
+		let contribution_amount = contributionAmount;
 
 		let usd_amount = 0;
 		if (selectedCurrency !== "USD") {
@@ -360,12 +368,13 @@ export default function ContributeBtn(props) {
 			setContributionEmailErr(t("project.emailRequired"));
 		} else if (donationMethod === "donate-card") {
 			console.log(t("project.amountNotEnough"), usd_amount);
-			if (selectedCurrency === "USD" && contribution_amount < 16.5) {
+			if (selectedCurrency === "USD" && contribution_amount < 28) {
 				popupInfo(`${t("project.amountNotEnough")}`);
-			} else if (selectedCurrency !== "USD" && usd_amount < 16.5) {
+			} else if (selectedCurrency !== "USD" && usd_amount < 28) {
+				console.log("usd_amount-1", usd_amount);
 				const currency_rate = usd_amount / contribution_amount;
 				popupInfo(
-					`${t("project.amountShouldBe")}  ${(16.5 / currency_rate).toFixed(
+					`${t("project.amountShouldBe")}  ${(28 / currency_rate).toFixed(
 						2
 					)} ${selectedCurrency} ${t("project.orMore")}`
 				);
@@ -477,12 +486,15 @@ export default function ContributeBtn(props) {
 
 	const currenciesInput = (
 		<Select
-			defaultValue={language === "arabic" ? "AED" : "USD"}
+			// defaultValue={language === "arabic" ? "AED" : "USD"}
+			defaultValue={"AED"}
 			style={{ border: "none" }}
 			onChange={(value) => {
 				setSelectedCurrency(value);
 			}}
 			bordered={false}
+			id="contribution-currency"
+			value={selectedCurrency}
 		>
 			{mercuryoCurrencies.map((currency) => (
 				<Option value={currency} key={currency}>
@@ -636,6 +648,11 @@ export default function ContributeBtn(props) {
 														color: "black",
 														outline: "none",
 														// paddingLeft: "10px",
+													}}
+													value={contributionAmount}
+													onChange={(e) => {
+														console.log(e, e.target.value);
+														setContributionAmount(e.target.value);
 													}}
 												></Input>
 
