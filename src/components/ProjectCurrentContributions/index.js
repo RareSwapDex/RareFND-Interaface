@@ -60,11 +60,7 @@ export default function ProjectCurrentContributions(props) {
 					// 	oldRaisedValue
 					// )
 
-					if (
-						projectData &&
-						projectData.currency &&
-						projectData.currency.toLowerCase() !== "usd"
-					) {
+					if (data && data.currency && data.currency.toLowerCase() !== "usd") {
 						setCurrencyRaisedAmount(
 							(Number(data.raised_amount) + data.current_reward) / 0.27226
 						);
