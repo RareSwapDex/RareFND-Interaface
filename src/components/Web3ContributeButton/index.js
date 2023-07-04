@@ -268,9 +268,8 @@ export default function ContributeBtn(props) {
 	}
 
 	function setInputValue(usdAmount) {
-		document.getElementById("contribute-amount").value =
-			formatUsdInput(usdAmount);
 		setSelectedCurrency("USD");
+		setContributionAmount(formatUsdInput(usdAmount));
 	}
 
 	async function claim() {
