@@ -384,19 +384,6 @@ export default function Funding(props) {
 											type="text"
 											onBlur={(e) => {
 												handleInputChanges(e, `${item}`);
-												// const value = parseFloat(e.target.value);
-												// const maxAmount =
-												// 	props.projectData["funding"].projectFundsAmount;
-												// if (value >= maxAmount) {
-												// 	const newErrors = { ...props.formErrors };
-												// 	if (!newErrors.funding) newErrors.funding = {};
-												// 	if (!newErrors.funding[item])
-												// 		newErrors.funding[item] = {};
-												// 	newErrors.funding[item].fundingSpendAmount =
-												// 		"funding target must be split into at least 2 milestones";
-												// 	props.setFormErrors(newErrors);
-												// }
-												// handleInputChanges(e, `${item}`);
 											}}
 											onKeyPress={(e) => {
 												if (
@@ -458,7 +445,7 @@ export default function Funding(props) {
 																.fundingSpendDate
 														}
 														source="funding"
-														minDate={() => calculateMinDate()}
+														// minDate={() => calculateMinDate()}
 													/>
 												</div>
 											</div>

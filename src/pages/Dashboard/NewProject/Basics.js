@@ -542,15 +542,16 @@ export default function Basics(props) {
 						Deadline date<span className="required-asterisk">*</span>
 					</p>
 					<div className="input-with-title">
-						<Calendar
-							updateProjectData={props.updateProjectData}
-							name="projectDeadlineDate"
+						<DropDown
+							title="Choose an option"
+							id="projectDeadlineDate"
+							options={["30 days", "60 days", "90 days"]}
+							function_={(event) => props.updateProjectData(event, "basics")}
 							value={
 								props.projectData &&
 								props.projectData["basics"] &&
 								props.projectData["basics"].projectDeadlineDate
 							}
-							source="basics"
 						/>
 						<p className="invalid-input-p">
 							{props.formErrors && props.formErrors.projectDeadlineDate}

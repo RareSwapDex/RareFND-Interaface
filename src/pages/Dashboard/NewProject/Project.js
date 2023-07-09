@@ -23,13 +23,15 @@ export default function DashboardProjects() {
 	const [selectedNavItem, setSelectedNavItem] = useState(
 		"create-project-tab-1"
 	);
+	let storedData = JSON.parse(localStorage.getItem("createProjectData"));
 	const [projectData, setProjectData] = useState(
 		localStorage.getItem("createProjectData") &&
-			"certificateOfIncumbencyFile" in
-				JSON.parse(localStorage.getItem("createProjectData")).payment &&
-			"fundingSpend" in
-				JSON.parse(localStorage.getItem("createProjectData")).funding
-			? JSON.parse(localStorage.getItem("createProjectData"))
+			"certificateOfIncumbencyFile" in storedData.payment &&
+			"fundingSpend" in storedData.funding &&
+			["30 days", "60 days", "90 days", null].includes(
+				storedData.basics.projectDeadlineDate
+			)
+			? storedData
 			: {
 					basics: {
 						projectOwnerType: "",

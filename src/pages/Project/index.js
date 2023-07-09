@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import ProjectCard from "../../components/ProjectCard";
 import { useLocation } from "react-router-dom";
 import { useParams } from "react-router";
+import { Container } from "react-bootstrap";
 
 export default function Project(props) {
 	const [projectData, setProjectData] = useState({});
@@ -92,7 +93,9 @@ export default function Project(props) {
 						ownerProfilePicture={projectData.owner_profile_picture}
 						projectCategory={projectData.category}
 						selectedIncentive={() => selectedIncentive}
+						projectLiveDatetime={projectData.project_live_datetime}
 						incentivesData={incentivesData}
+						deadline={projectData.deadline}
 						setSelectedIncentive={(id) => setSelectedIncentive(id)}
 					/>
 					{(projectData.live || projectData.raised_amount > 0) && (

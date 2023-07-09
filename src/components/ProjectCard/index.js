@@ -20,6 +20,7 @@ import {
 	TwitterShareButton,
 	WhatsappShareButton,
 } from "react-share";
+import moment from "moment";
 
 import {
 	EmailIcon,
@@ -214,40 +215,66 @@ export default function ProjectCard(props) {
 									padding: "2% 5% 2% 5%",
 								}}
 							>
-								<div>
-									{props.incentivesData && props.incentivesData.length > 0 && (
-										<button
-											className="primaryButton"
-											onClick={() => {
-												const element =
-													document.getElementById("project-rewards");
-												if (element) {
-													element.scrollIntoView({ block: "start" });
-												}
-											}}
-										>
-											{t("project.rewards")}
-										</button>
-									)}
-									{document.getElementById("project-description") && (
-										<button
-											className={`primaryButton ${
-												props.incentivesData &&
-												props.incentivesData.length > 0 &&
-												"mx-4"
-											}`}
-											onClick={() => {
-												const element = document.getElementById(
-													"project-description"
-												);
-												if (element) {
-													element.scrollIntoView({ block: "start" });
-												}
-											}}
-										>
-											{t("project.description")}
-										</button>
-									)}
+								<div
+									style={{
+										display: "flex",
+										justifyContent: "space-between",
+										width: "100%",
+									}}
+								>
+									{props.projectLive &&
+										props.projectLiveDatetime &&
+										props.deadline && (
+											<p className="m-0 p-0">
+												<span
+													className="gradientText"
+													style={{ fontSize: "2.2rem", fontWeight: "bold" }}
+												>
+													{moment(props.projectLiveDatetime)
+														.add(Number(props.deadline), "days")
+														.diff(moment(), "days")}
+												</span>{" "}
+												<span style={{ color: "gray" }}>
+													{t("project.daysToGo")}
+												</span>
+											</p>
+										)}
+									<div style={{ display: "flex" }}>
+										{props.incentivesData &&
+											props.incentivesData.length > 0 && (
+												<button
+													className="primaryButton px-2 py-1"
+													onClick={() => {
+														const element =
+															document.getElementById("project-rewards");
+														if (element) {
+															element.scrollIntoView({ block: "start" });
+														}
+													}}
+												>
+													{t("project.rewards")}
+												</button>
+											)}
+										{document.getElementById("project-description") && (
+											<button
+												className={`primaryButton ${
+													props.incentivesData &&
+													props.incentivesData.length > 0 &&
+													"mx-2 px-2 py-1"
+												}`}
+												onClick={() => {
+													const element = document.getElementById(
+														"project-description"
+													);
+													if (element) {
+														element.scrollIntoView({ block: "start" });
+													}
+												}}
+											>
+												{t("project.description")}
+											</button>
+										)}
+									</div>
 								</div>
 							</div>
 							<div

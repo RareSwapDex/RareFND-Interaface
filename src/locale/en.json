@@ -143,7 +143,8 @@
 		"submit": "Submit",
 		"rareFndReward": "Rare FuND Reward",
 		"APYReward": "Total Donation Rewards (240% APY)",
-		"projectBy": "Project by"
+		"projectBy": "Project by",
+		"daysToGo": "days to go"
 	},
 	"aboutUs": {
 		"aboutUs": "About Us",
