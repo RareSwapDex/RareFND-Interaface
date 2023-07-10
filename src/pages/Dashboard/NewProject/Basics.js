@@ -19,7 +19,13 @@ export default function Basics(props) {
 		axios
 			.get(process.env.REACT_APP_BASE_URL + "/api/category/")
 			.then((response) => {
-				setCategories(response.data.categories);
+				if (process.env.NODE_ENV === "production") {
+					setCategories(
+						response.data.categories.filter((category) => category !== "Test")
+					);
+				} else {
+					setCategories(response.data.categories);
+				}
 			});
 		axios
 			.get(process.env.REACT_APP_BASE_URL + "/api/eligible_country/")
