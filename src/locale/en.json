@@ -2,10 +2,10 @@
 	"navBar": {
 		"topBanner": {
 			"buttons": {
-				"login": "login",
-				"dashboard": "dashboard",
-				"signUp": "signUp",
-				"logOut": "logOut"
+				"login": "Login",
+				"dashboard": "Dashboard",
+				"signUp": "Sign up",
+				"logOut": "Log out"
 			},
 			"text": "Give now and benefit from Give2Earn at Rare FND"
 		}

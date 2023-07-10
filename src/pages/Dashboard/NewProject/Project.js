@@ -25,9 +25,7 @@ export default function DashboardProjects() {
 	);
 	let storedData = JSON.parse(localStorage.getItem("createProjectData"));
 	const [projectData, setProjectData] = useState(
-		localStorage.getItem("createProjectData") &&
-			"certificateOfIncumbencyFile" in storedData.payment &&
-			"fundingSpend" in storedData.funding &&
+		storedData &&
 			["30 days", "60 days", "90 days", null].includes(
 				storedData.basics.projectDeadlineDate
 			)
@@ -83,22 +81,6 @@ export default function DashboardProjects() {
 	const formErrorsRef = useRef(formErrors);
 	formErrorsRef.current = formErrors;
 	var tmpFormErrors = {};
-
-	if (
-		(localStorage.getItem("createProjectData") &&
-			!(
-				"certificateOfIncumbencyFile" in
-				JSON.parse(localStorage.getItem("createProjectData")).payment
-			)) ||
-		(projectData &&
-			projectData.funding &&
-			!(
-				"fundingSpend" in
-				JSON.parse(localStorage.getItem("createProjectData")).funding
-			))
-	) {
-		localStorage.removeItem("createProjectData");
-	}
 
 	// useEffect(() => {
 	// 	if (
