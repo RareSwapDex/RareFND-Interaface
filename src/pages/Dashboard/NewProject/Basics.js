@@ -21,7 +21,9 @@ export default function Basics(props) {
 			.then((response) => {
 				if (process.env.NODE_ENV === "production") {
 					setCategories(
-						response.data.categories.filter((category) => category !== "Test")
+						response.data.categories.filter(
+							(category) => category.name !== "Test"
+						)
 					);
 				} else {
 					setCategories(response.data.categories);
@@ -31,7 +33,6 @@ export default function Basics(props) {
 			.get(process.env.REACT_APP_BASE_URL + "/api/eligible_country/")
 			.then((response) => {
 				let eligible_countries = response.data.eligible_countries;
-				console.log("-----------", eligible_countries);
 				eligible_countries.sort((a, b) =>
 					a.nicename > b.nicename ? 1 : b.nicename > a.nicename ? -1 : 0
 				);
