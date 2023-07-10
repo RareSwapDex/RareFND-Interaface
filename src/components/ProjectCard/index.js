@@ -473,22 +473,66 @@ export default function ProjectCard(props) {
 															{t("project.share")}:{" "}
 														</p>
 													</div>
-													<FacebookShareButton url={shareUrl}>
+													<FacebookShareButton
+														url={shareUrl}
+														quote={
+															"Turn the vision of " +
+															props.title +
+															" into reality! Check out this brilliant project"
+														}
+													>
 														<FacebookIcon size={32} />
 													</FacebookShareButton>
-													<TwitterShareButton url={shareUrl}>
+													<TwitterShareButton
+														title={
+															"Turn the vision of " +
+															props.title +
+															" into reality! Check out this brilliant project on @Rare_Fnd"
+														}
+														url={shareUrl}
+													>
 														<TwitterIcon size={32} />
 													</TwitterShareButton>
-													<TelegramShareButton url={shareUrl}>
+													<TelegramShareButton
+														title={
+															"Turn the vision of " +
+															props.title +
+															" into reality! Check out this brilliant project on @RareFnd"
+														}
+														url={shareUrl}
+													>
 														<TelegramIcon size={32} />
 													</TelegramShareButton>
-													<LinkedinShareButton url={shareUrl}>
+													<LinkedinShareButton
+														url={shareUrl}
+														title={props.title}
+														summary={
+															"Turn the vision of " +
+															props.title +
+															" into reality! Check out this brilliant project"
+														}
+													>
 														<LinkedinIcon size={32} />
 													</LinkedinShareButton>
-													<WhatsappShareButton url={shareUrl}>
+													<WhatsappShareButton
+														url={shareUrl}
+														title={
+															"Turn the vision of " +
+															props.title +
+															" into reality! Check out this brilliant project"
+														}
+													>
 														<WhatsappIcon size={32} />
 													</WhatsappShareButton>
-													<EmailShareButton url={shareUrl}>
+													<EmailShareButton
+														url={shareUrl}
+														subject={props.title}
+														body={
+															"Turn the vision of " +
+															props.title +
+															" into reality! Check out this brilliant project"
+														}
+													>
 														<EmailIcon size={32} />
 													</EmailShareButton>
 												</div>
