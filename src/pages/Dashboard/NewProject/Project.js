@@ -82,20 +82,6 @@ export default function DashboardProjects() {
 	formErrorsRef.current = formErrors;
 	var tmpFormErrors = {};
 
-	// useEffect(() => {
-	// 	if (
-	// 		projectData &&
-	// 		projectData.funding &&
-	// 		!(
-	// 			"fundingSpend" in
-	// 			JSON.parse(localStorage.getItem("createProjectData")).funding
-	// 		)
-	// 	) {
-	// 		localStorage.removeItem("createProjectData");
-	// 		window.location.reload();
-	// 	}
-	// }, []);
-
 	useEffect(() => {
 		console.log("formErrors", formErrors);
 	}, [formErrors]);
