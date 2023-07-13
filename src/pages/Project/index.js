@@ -24,7 +24,14 @@ export default function Project(props) {
 	const { pathname, hash, key } = useLocation();
 	var projectId = projectData.id || "";
 	let { owner, title } = useParams();
-	title = title.replace(/-/g, " ");
+
+	if (props.ownerTitle) {
+		// if ownerTitle is provided as a prop in few exceptions usually made to make the url shorter
+		({ owner, title } = props.ownerTitle);
+	} else {
+		// if ownerTitle is not provided, get owner and title from the URL params
+		title = title.replace(/-/g, " ");
+	}
 
 	useEffect(() => {
 		if (projectId !== "") {
@@ -38,7 +45,7 @@ export default function Project(props) {
 	}, [projectId]);
 
 	useEffect(() => {
-		if (pathname.includes("projects")) {
+		if (pathname.includes("projects") || props.ownerTitle !== null) {
 			axios
 				.get(process.env.REACT_APP_BASE_URL + `/api/projects/${title}/`)
 				.then((response) => {

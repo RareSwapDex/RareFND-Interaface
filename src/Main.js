@@ -98,6 +98,19 @@ export default function Main() {
 					path="/dashboard/projects"
 					element={<PrivateRoute Component={DashboardProjects} />}
 				/>
+				// Exceptions
+				<Route
+					exact
+					path="/ArtForHope"
+					element={
+						<Project
+							ownerTitle={{
+								owner: "ArtForHope",
+								title: "In Bloom Art For Hope",
+							}}
+						/>
+					}
+				/>
 			</Routes>
 		</div>
 	);
