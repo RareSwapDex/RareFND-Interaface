@@ -1,0 +1,30 @@
+.category-carousel {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.category-image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover; /* This is to ensure that the image covers the whole div */
+}
+
+.category-title {
+	position: absolute;
+	z-index: 1;
+	padding: 0;
+	margin: 0;
+	color: white;
+	font-weight: 700;
+	max-width: 100%;
+	font-size: 6rem;
+}
+
+/* This will apply if the viewport is 600px or less */
+@media (max-width: 750px) {
+	.category-title {
+		font-size: 3rem; /* You may adjust this value until the text looks good on your mobile device */
+	}
+}
