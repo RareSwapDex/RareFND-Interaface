@@ -11,7 +11,9 @@ export default function ProjectCurrentContributions(props) {
 	const id = props.projectId;
 	const [projectData, setProjectData] = useState(null);
 	const [usdRaisedAmount, setUsdRaisedAmount] = useState(0);
-	const [currencyRaisedAmount, setCurrencyRaisedAmount] = useState(0);
+	const [RaisedAmount, setRaisedAmount] = useState(0);
+	const [APYRaisedAmount, setAPYRaisedAmount] = useState(0);
+	const [RewardRaisedAmount, setRewardRaisedAmount] = useState(0);
 	const [currencyFundAmount, setCurrencyFundAmount] = useState(0);
 
 	const { t } = useTranslation();
@@ -54,16 +56,18 @@ export default function ProjectCurrentContributions(props) {
 					) {
 						setCurrencyFundAmount(Number(data.fund_amount) / 0.27226);
 					}
-					setUsdRaisedAmount(Number(data.raised_amount) + data.current_reward);
+
 					// if (
 					// 	Number(data.raised_amount) + data.current_reward !==
 					// 	oldRaisedValue
 					// )
-
+					setUsdRaisedAmount(Number(data.raised_amount) + data.current_reward);
 					if (data && data.currency && data.currency.toLowerCase() !== "usd") {
-						setCurrencyRaisedAmount(
+						setRaisedAmount(
 							(Number(data.raised_amount) + data.current_reward) / 0.27226
 						);
+					} else {
+						setRaisedAmount(Number(data.raised_amount) + data.current_reward);
 					}
 					// oldRaisedValue = Number(data.raised_amount) + data.current_reward;
 					if (
@@ -101,12 +105,7 @@ export default function ProjectCurrentContributions(props) {
 										? projectData.currency
 										: "$"
 								} ${
-									Number(
-										projectData.currency &&
-											projectData.currency.toLowerCase() !== "usd"
-											? currencyRaisedAmount
-											: usdRaisedAmount
-									).toLocaleString(undefined, {
+									Number(RaisedAmount).toLocaleString(undefined, {
 										minimumFractionDigits: 2,
 									})
 									// .toFixed(2).toLocaleString()
@@ -152,7 +151,14 @@ export default function ProjectCurrentContributions(props) {
 									projectData.currency.toLowerCase() !== "usd"
 										? projectData.currency
 										: "$"
-								} ${Number(projectData.current_reward).toFixed(2)}`}
+								} ${
+									projectData.currency &&
+									projectData.currency.toLowerCase() !== "usd"
+										? Number(
+												projectData.current_reward / 0.27226
+										  ).toLocaleString()
+										: Number(projectData.current_reward).toLocaleString()
+								}`}
 							</div>
 						</Col>
 						<Col md={6} className="text-center mt-1" style={{ color: "black" }}>
@@ -175,7 +181,12 @@ export default function ProjectCurrentContributions(props) {
 								projectData.currency.toLowerCase() !== "usd"
 									? projectData.currency
 									: "$"}{" "}
-								{Number(projectData.rewarded_amount).toLocaleString()}
+								{projectData.currency &&
+								projectData.currency.toLowerCase() !== "usd"
+									? Number(
+											projectData.rewarded_amount / 0.27226
+									  ).toLocaleString()
+									: Number(projectData.rewarded_amount).toLocaleString()}
 							</div>
 						</Col>
 					</Row>
