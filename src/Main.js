@@ -11,6 +11,7 @@ import Signup from "./pages/SignupPage";
 import PublicProfile from "./pages/PublicProfile";
 import ResetPassword from "./pages/ResetPassword";
 import Project from "./pages/Project";
+import RSVP from "./pages/RSVP";
 import PrivateRoute from "./utils/PrivateRoute";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -104,6 +105,18 @@ export default function Main() {
 					path="/ArtForHope"
 					element={
 						<Project
+							ownerTitle={{
+								owner: "ArtForHope",
+								title: "In Bloom Art For Hope",
+							}}
+						/>
+					}
+				/>
+				<Route
+					exact
+					path="/ArtForHopeVIP"
+					element={
+						<RSVP
 							ownerTitle={{
 								owner: "ArtForHope",
 								title: "In Bloom Art For Hope",

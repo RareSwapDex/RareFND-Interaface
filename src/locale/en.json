@@ -223,5 +223,9 @@
 		"startProject": {
 			"title": "Start New Project"
 		}
+	},
+	"rsvp": {
+		"live": "Live",
+		"finished": "Finished"
 	}
 }
