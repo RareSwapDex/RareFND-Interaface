@@ -351,7 +351,7 @@ export default function ProjectCard(props) {
 										</Button>
 										<Modal
 											title="Please RSVP to confirm your attendance"
-											open={isModalVisible}
+											visible={isModalVisible}
 											onOk={handleOk}
 											onCancel={handleCancel}
 											okText="Submit"
@@ -374,7 +374,11 @@ export default function ProjectCard(props) {
 														},
 													]}
 												>
-													<Input />
+													<Input
+														onChange={(e) =>
+															setFormData({ ...formData, name: e.target.value })
+														}
+													/>
 												</Form.Item>
 
 												<Form.Item
@@ -388,7 +392,14 @@ export default function ProjectCard(props) {
 														},
 													]}
 												>
-													<Input />
+													<Input
+														onChange={(e) =>
+															setFormData({
+																...formData,
+																email: e.target.value,
+															})
+														}
+													/>
 												</Form.Item>
 											</Form>
 										</Modal>
