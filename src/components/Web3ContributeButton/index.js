@@ -881,7 +881,7 @@ export default function ContributeBtn(props) {
 				<Modal.Body>
 					<Form>
 						<Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-							<Form.Label>{t("project.email")}</Form.Label>
+							<Form.Label>{t("project.enterEmail")}</Form.Label>
 							<Form.Control
 								type="email"
 								value={contributionEmail}
