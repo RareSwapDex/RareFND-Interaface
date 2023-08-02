@@ -5,6 +5,19 @@ import { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import ContributionCurrencyContext from "../../Context/ContributionCurrencyContext";
 
+function toTitleCase(str) {
+	return str
+		.split("-")
+		.map((subStr) =>
+			subStr
+				.split(" ")
+				.map(
+					(word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+				)
+				.join(" ")
+		)
+		.join("-");
+}
 export default function Incentive(props) {
 	const { t } = useTranslation();
 	const {
@@ -47,10 +60,10 @@ export default function Incentive(props) {
 				className="incentive-title"
 				style={{ fontSize: "15px", fontWeight: "bold" }}
 			>
-				{props.title}
+				{toTitleCase(props.title)}
 			</p>
 			<p className="incentive-description" style={{ fontSize: "13px" }}>
-				{props.description}
+				{toTitleCase(props.description)}
 			</p>
 			{Array.from(included_incentives).length > 0 && (
 				<div>
@@ -62,7 +75,7 @@ export default function Incentive(props) {
 					</p>
 					<ul className="included-incentives" style={{ fontSize: "13px" }}>
 						{Array.from(included_incentives).map((_, idx) => (
-							<li>{_}</li>
+							<li>{toTitleCase(_)}</li>
 						))}
 					</ul>
 				</div>

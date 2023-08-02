@@ -134,8 +134,8 @@
 		"contribute": "contribute",
 		"contributeWith": "Contribute",
 		"byFnd": "by FND",
-		"byCrypto": "by crypto",
-		"byCard": "by card",
+		"byCrypto": "by Crypto",
+		"byCard": "by Card",
 		"claim": "Claim",
 		"transactionHash": "Transaction Hash",
 		"enterEmail": "Enter you email address",
@@ -144,7 +144,8 @@
 		"rareFndReward": "Rare FuND Reward",
 		"APYReward": "Total Donation Rewards (240% APY)",
 		"projectBy": "Project by",
-		"daysToGo": "days to go"
+		"daysToGo": "days to go",
+		"pay": "Pay"
 	},
 	"aboutUs": {
 		"aboutUs": "About Us",

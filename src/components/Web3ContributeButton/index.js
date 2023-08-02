@@ -706,6 +706,45 @@ export default function ContributeBtn(props) {
 									}}
 								>
 									<Col className="p-1 w-20" style={{ width: "100%" }}>
+										<Button
+											id="contribute-usd-btn"
+											name="donate-card"
+											size="lg"
+											style={{
+												width: "100%",
+												fontSize: "1rem",
+												maxHeight: "100%",
+												borderRadius: "35px 35px 35px 35px",
+												background:
+													"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+												border: "none",
+											}}
+											onClick={(e) => openPopUp(e)}
+											disabled={!projectLive}
+										>
+											{t("project.pay")} {t("project.byCard")}
+										</Button>
+									</Col>
+								</Row>
+							</div>
+							<div
+								className="align-self-end text-center w-70 mx-auto"
+								style={{
+									padding: 5,
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "center",
+								}}
+							>
+								<Row
+									className="mx-auto no-gutters jumbotron d-flex align-items-center"
+									style={{
+										padding: "0 0 0 0",
+										width: "100%",
+										maxWidth: "500px",
+									}}
+								>
+									<Col className="p-1 w-30" style={{ width: "100%" }}>
 										{provider ? (
 											<Button
 												id="contribute-fnd-btn"
@@ -734,10 +773,7 @@ export default function ContributeBtn(props) {
 													pending
 												}
 											>
-												{props.projectCategory === 2
-													? t("project.donate")
-													: t("project.contribute")}{" "}
-												{t("project.byFnd")}
+												{t("project.pay")} {t("project.byFnd")}
 											</Button>
 										) : (
 											<Button
@@ -757,32 +793,10 @@ export default function ContributeBtn(props) {
 												}
 												disabled={!projectLive}
 											>
-												{props.projectCategory === 2
-													? t("project.donate")
-													: t("project.contribute")}{" "}
-												{t("project.byFnd")}
+												{t("project.pay")} {t("project.byFnd")}
 											</Button>
 										)}
 									</Col>
-								</Row>
-							</div>
-							<div
-								className="align-self-end text-center w-70 mx-auto"
-								style={{
-									padding: 5,
-									display: "flex",
-									alignItems: "center",
-									justifyContent: "center",
-								}}
-							>
-								<Row
-									className="mx-auto no-gutters jumbotron d-flex align-items-center"
-									style={{
-										padding: "0 0 0 0",
-										width: "100%",
-										maxWidth: "500px",
-									}}
-								>
 									<Col className="p-1 w-30" style={{ width: "100%" }}>
 										<Button
 											id="donate-crypto"
@@ -800,33 +814,7 @@ export default function ContributeBtn(props) {
 											onClick={(e) => openPopUp(e)}
 											disabled={!projectLive}
 										>
-											{props.projectCategory === 2
-												? t("project.donate")
-												: t("project.contribute")}{" "}
-											{t("project.byCrypto")}
-										</Button>
-									</Col>
-									<Col className="p-1 w-30" style={{ width: "100%" }}>
-										<Button
-											id="contribute-usd-btn"
-											name="donate-card"
-											size="lg"
-											style={{
-												width: "100%",
-												fontSize: "1rem",
-												maxHeight: "100%",
-												borderRadius: "35px 35px 35px 35px",
-												background:
-													"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
-												border: "none",
-											}}
-											onClick={(e) => openPopUp(e)}
-											disabled={!projectLive}
-										>
-											{props.projectCategory === 2
-												? t("project.donate")
-												: t("project.contribute")}{" "}
-											{t("project.byCard")}
+											{t("project.pay")} {t("project.byCrypto")}
 										</Button>
 									</Col>
 								</Row>
