@@ -11,12 +11,29 @@ export default function ProjectDescription(props) {
 	const { t } = useTranslation();
 
 	let incentivesData = props.incentivesData;
+	console.log(incentivesData);
 	if (incentivesData) {
-		incentivesData.sort(function (a, b) {
-			var x = a.price;
-			var y = b.price;
-			return x < y ? -1 : x > y ? 1 : 0;
-		});
+		// Separate items with display_order and items without
+		let withDisplayOrder = incentivesData.filter(
+			(item) => item.display_order !== null
+		);
+		let withoutDisplayOrder = incentivesData.filter(
+			(item) => item.display_order === null
+		);
+
+		// Sort items by price
+		withoutDisplayOrder.sort((a, b) => a.price - b.price);
+
+		// Sort items with display_order by the order value
+		withDisplayOrder.sort((a, b) => a.display_order - b.display_order);
+
+		// Insert items with display_order into the sorted array
+		for (let item of withDisplayOrder) {
+			withoutDisplayOrder.splice(item.display_order - 1, 0, item);
+		}
+
+		// Final sorted array
+		incentivesData = withoutDisplayOrder;
 	}
 	return (
 		<div
