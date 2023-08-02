@@ -63,7 +63,7 @@ export default function Incentive(props) {
 				{toTitleCase(props.title)}
 			</p>
 			<p className="incentive-description" style={{ fontSize: "13px" }}>
-				{toTitleCase(props.description)}
+				{props.description}
 			</p>
 			{Array.from(included_incentives).length > 0 && (
 				<div>
@@ -75,7 +75,7 @@ export default function Incentive(props) {
 					</p>
 					<ul className="included-incentives" style={{ fontSize: "13px" }}>
 						{Array.from(included_incentives).map((_, idx) => (
-							<li>{toTitleCase(_)}</li>
+							<li>{_}</li>
 						))}
 					</ul>
 				</div>
