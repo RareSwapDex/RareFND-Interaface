@@ -104,6 +104,7 @@ export default function Project(props) {
 						incentivesData={incentivesData}
 						deadline={projectData.deadline}
 						setSelectedIncentive={(id) => setSelectedIncentive(id)}
+						projectData={projectData}
 					/>
 					{(projectData.live || projectData.raised_amount > 0) && (
 						<ProjectCurrentContributions

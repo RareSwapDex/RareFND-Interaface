@@ -76,6 +76,16 @@ export default function ContributeBtn(props) {
 	const tokenAddress = token_info.token_address;
 	const id = props.projectId;
 
+	useEffect(() => {
+		if (
+			props.projectData &&
+			props.projectData.currency &&
+			props.projectData.currency.toLowerCase() !== "usd"
+		)
+			setSelectedCurrency(props.projectData.currency);
+		else setSelectedCurrency("USD");
+	}, []);
+
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
@@ -267,7 +277,7 @@ export default function ContributeBtn(props) {
 		return status;
 	}
 
-	function setInputValue(usdAmount) {
+	function setInputValueToMax(usdAmount) {
 		setSelectedCurrency("USD");
 		setContributionAmount(formatUsdInput(usdAmount));
 	}
@@ -485,8 +495,14 @@ export default function ContributeBtn(props) {
 
 	const currenciesInput = (
 		<Select
-			// defaultValue={language === "arabic" ? "AED" : "USD"}
-			defaultValue={"AED"}
+			defaultValue={
+				props.projectData &&
+				props.projectData.currency &&
+				props.projectData.currency.toLowerCase() !== "usd"
+					? props.projectData.currency
+					: "USD"
+			}
+			// defaultValue={"AED"}
 			style={{ border: "none" }}
 			onChange={(value) => {
 				setSelectedCurrency(value);
@@ -662,7 +678,7 @@ export default function ContributeBtn(props) {
 														border: "none",
 													}}
 													size="sm"
-													onClick={() => setInputValue(usdBalance || "0")}
+													onClick={() => setInputValueToMax(usdBalance || "0")}
 												>
 													{t("project.max")}
 												</Button>

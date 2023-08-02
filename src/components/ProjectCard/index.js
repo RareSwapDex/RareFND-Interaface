@@ -401,6 +401,7 @@ export default function ProjectCard(props) {
 														setSelectedIncentive={(id) =>
 															props.setSelectedIncentive(id)
 														}
+														projectData={props.projectData}
 													/>
 													{props.number_of_donators && (
 														<div className="center-div">
