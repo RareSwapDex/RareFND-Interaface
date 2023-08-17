@@ -16,3 +16,7 @@
 .contribution-details {
 	--ant-primary-color-outline: none !important;
 }
+
+.ant-select-dropdown {
+	z-index: 1200 !important;
+}
