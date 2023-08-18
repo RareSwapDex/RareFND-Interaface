@@ -618,6 +618,7 @@ export default function ContributeBtn(props) {
 						  )
 						: ""}
 					<Button
+						id="contribute-to-project-btn"
 						style={{
 							width: "100%",
 							fontSize: "1rem",

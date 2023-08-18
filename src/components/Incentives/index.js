@@ -186,10 +186,6 @@ export default function Incentive(props) {
 								document.getElementById(`contribute-amount-2-${props.index}`)
 									.value
 							);
-							// document.getElementById("contribute-amount").value = "10";
-							// document.getElementById(
-							// 	`contribute-amount-2-${props.index}`
-							// ).value;
 							props.setSelectedIncentive(props.incentiveId);
 							if (
 								props.projectData &&
@@ -198,9 +194,11 @@ export default function Incentive(props) {
 							) {
 								setSelectedCurrency(props.projectData.currency.toUpperCase());
 							}
-							const element = document.getElementById("contribute-amount");
+							const element = document.getElementById(
+								"contribute-to-project-btn"
+							);
 							if (element) {
-								element.scrollIntoView({ block: "center" });
+								element.click();
 							}
 						}}
 					>

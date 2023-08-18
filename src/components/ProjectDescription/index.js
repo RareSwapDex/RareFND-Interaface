@@ -140,18 +140,11 @@ export default function ProjectDescription(props) {
 								maxWidth: "100vw",
 							}}
 						></div>
-						<div
-							dangerouslySetInnerHTML={{ __html: props.description }}
-							style={{ maxWidth: "100vw" }}
-						></div>
 					</TabPane>
 					<TabPane tab="Rewards" key="2">
 						{/* Rewards content here */}
 						{incentivesData && incentivesData.length > 0 && (
 							<div>
-								<h1 className="text-center" id="project-rewards">
-									{t("project.rewards")}
-								</h1>
 								<div>
 									<div
 										className="mx-auto"
