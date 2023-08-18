@@ -240,7 +240,7 @@ export default function ProjectCard(props) {
 											</p>
 										)}
 									<div style={{ display: "flex" }}>
-										{props.incentivesData &&
+										{/* {props.incentivesData &&
 											props.incentivesData.length > 0 && (
 												<button
 													className="primaryButton px-2 py-1"
@@ -254,7 +254,7 @@ export default function ProjectCard(props) {
 												>
 													{t("project.rewards")}
 												</button>
-											)}
+											)} */}
 										{document.getElementById("project-description") && (
 											<button
 												className={`primaryButton ${
@@ -269,6 +269,10 @@ export default function ProjectCard(props) {
 													if (element) {
 														element.scrollIntoView({ block: "start" });
 													}
+												}}
+												style={{
+													paddingBottom: "0 !important",
+													paddingTop: "0 !important",
 												}}
 											>
 												{t("project.description")}
