@@ -7,22 +7,15 @@
 		"@ckeditor/ckeditor5-react": "^6.0.0",
 		"@coinbase/wallet-sdk": "^3.4.0",
 		"@emailjs/browser": "^3.6.2",
-		"@emotion/react": "^11.10.0",
-		"@emotion/styled": "^11.10.0",
 		"@mui/icons-material": "^5.10.2",
 		"@mui/material": "^5.10.2",
 		"@testing-library/jest-dom": "^5.16.4",
-		"@testing-library/react": "^13.3.0",
-		"@testing-library/user-event": "^13.5.0",
 		"@walletconnect/web3-provider": "1.7.3",
 		"animate.css": "^4.1.1",
 		"antd": "^5.0.0",
 		"axios": "^0.27.2",
 		"bootstrap": "^5.2.0",
 		"bootstrap-icons": "^1.9.1",
-		"cdbreact": "^1.5.3",
-		"ckeditor5-custom-build": "file:custom-ckeditor5",
-		"ckeditorbuild": "file:src/CKEditorBuild",
 		"dayjs": "^1.11.5",
 		"ethers": "^5.6.9",
 		"hamburger-react": "^2.5.0",
@@ -30,20 +23,17 @@
 		"i18next-browser-languagedetector": "^7.0.1",
 		"i18next-http-backend": "^2.2.0",
 		"izitoast": "^1.4.0",
-		"js-sha512": "^0.8.0",
 		"jwt-decode": "^3.1.2",
-		"lodash": "^4.17.21",
 		"moment": "^2.29.4",
 		"react": "^18.2.0",
 		"react-animation-on-scroll": "^5.1.0",
+		"react-app-rewired": "^2.2.1",
 		"react-bootstrap": "^2.4.0",
-		"react-calendar": "^3.7.0",
-		"react-chartjs-2": "^4.3.1",
 		"react-date-picker": "^8.4.0",
 		"react-dom": "^18.2.0",
 		"react-i18next": "^12.2.2",
 		"react-icons": "^4.8.0",
-		"react-iframe": "^1.8.5",
+		"react-lazy-load": "^4.0.1",
 		"react-phone-input-2": "^2.15.1",
 		"react-router-dom": "^6.3.0",
 		"react-scripts": "^4.0.3",
@@ -51,10 +41,7 @@
 		"react-slick": "^0.29.0",
 		"react-spinners": "^0.13.6",
 		"react-use-file-upload": "^0.9.5",
-		"sass": "^1.54.5",
-		"sha512": "^0.0.1",
 		"slick-carousel": "^1.8.1",
-		"use-handle-change": "^2.2.9",
 		"validator": "^13.7.0",
 		"web-vitals": "^2.1.4",
 		"web3modal": "1.9.5"
@@ -64,12 +51,6 @@
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"
-	},
-	"eslintConfig": {
-		"extends": [
-			"react-app",
-			"react-app/jest"
-		]
 	},
 	"browserslist": {
 		"production": [
@@ -84,9 +65,11 @@
 		]
 	},
 	"devDependencies": {
-		"@ckeditor/ckeditor5-alignment": "^38.0.1",
+		"customize-cra": "^1.0.0",
+		"image-webpack-loader": "^8.1.0",
 		"install": "^0.13.0",
 		"npm": "^9.6.7",
-		"webpack": "^4.44.0"
+		"webpack": "^4.44.0",
+		"webpack-bundle-analyzer": "^4.9.0"
 	}
 }

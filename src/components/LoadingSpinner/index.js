@@ -14,7 +14,6 @@ function LoadingSpinner(props) {
 		<div
 			className="sweet-loading"
 			style={{
-				width: "100%",
 				height: "100",
 				display: "flex",
 				justifyContent: "center",
@@ -24,10 +23,11 @@ function LoadingSpinner(props) {
 			<BeatLoader
 				loading={loading}
 				cssOverride={override}
-				size={100}
+				size={50}
 				color={props.color || "#ffffff"}
 				aria-label="Loading Spinner"
 				data-testid="loader"
+				// className="beat-loader"
 			/>
 		</div>
 	);

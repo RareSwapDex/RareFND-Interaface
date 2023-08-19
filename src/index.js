@@ -6,6 +6,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ConfigProvider } from "antd";
+import LazyLoad from "react-lazy-load";
 import "antd/dist/reset.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -24,7 +25,9 @@ root.render(
 		{/* <React.StrictMode> */}
 		<Router>
 			<ConfigProvider>
-				<App />
+				<LazyLoad height={200} once>
+					<App />
+				</LazyLoad>
 			</ConfigProvider>
 		</Router>
 		{/* </React.StrictMode> */}

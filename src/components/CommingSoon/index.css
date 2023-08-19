@@ -15,7 +15,7 @@
 .textCol {
 	display: flex;
 	order: 0;
-	justify-content: end;
+	justify-content: flex-end;
 	padding-top: 4rem;
 }
 .textCol h3 {

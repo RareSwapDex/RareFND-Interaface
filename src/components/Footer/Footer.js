@@ -94,12 +94,12 @@ export default function Footer() {
 								<li>
 									<a href="/about-us"> {t("footer.quickLinks.1")} </a>
 								</li>
-								<li>
+								{/* <li>
 									<a href="/"> {t("footer.quickLinks.2")} </a>
 								</li>
 								<li>
 									<a href="/"> {t("footer.quickLinks.3")} </a>
-								</li>
+								</li> */}
 								<li>
 									<a
 										href="https://rarefnd.zendesk.com/hc/en-gb"
@@ -155,7 +155,7 @@ export default function Footer() {
 										{t("footer.partnerships.1")}
 									</a>
 								</li>
-								<li>
+								{/* <li>
 									<a href="/"> {t("footer.partnerships.2")} </a>
 								</li>
 								<li>
@@ -163,7 +163,7 @@ export default function Footer() {
 								</li>
 								<li>
 									<a href="/"> {t("footer.partnerships.4")} </a>
-								</li>
+								</li> */}
 								<li>
 									<a
 										target="_blank"

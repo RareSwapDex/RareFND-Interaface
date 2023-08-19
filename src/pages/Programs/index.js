@@ -42,14 +42,14 @@ export default function About() {
 					<p>{t("aboutUs.ourTeamParagraph")}</p>
 					<h2>{t("aboutUs.ourCommunity")}</h2>
 					<p>{t("aboutUs.ourCommunityParagraph")}</p>
-					<br />
+					{/* <br />
 					<br />
 					<h2>{t("aboutUs.whitepaper")}</h2>
 					{t("aboutUs.whitepaperParagraph")}{" "}
 					<a href={rareFndData.white_paper} target="_blank" rel="noreferrer">
 						{t("aboutUs.here")}
 					</a>
-					.
+					. */}
 				</div>
 			</div>
 		</div>

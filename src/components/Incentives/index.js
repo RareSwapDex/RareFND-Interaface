@@ -1,7 +1,6 @@
 import Button from "react-bootstrap/Button";
 import { Col, Row } from "react-bootstrap";
-import ContributeBtn from "../Web3ContributeButton";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import ContributionCurrencyContext from "../../Context/ContributionCurrencyContext";
 
