@@ -391,41 +391,41 @@ export default function ContributeBtn(props) {
 			duration: 60,
 		});
 
-		let contribution_amount = contributionAmount;
+		// let contribution_amount = contributionAmount;
 
-		let usd_amount = 0;
-		if (selectedCurrency !== "USD") {
-			usd_amount = await convertContributionAmountToUSD(contribution_amount);
-		} else {
-			usd_amount = contribution_amount;
-		}
+		// let usd_amount = 0;
+		// if (selectedCurrency !== "USD") {
+		// 	usd_amount = await convertContributionAmountToUSD(contribution_amount);
+		// } else {
+		// 	usd_amount = contribution_amount;
+		// }
 
-		if (!contributionEmail) {
-			setContributionEmailErr(t("project.emailRequired"));
-		} else if (donationMethod === "donate-card") {
-			console.log(t("project.amountNotEnough"), usd_amount);
-			if (selectedCurrency === "USD" && contribution_amount < 28) {
-				popupInfo(`${t("project.amountNotEnough")}`);
-			} else if (selectedCurrency !== "USD" && usd_amount < 28) {
-				console.log("usd_amount-1", usd_amount);
-				const currency_rate = usd_amount / contribution_amount;
-				popupInfo(
-					`${t("project.amountShouldBe")}  ${(28 / currency_rate).toFixed(
-						2
-					)} ${selectedCurrency} ${t("project.orMore")}`
-				);
-			} else {
-				document.getElementById("submit-email-form").disabled = true;
-				if (usd_amount >= 5000) {
-					donateByStripe(usd_amount);
-				} else {
-					donateByMercuryo(usd_amount);
-				}
-			}
-		} else {
-			document.getElementById("submit-email-form").disabled = true;
-			donateByCrypto(usd_amount);
-		}
+		// if (!contributionEmail) {
+		// 	setContributionEmailErr(t("project.emailRequired"));
+		// } else if (donationMethod === "donate-card") {
+		// 	console.log(t("project.amountNotEnough"), usd_amount);
+		// 	if (selectedCurrency === "USD" && contribution_amount < 28) {
+		// 		popupInfo(`${t("project.amountNotEnough")}`);
+		// 	} else if (selectedCurrency !== "USD" && usd_amount < 28) {
+		// 		console.log("usd_amount-1", usd_amount);
+		// 		const currency_rate = usd_amount / contribution_amount;
+		// 		popupInfo(
+		// 			`${t("project.amountShouldBe")}  ${(28 / currency_rate).toFixed(
+		// 				2
+		// 			)} ${selectedCurrency} ${t("project.orMore")}`
+		// 		);
+		// 	} else {
+		// 		document.getElementById("submit-email-form").disabled = true;
+		// 		if (usd_amount >= 5000) {
+		// 			donateByStripe(usd_amount);
+		// 		} else {
+		// 			donateByMercuryo(usd_amount);
+		// 		}
+		// 	}
+		// } else {
+		// 	document.getElementById("submit-email-form").disabled = true;
+		// 	donateByCrypto(usd_amount);
+		// }
 	}
 
 	function donateByStripe(contribution_amount) {
