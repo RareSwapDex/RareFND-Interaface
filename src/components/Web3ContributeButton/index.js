@@ -415,8 +415,12 @@ export default function ContributeBtn(props) {
 					)} ${selectedCurrency} ${t("project.orMore")}`
 				);
 			} else {
+				console.log("props.projectName", props.projectName);
 				document.getElementById("submit-email-form").disabled = true;
-				if (usd_amount >= 5000) {
+				if (
+					usd_amount >= 5000 ||
+					props.projectName.toLowerCase() === "in bloom art for hope"
+				) {
 					donateByStripe(usd_amount);
 				} else {
 					donateByMercuryo(usd_amount);
