@@ -20,3 +20,6 @@
 .ant-select-dropdown {
 	z-index: 1200 !important;
 }
+.ant-notification .ant-notification-top {
+	z-index: 1300;
+}

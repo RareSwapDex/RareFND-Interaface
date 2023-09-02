@@ -383,6 +383,14 @@ export default function ContributeBtn(props) {
 	}
 
 	async function donateByCardOrCrypto() {
+		api.info({
+			message: "Please wait",
+			description:
+				"Please wait few seconds while we are getting your payment url",
+			placement: "top",
+			duration: 60,
+		});
+
 		let contribution_amount = contributionAmount;
 
 		let usd_amount = 0;
