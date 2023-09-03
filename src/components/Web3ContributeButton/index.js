@@ -424,9 +424,7 @@ export default function ContributeBtn(props) {
 				document.getElementById("submit-email-form").disabled = true;
 				if (
 					usd_amount >= 5000 ||
-					(props.projectName.toLowerCase() === "in bloom art for hope" &&
-						usd_amount >= 2720 &&
-						usd_amount <= 2730)
+					props.projectName.toLowerCase() === "in bloom art for hope"
 				) {
 					donateByStripe(usd_amount);
 				} else {
