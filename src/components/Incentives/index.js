@@ -1,8 +1,9 @@
 import Button from "react-bootstrap/Button";
 import { Col, Row } from "react-bootstrap";
-import { useContext } from "react";
+import { useContext, createRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import ContributionCurrencyContext from "../../Context/ContributionCurrencyContext";
+import { useSearchParams } from "react-router-dom";
 
 function toTitleCase(str) {
 	return str
@@ -17,8 +18,10 @@ function toTitleCase(str) {
 		)
 		.join("-");
 }
+
 export default function Incentive(props) {
 	const { t } = useTranslation();
+	const [searchParams, setSearchParams] = useSearchParams();
 	const {
 		selectedCurrency,
 		setSelectedCurrency,
@@ -26,9 +29,22 @@ export default function Incentive(props) {
 		setContributionAmount,
 	} = useContext(ContributionCurrencyContext);
 	const included_incentives = props.included_incentives;
+	const myRef = createRef();
+
+	console.log('searchParams.get("incentive")', searchParams.get("incentive"));
+	useEffect(() => {
+		if (
+			searchParams.get("incentive") &&
+			searchParams.get("incentive").toLowerCase() === props.title.toLowerCase()
+		) {
+			myRef.current.scrollIntoView({ behavior: "smooth" });
+		}
+	}, []);
 
 	return (
 		<div
+			ref={myRef}
+			id={props.title}
 			className="incentive border-1 mx-auto w-100"
 			style={{
 				width: "80%",

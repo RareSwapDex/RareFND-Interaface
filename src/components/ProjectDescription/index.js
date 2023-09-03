@@ -7,10 +7,26 @@ import { Link } from "react-router-dom";
 import { Image, Avatar } from "antd";
 import { useTranslation } from "react-i18next";
 import { Tabs } from "antd";
+import { useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 const { TabPane } = Tabs;
 
 export default function ProjectDescription(props) {
 	const { t } = useTranslation();
+	const [searchParams, setSearchParams] = useSearchParams();
+	const [activeKey, setActiveKey] = useState("1"); // default tab
+
+	useEffect(() => {
+		console.log(
+			'searchParams.get("incentive1111111111")',
+			searchParams.get("incentive")
+		);
+		if (searchParams.get("incentive")) {
+			setActiveKey("2");
+		} else {
+			setActiveKey("1");
+		}
+	}, [searchParams]);
 
 	let incentivesData = props.incentivesData;
 	console.log(incentivesData);
@@ -132,7 +148,7 @@ export default function ProjectDescription(props) {
 			</div>
 			{/* Displayed for smaller screens */}
 			<div className="d-block d-md-none">
-				<Tabs defaultActiveKey="1">
+				<Tabs activeKey={activeKey} onChange={(key) => setActiveKey(key)}>
 					<TabPane tab="Description" key="1">
 						<div
 							dangerouslySetInnerHTML={{ __html: props.description }}

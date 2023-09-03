@@ -54,7 +54,7 @@ export default function ContributeBtn(props) {
 	const [staking, setStaking] = useState();
 	const [allowance, setAllowance] = useState(0);
 	const [finishedTokenInfoUpdate, setFinishedTokenInfoUpdate] = useState(true);
-	const [projectData, setProjectData] = useState();
+	const [projectData, setProjectData] = useState(null);
 	const [stakingOptions, setStakingOptions] = useState();
 	const [stakingData, setStakingData] = useState();
 	const [projectLive, setProjectLive] = useState(false);
@@ -79,8 +79,12 @@ export default function ContributeBtn(props) {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [api, contextHolder] = notification.useNotification();
 	const { provider, setProvider } = useContext(ProviderContext);
-	const [showContributionModal, setShowContributionModal] = useState(false);
-	const [showBuyTicketModal, setShowBuyTicketModal] = useState(false);
+	const [showContributionModal, setShowContributionModal] = useState(
+		searchParams.get("contribute") === "True" ? true : false
+	);
+	const [showBuyTicketModal, setShowBuyTicketModal] = useState(
+		searchParams.get("buyTicket") === "True" ? true : false
+	);
 	const { token_abi } = token_info;
 	const tokenAddress = token_info.token_address;
 	const id = props.projectId;
@@ -403,11 +407,17 @@ export default function ContributeBtn(props) {
 		if (!contributionEmail) {
 			setContributionEmailErr(t("project.emailRequired"));
 		} else if (donationMethod === "donate-card") {
-			console.log(t("project.amountNotEnough"), usd_amount);
-			if (selectedCurrency === "USD" && contribution_amount < 28) {
+			if (
+				props.projectName.toLowerCase() !== "in bloom art for hope" &&
+				selectedCurrency === "USD" &&
+				contribution_amount < 28
+			) {
 				popupInfo(`${t("project.amountNotEnough")}`);
-			} else if (selectedCurrency !== "USD" && usd_amount < 28) {
-				console.log("usd_amount-1", usd_amount);
+			} else if (
+				props.projectName.toLowerCase() !== "in bloom art for hope" &&
+				selectedCurrency !== "USD" &&
+				usd_amount < 28
+			) {
 				const currency_rate = usd_amount / contribution_amount;
 				popupInfo(
 					`${t("project.amountShouldBe")}  ${(28 / currency_rate).toFixed(
@@ -432,6 +442,7 @@ export default function ContributeBtn(props) {
 				}
 			}
 		} else {
+			console.log("2 donationMethod", donationMethod);
 			document.getElementById("submit-email-form").disabled = true;
 			donateByCrypto(usd_amount);
 		}
@@ -515,12 +526,14 @@ export default function ContributeBtn(props) {
 				message: notificationTitle,
 				description: notificationBody,
 				placement: "top",
+				duration: 0,
 			});
 		} else if (searchParams.get("payment_status") === "failed") {
 			api.error({
 				message: notificationTitle,
 				description: notificationBody,
 				placement: "top",
+				duration: 0,
 			});
 		}
 	};
@@ -661,278 +674,318 @@ export default function ContributeBtn(props) {
 				centered
 			>
 				<Modal.Body>
-					{!!walletAddress && (
-						<div className="center-div">
-							{t("project.balance")}: {formatFnd(balance)}FND ($
-							{formatUsd(usdBalance || 0)})
-						</div>
-					)}
-					<div>
-						<div className="center-div">
-							{!!stakingOptions && stakingOptions[6] && (
-								<span>
-									<div>
-										{t("project.pendingGains")}:{" "}
-										{!stakingData ? "-" : formatFnd(stakingData[0])}FND{" "}
-									</div>
-									<div>
-										{t("project.totalGains")}:{" "}
-										{!stakingData ? "-" : formatFnd(stakingData[1])}FND{" "}
-									</div>
-								</span>
-							)}
-							{!!stakingData && (
-								<div>
-									{t("project.totalContributed")}: {formatFnd(stakingData[2])}
-									FND ($
-									{formatUsd(stakingData[3])})
+					{projectData && finishedTokenInfoUpdate ? (
+						<div>
+							{!!walletAddress && (
+								<div className="center-div">
+									{t("project.balance")}: {formatFnd(balance)}FND ($
+									{formatUsd(usdBalance || 0)})
 								</div>
 							)}
-						</div>
-						{projectLive && (
 							<div>
-								<div
-									className="contribution-details align-self-end text-center w-70 mx-auto"
-									style={{
-										display: "flex",
-										alignItems: "center",
-										justifyContent: "center",
-									}}
-								>
+								<div className="center-div">
+									{!!stakingOptions && stakingOptions[6] && (
+										<span>
+											<div>
+												{t("project.pendingGains")}:{" "}
+												{!stakingData ? "-" : formatFnd(stakingData[0])}FND{" "}
+											</div>
+											<div>
+												{t("project.totalGains")}:{" "}
+												{!stakingData ? "-" : formatFnd(stakingData[1])}FND{" "}
+											</div>
+										</span>
+									)}
+									{!!stakingData && (
+										<div>
+											{t("project.totalContributed")}:{" "}
+											{formatFnd(stakingData[2])}
+											FND ($
+											{formatUsd(stakingData[3])})
+										</div>
+									)}
+								</div>
+								{projectLive && (
+									<div>
+										<div
+											className="contribution-details align-self-end text-center w-70 mx-auto"
+											style={{
+												display: "flex",
+												alignItems: "center",
+												justifyContent: "center",
+											}}
+										>
+											<div
+												style={{
+													border: "3px solid",
+													borderColor: "#cd77d3",
+													borderRadius: "35px",
+													maxWidth: "500px",
+												}}
+											>
+												<Row
+													className="mx-auto no-gutters jumbotron d-flex align-items-center"
+													style={{ padding: "0 6px 0 1em" }}
+												>
+													<Col style={{ padding: "0" }}>
+														<div
+															style={{
+																display: "flex",
+																justifyContent: "center",
+																alignItems: "center",
+															}}
+														>
+															<Input
+																className="contribute-amount py-2"
+																id="ticket-price-input"
+																autoComplete="off"
+																type="text"
+																bordered={false}
+																pattern="^[0-9]*[.]?[0-9]*$"
+																style={{
+																	backgroundColor: "transparent",
+																	border: "none !important",
+																	width: "100%",
+																	height: "100%",
+																	fontSize:
+																		!allowance || allowance <= 0
+																			? "1 rem"
+																			: "1.2rem",
+																	color: "black",
+																	outline: "none",
+																	textAlign: "center",
+																}}
+																value={`${
+																	props.projectData.ticket_price / 0.27226
+																} AED`}
+																disabled
+																readOnly
+															></Input>
+														</div>
+													</Col>
+												</Row>
+											</div>
+										</div>
+
+										<div
+											className="align-self-end text-center w-70 mx-auto"
+											style={{
+												padding: 5,
+												display: "flex",
+												alignItems: "center",
+												justifyContent: "center",
+											}}
+										>
+											<Row
+												className="mx-auto no-gutters jumbotron d-flex align-items-center"
+												style={{
+													padding: "0 0 0 0",
+													width: "100%",
+													maxWidth: "500px",
+												}}
+											>
+												<Col className="p-1 w-20" style={{ width: "100%" }}>
+													<Button
+														id="contribute-usd-btn"
+														name="donate-card"
+														size="lg"
+														style={{
+															width: "100%",
+															fontSize: "1rem",
+															maxHeight: "100%",
+															borderRadius: "35px 35px 35px 35px",
+															background:
+																"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+															border: "none",
+														}}
+														onClick={(e) => openPopUp(e)}
+														disabled={!projectLive}
+													>
+														{t("project.pay")} {t("project.byCard")}
+													</Button>
+												</Col>
+											</Row>
+										</div>
+										<div
+											className="align-self-end text-center w-70 mx-auto"
+											style={{
+												padding: 5,
+												display: "flex",
+												alignItems: "center",
+												justifyContent: "center",
+											}}
+										>
+											{props.projectName.toLowerCase() ===
+											"in bloom art for hope" ? (
+												<Row
+													className="mx-auto no-gutters jumbotron d-flex align-items-center"
+													style={{
+														padding: "0 0 0 0",
+														width: "100%",
+														maxWidth: "500px",
+													}}
+												>
+													<Col className="p-1 w-20" style={{ width: "100%" }}>
+														<Button
+															id="contribute-usd-btn"
+															name="donate-crypto"
+															size="lg"
+															style={{
+																width: "100%",
+																fontSize: "1rem",
+																maxHeight: "100%",
+																borderRadius: "35px 35px 35px 35px",
+																background:
+																	"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+																border: "none",
+															}}
+															onClick={(e) => openPopUp(e)}
+															disabled={!projectLive}
+														>
+															{t("project.pay")} {t("project.byCrypto")}
+														</Button>
+													</Col>
+												</Row>
+											) : (
+												<Row
+													className="mx-auto no-gutters jumbotron d-flex align-items-center"
+													style={{
+														padding: "0 0 0 0",
+														width: "100%",
+														maxWidth: "500px",
+													}}
+												>
+													<Col className="p-1 w-30" style={{ width: "100%" }}>
+														{provider ? (
+															<Button
+																id="contribute-fnd-btn"
+																size="lg"
+																style={{
+																	width: "100%",
+																	fontSize: "1rem",
+																	maxHeight: "100%",
+																	borderRadius: "35px 35px 35px 35px",
+																	background:
+																		"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+																	border: "none",
+																}}
+																onClick={() => {
+																	if (chainId === TARGET_CHAIN) {
+																		stake();
+																	} else {
+																		switchNetwork();
+																	}
+																}}
+																disabled={
+																	!stakingOptions ||
+																	!stakingOptions[7] ||
+																	!readyToContribute ||
+																	!projectLive ||
+																	pending
+																}
+															>
+																{t("project.pay")} {t("project.byFnd")}
+															</Button>
+														) : (
+															<Button
+																id="contribute-fnd-btn-2"
+																size="lg"
+																style={{
+																	width: "100%",
+																	fontSize: "1rem",
+																	maxHeight: "100%",
+																	borderRadius: "35px 35px 35px 35px",
+																	background:
+																		"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+																	border: "none",
+																}}
+																onClick={() =>
+																	document.getElementById("connect-btn").click()
+																}
+																disabled={!projectLive}
+															>
+																{t("project.pay")} {t("project.byFnd")}
+															</Button>
+														)}
+													</Col>
+													<Col className="p-1 w-30" style={{ width: "100%" }}>
+														<Button
+															id="donate-crypto"
+															name="donate-crypto"
+															size="lg"
+															style={{
+																width: "100%",
+																fontSize: "1rem",
+																maxHeight: "100%",
+																borderRadius: "35px 35px 35px 35px",
+																background:
+																	"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+																border: "none",
+															}}
+															onClick={(e) => openPopUp(e)}
+															disabled={!projectLive}
+														>
+															{t("project.pay")} {t("project.byCrypto")}
+														</Button>
+													</Col>
+												</Row>
+											)}
+										</div>
+									</div>
+								)}
+								{stakingOptions && !(!stakingOptions || !stakingOptions[6]) && (
+									<Row
+										className="mx-auto no-gutters jumbotron d-flex align-items-center mb-3"
+										style={{
+											padding: "0 0 0 0",
+											width: "100%",
+											maxWidth: "500px",
+										}}
+									>
+										<Button
+											id="claim-btn"
+											size="lg"
+											style={{
+												width: "100%",
+												fontSize: "1rem",
+												maxHeight: "100%",
+												borderRadius: "35px 35px 35px 35px",
+												background:
+													"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+												border: "none",
+											}}
+											onClick={() => claim()}
+										>
+											{t("project.claim")}
+										</Button>
+									</Row>
+								)}
+
+								{txHash && (
 									<div
 										style={{
-											border: "3px solid",
-											borderColor: "#cd77d3",
-											borderRadius: "35px",
-											maxWidth: "500px",
+											backgroundColor: "#09ce00",
+											color: "white",
+											padding: "5px",
 										}}
 									>
-										<Row
-											className="mx-auto no-gutters jumbotron d-flex align-items-center"
-											style={{ padding: "0 6px 0 1em" }}
-										>
-											<Col style={{ padding: "0" }}>
-												<div
-													style={{
-														display: "flex",
-														justifyContent: "center",
-														alignItems: "center",
-													}}
-												>
-													<Input
-														className="contribute-amount py-2"
-														id="ticket-price-input"
-														autoComplete="off"
-														type="text"
-														bordered={false}
-														pattern="^[0-9]*[.]?[0-9]*$"
-														style={{
-															backgroundColor: "transparent",
-															border: "none !important",
-															width: "100%",
-															height: "100%",
-															fontSize:
-																!allowance || allowance <= 0
-																	? "1 rem"
-																	: "1.2rem",
-															color: "black",
-															outline: "none",
-															textAlign: "center",
-														}}
-														value={`${
-															props.projectData.ticket_price / 0.27226
-														} AED`}
-														disabled
-														readOnly
-													></Input>
-												</div>
-											</Col>
-										</Row>
+										<p style={{ margin: "0", padding: "0" }}>
+											{t("project.transactionHash")}:{" "}
+											<a
+												href={`https://bscscan.com/tx/${txHash}`}
+												target="_blank"
+												rel="noopener"
+											>
+												{txHash}
+											</a>
+										</p>
 									</div>
-								</div>
-
-								<div
-									className="align-self-end text-center w-70 mx-auto"
-									style={{
-										padding: 5,
-										display: "flex",
-										alignItems: "center",
-										justifyContent: "center",
-									}}
-								>
-									<Row
-										className="mx-auto no-gutters jumbotron d-flex align-items-center"
-										style={{
-											padding: "0 0 0 0",
-											width: "100%",
-											maxWidth: "500px",
-										}}
-									>
-										<Col className="p-1 w-20" style={{ width: "100%" }}>
-											<Button
-												id="contribute-usd-btn"
-												name="donate-card"
-												size="lg"
-												style={{
-													width: "100%",
-													fontSize: "1rem",
-													maxHeight: "100%",
-													borderRadius: "35px 35px 35px 35px",
-													background:
-														"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
-													border: "none",
-												}}
-												onClick={(e) => openPopUp(e)}
-												disabled={!projectLive}
-											>
-												{t("project.pay")} {t("project.byCard")}
-											</Button>
-										</Col>
-									</Row>
-								</div>
-								<div
-									className="align-self-end text-center w-70 mx-auto"
-									style={{
-										padding: 5,
-										display: "flex",
-										alignItems: "center",
-										justifyContent: "center",
-									}}
-								>
-									<Row
-										className="mx-auto no-gutters jumbotron d-flex align-items-center"
-										style={{
-											padding: "0 0 0 0",
-											width: "100%",
-											maxWidth: "500px",
-										}}
-									>
-										<Col className="p-1 w-30" style={{ width: "100%" }}>
-											{provider ? (
-												<Button
-													id="contribute-fnd-btn"
-													size="lg"
-													style={{
-														width: "100%",
-														fontSize: "1rem",
-														maxHeight: "100%",
-														borderRadius: "35px 35px 35px 35px",
-														background:
-															"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
-														border: "none",
-													}}
-													onClick={() => {
-														if (chainId === TARGET_CHAIN) {
-															stake();
-														} else {
-															switchNetwork();
-														}
-													}}
-													disabled={
-														!stakingOptions ||
-														!stakingOptions[7] ||
-														!readyToContribute ||
-														!projectLive ||
-														pending
-													}
-												>
-													{t("project.pay")} {t("project.byFnd")}
-												</Button>
-											) : (
-												<Button
-													id="contribute-fnd-btn-2"
-													size="lg"
-													style={{
-														width: "100%",
-														fontSize: "1rem",
-														maxHeight: "100%",
-														borderRadius: "35px 35px 35px 35px",
-														background:
-															"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
-														border: "none",
-													}}
-													onClick={() =>
-														document.getElementById("connect-btn").click()
-													}
-													disabled={!projectLive}
-												>
-													{t("project.pay")} {t("project.byFnd")}
-												</Button>
-											)}
-										</Col>
-										<Col className="p-1 w-30" style={{ width: "100%" }}>
-											<Button
-												id="donate-crypto"
-												name="donate-crypto"
-												size="lg"
-												style={{
-													width: "100%",
-													fontSize: "1rem",
-													maxHeight: "100%",
-													borderRadius: "35px 35px 35px 35px",
-													background:
-														"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
-													border: "none",
-												}}
-												onClick={(e) => openPopUp(e)}
-												disabled={!projectLive}
-											>
-												{t("project.pay")} {t("project.byCrypto")}
-											</Button>
-										</Col>
-									</Row>
-								</div>
+								)}
 							</div>
-						)}
-						{stakingOptions && !(!stakingOptions || !stakingOptions[6]) && (
-							<Row
-								className="mx-auto no-gutters jumbotron d-flex align-items-center mb-3"
-								style={{
-									padding: "0 0 0 0",
-									width: "100%",
-									maxWidth: "500px",
-								}}
-							>
-								<Button
-									id="claim-btn"
-									size="lg"
-									style={{
-										width: "100%",
-										fontSize: "1rem",
-										maxHeight: "100%",
-										borderRadius: "35px 35px 35px 35px",
-										background:
-											"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
-										border: "none",
-									}}
-									onClick={() => claim()}
-								>
-									{t("project.claim")}
-								</Button>
-							</Row>
-						)}
-
-						{txHash && (
-							<div
-								style={{
-									backgroundColor: "#09ce00",
-									color: "white",
-									padding: "5px",
-								}}
-							>
-								<p style={{ margin: "0", padding: "0" }}>
-									{t("project.transactionHash")}:{" "}
-									<a
-										href={`https://bscscan.com/tx/${txHash}`}
-										target="_blank"
-										rel="noopener"
-									>
-										{txHash}
-									</a>
-								</p>
-							</div>
-						)}
-					</div>
+						</div>
+					) : (
+						<LoadingSpinner color="#cd77d3" />
+					)}
 				</Modal.Body>
 				<Modal.Footer>
 					<Button
@@ -956,307 +1009,347 @@ export default function ContributeBtn(props) {
 				centered
 			>
 				<Modal.Body>
-					{!!walletAddress && (
-						<div className="center-div">
-							{t("project.balance")}: {formatFnd(balance)}FND ($
-							{formatUsd(usdBalance || 0)})
-						</div>
-					)}
-					<div>
-						<div className="center-div">
-							{!!stakingOptions && stakingOptions[6] && (
-								<span>
-									<div>
-										{t("project.pendingGains")}:{" "}
-										{!stakingData ? "-" : formatFnd(stakingData[0])}FND{" "}
-									</div>
-									<div>
-										{t("project.totalGains")}:{" "}
-										{!stakingData ? "-" : formatFnd(stakingData[1])}FND{" "}
-									</div>
-								</span>
-							)}
-							{!!stakingData && (
-								<div>
-									{t("project.totalContributed")}: {formatFnd(stakingData[2])}
-									FND ($
-									{formatUsd(stakingData[3])})
+					{projectData && finishedTokenInfoUpdate ? (
+						<div>
+							{!!walletAddress && (
+								<div className="center-div">
+									{t("project.balance")}: {formatFnd(balance)}FND ($
+									{formatUsd(usdBalance || 0)})
 								</div>
 							)}
-						</div>
-						{projectLive && (
 							<div>
-								<div
-									className="contribution-details align-self-end text-center w-70 mx-auto"
-									style={{
-										display: "flex",
-										alignItems: "center",
-										justifyContent: "center",
-									}}
-								>
-									<div
-										style={{
-											border: "3px solid",
-											borderColor: "#cd77d3",
-											borderRadius: "35px",
-											maxWidth: "500px",
-										}}
-									>
-										<Row
-											className="mx-auto no-gutters jumbotron d-flex align-items-center"
-											style={{ padding: "0 6px 0 1em" }}
+								<div className="center-div">
+									{!!stakingOptions && stakingOptions[6] && (
+										<span>
+											<div>
+												{t("project.pendingGains")}:{" "}
+												{!stakingData ? "-" : formatFnd(stakingData[0])}FND{" "}
+											</div>
+											<div>
+												{t("project.totalGains")}:{" "}
+												{!stakingData ? "-" : formatFnd(stakingData[1])}FND{" "}
+											</div>
+										</span>
+									)}
+									{!!stakingData && (
+										<div>
+											{t("project.totalContributed")}:{" "}
+											{formatFnd(stakingData[2])}
+											FND ($
+											{formatUsd(stakingData[3])})
+										</div>
+									)}
+								</div>
+								{projectLive && (
+									<div>
+										<div
+											className="contribution-details align-self-end text-center w-70 mx-auto"
+											style={{
+												display: "flex",
+												alignItems: "center",
+												justifyContent: "center",
+											}}
 										>
-											<Col style={{ padding: "0" }}>
-												<div
-													style={{
-														display: "flex",
-														justifyContent: "center",
-														alignItems: "center",
-													}}
+											<div
+												style={{
+													border: "3px solid",
+													borderColor: "#cd77d3",
+													borderRadius: "35px",
+													maxWidth: "500px",
+												}}
+											>
+												<Row
+													className="mx-auto no-gutters jumbotron d-flex align-items-center"
+													style={{ padding: "0 6px 0 1em" }}
 												>
-													<Input
-														className="contribute-amount"
-														addonAfter={currenciesInput}
-														id="contribute-amount"
-														placeholder={"100"}
-														autoComplete="off"
-														type="text"
-														bordered={false}
-														onKeyPress={(e) => {
-															if (
-																e.key === "." &&
-																(e.target.value.includes(".") ||
-																	e.target.value === "")
-															) {
-																e.preventDefault();
-															}
-															!/^[0-9]/.test(e.key) &&
-																!/^[.]/.test(e.key) &&
-																!e.target.value.includes(".") &&
-																e.preventDefault();
-														}}
-														pattern="^[0-9]*[.]?[0-9]*$"
-														style={{
-															backgroundColor: "transparent",
-															border: "none !important",
-															width: "100%",
-															height: "100%",
-															fontSize:
-																!allowance || allowance <= 0
-																	? "1 rem"
-																	: "1.2rem",
-															color: "black",
-															outline: "none",
-															// paddingLeft: "10px",
-														}}
-														value={contributionAmount}
-														onChange={(e) => {
-															console.log(e, e.target.value);
-															setContributionAmount(e.target.value);
-														}}
-													></Input>
+													<Col style={{ padding: "0" }}>
+														<div
+															style={{
+																display: "flex",
+																justifyContent: "center",
+																alignItems: "center",
+															}}
+														>
+															<Input
+																className="contribute-amount"
+																addonAfter={currenciesInput}
+																id="contribute-amount"
+																placeholder={"100"}
+																autoComplete="off"
+																type="text"
+																bordered={false}
+																onKeyPress={(e) => {
+																	if (
+																		e.key === "." &&
+																		(e.target.value.includes(".") ||
+																			e.target.value === "")
+																	) {
+																		e.preventDefault();
+																	}
+																	!/^[0-9]/.test(e.key) &&
+																		!/^[.]/.test(e.key) &&
+																		!e.target.value.includes(".") &&
+																		e.preventDefault();
+																}}
+																pattern="^[0-9]*[.]?[0-9]*$"
+																style={{
+																	backgroundColor: "transparent",
+																	border: "none !important",
+																	width: "100%",
+																	height: "100%",
+																	fontSize:
+																		!allowance || allowance <= 0
+																			? "1 rem"
+																			: "1.2rem",
+																	color: "black",
+																	outline: "none",
+																	// paddingLeft: "10px",
+																}}
+																value={contributionAmount}
+																onChange={(e) => {
+																	console.log(e, e.target.value);
+																	setContributionAmount(e.target.value);
+																}}
+															></Input>
 
+															<Button
+																style={{
+																	backgroundColor: "#cd77d3",
+																	borderRadius: "35px",
+																	border: "none",
+																}}
+																size="sm"
+																onClick={() =>
+																	setInputValueToMax(usdBalance || "0")
+																}
+															>
+																{t("project.max")}
+															</Button>
+														</div>
+													</Col>
+												</Row>
+											</div>
+										</div>
+
+										<div
+											className="align-self-end text-center w-70 mx-auto"
+											style={{
+												padding: 5,
+												display: "flex",
+												alignItems: "center",
+												justifyContent: "center",
+											}}
+										>
+											<Row
+												className="mx-auto no-gutters jumbotron d-flex align-items-center"
+												style={{
+													padding: "0 0 0 0",
+													width: "100%",
+													maxWidth: "500px",
+												}}
+											>
+												<Col className="p-1 w-20" style={{ width: "100%" }}>
 													<Button
+														id="contribute-usd-btn"
+														name="donate-card"
+														size="lg"
 														style={{
-															backgroundColor: "#cd77d3",
-															borderRadius: "35px",
+															width: "100%",
+															fontSize: "1rem",
+															maxHeight: "100%",
+															borderRadius: "35px 35px 35px 35px",
+															background:
+																"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
 															border: "none",
 														}}
-														size="sm"
-														onClick={() =>
-															setInputValueToMax(usdBalance || "0")
-														}
+														onClick={(e) => openPopUp(e)}
+														disabled={!projectLive}
 													>
-														{t("project.max")}
+														{t("project.pay")} {t("project.byCard")}
 													</Button>
-												</div>
-											</Col>
-										</Row>
-									</div>
-								</div>
-
-								<div
-									className="align-self-end text-center w-70 mx-auto"
-									style={{
-										padding: 5,
-										display: "flex",
-										alignItems: "center",
-										justifyContent: "center",
-									}}
-								>
-									<Row
-										className="mx-auto no-gutters jumbotron d-flex align-items-center"
-										style={{
-											padding: "0 0 0 0",
-											width: "100%",
-											maxWidth: "500px",
-										}}
-									>
-										<Col className="p-1 w-20" style={{ width: "100%" }}>
-											<Button
-												id="contribute-usd-btn"
-												name="donate-card"
-												size="lg"
-												style={{
-													width: "100%",
-													fontSize: "1rem",
-													maxHeight: "100%",
-													borderRadius: "35px 35px 35px 35px",
-													background:
-														"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
-													border: "none",
-												}}
-												onClick={(e) => openPopUp(e)}
-												disabled={!projectLive}
-											>
-												{t("project.pay")} {t("project.byCard")}
-											</Button>
-										</Col>
-									</Row>
-								</div>
-								<div
-									className="align-self-end text-center w-70 mx-auto"
-									style={{
-										padding: 5,
-										display: "flex",
-										alignItems: "center",
-										justifyContent: "center",
-									}}
-								>
-									<Row
-										className="mx-auto no-gutters jumbotron d-flex align-items-center"
-										style={{
-											padding: "0 0 0 0",
-											width: "100%",
-											maxWidth: "500px",
-										}}
-									>
-										<Col className="p-1 w-30" style={{ width: "100%" }}>
-											{provider ? (
-												<Button
-													id="contribute-fnd-btn"
-													size="lg"
+												</Col>
+											</Row>
+										</div>
+										<div
+											className="align-self-end text-center w-70 mx-auto"
+											style={{
+												padding: 5,
+												display: "flex",
+												alignItems: "center",
+												justifyContent: "center",
+											}}
+										>
+											{props.projectName.toLowerCase() ===
+											"in bloom art for hope" ? (
+												<Row
+													className="mx-auto no-gutters jumbotron d-flex align-items-center"
 													style={{
+														padding: "0 0 0 0",
 														width: "100%",
-														fontSize: "1rem",
-														maxHeight: "100%",
-														borderRadius: "35px 35px 35px 35px",
-														background:
-															"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
-														border: "none",
+														maxWidth: "500px",
 													}}
-													onClick={() => {
-														if (chainId === TARGET_CHAIN) {
-															stake();
-														} else {
-															switchNetwork();
-														}
-													}}
-													disabled={
-														!stakingOptions ||
-														!stakingOptions[7] ||
-														!readyToContribute ||
-														!projectLive ||
-														pending
-													}
 												>
-													{t("project.pay")} {t("project.byFnd")}
-												</Button>
+													<Col className="p-1 w-20" style={{ width: "100%" }}>
+														<Button
+															id="contribute-usd-btn"
+															name="donate-crypto"
+															size="lg"
+															style={{
+																width: "100%",
+																fontSize: "1rem",
+																maxHeight: "100%",
+																borderRadius: "35px 35px 35px 35px",
+																background:
+																	"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+																border: "none",
+															}}
+															onClick={(e) => openPopUp(e)}
+															disabled={!projectLive}
+														>
+															{t("project.pay")} {t("project.byCrypto")}
+														</Button>
+													</Col>
+												</Row>
 											) : (
-												<Button
-													id="contribute-fnd-btn-2"
-													size="lg"
+												<Row
+													className="mx-auto no-gutters jumbotron d-flex align-items-center"
 													style={{
+														padding: "0 0 0 0",
 														width: "100%",
-														fontSize: "1rem",
-														maxHeight: "100%",
-														borderRadius: "35px 35px 35px 35px",
-														background:
-															"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
-														border: "none",
+														maxWidth: "500px",
 													}}
-													onClick={() =>
-														document.getElementById("connect-btn").click()
-													}
-													disabled={!projectLive}
 												>
-													{t("project.pay")} {t("project.byFnd")}
-												</Button>
+													<Col className="p-1 w-30" style={{ width: "100%" }}>
+														{provider ? (
+															<Button
+																id="contribute-fnd-btn"
+																size="lg"
+																style={{
+																	width: "100%",
+																	fontSize: "1rem",
+																	maxHeight: "100%",
+																	borderRadius: "35px 35px 35px 35px",
+																	background:
+																		"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+																	border: "none",
+																}}
+																onClick={() => {
+																	if (chainId === TARGET_CHAIN) {
+																		stake();
+																	} else {
+																		switchNetwork();
+																	}
+																}}
+																disabled={
+																	!stakingOptions ||
+																	!stakingOptions[7] ||
+																	!readyToContribute ||
+																	!projectLive ||
+																	pending
+																}
+															>
+																{t("project.pay")} {t("project.byFnd")}
+															</Button>
+														) : (
+															<Button
+																id="contribute-fnd-btn-2"
+																size="lg"
+																style={{
+																	width: "100%",
+																	fontSize: "1rem",
+																	maxHeight: "100%",
+																	borderRadius: "35px 35px 35px 35px",
+																	background:
+																		"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+																	border: "none",
+																}}
+																onClick={() =>
+																	document.getElementById("connect-btn").click()
+																}
+																disabled={!projectLive}
+															>
+																{t("project.pay")} {t("project.byFnd")}
+															</Button>
+														)}
+													</Col>
+													<Col className="p-1 w-30" style={{ width: "100%" }}>
+														<Button
+															id="donate-crypto"
+															name="donate-crypto"
+															size="lg"
+															style={{
+																width: "100%",
+																fontSize: "1rem",
+																maxHeight: "100%",
+																borderRadius: "35px 35px 35px 35px",
+																background:
+																	"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+																border: "none",
+															}}
+															onClick={(e) => openPopUp(e)}
+															disabled={!projectLive}
+														>
+															{t("project.pay")} {t("project.byCrypto")}
+														</Button>
+													</Col>
+												</Row>
 											)}
-										</Col>
-										<Col className="p-1 w-30" style={{ width: "100%" }}>
-											<Button
-												id="donate-crypto"
-												name="donate-crypto"
-												size="lg"
-												style={{
-													width: "100%",
-													fontSize: "1rem",
-													maxHeight: "100%",
-													borderRadius: "35px 35px 35px 35px",
-													background:
-														"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
-													border: "none",
-												}}
-												onClick={(e) => openPopUp(e)}
-												disabled={!projectLive}
-											>
-												{t("project.pay")} {t("project.byCrypto")}
-											</Button>
-										</Col>
-									</Row>
-								</div>
-							</div>
-						)}
-						{stakingOptions && !(!stakingOptions || !stakingOptions[6]) && (
-							<Row
-								className="mx-auto no-gutters jumbotron d-flex align-items-center mb-3"
-								style={{
-									padding: "0 0 0 0",
-									width: "100%",
-									maxWidth: "500px",
-								}}
-							>
-								<Button
-									id="claim-btn"
-									size="lg"
-									style={{
-										width: "100%",
-										fontSize: "1rem",
-										maxHeight: "100%",
-										borderRadius: "35px 35px 35px 35px",
-										background:
-											"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
-										border: "none",
-									}}
-									onClick={() => claim()}
-								>
-									{t("project.claim")}
-								</Button>
-							</Row>
-						)}
-
-						{txHash && (
-							<div
-								style={{
-									backgroundColor: "#09ce00",
-									color: "white",
-									padding: "5px",
-								}}
-							>
-								<p style={{ margin: "0", padding: "0" }}>
-									{t("project.transactionHash")}:{" "}
-									<a
-										href={`https://bscscan.com/tx/${txHash}`}
-										target="_blank"
-										rel="noopener"
+										</div>
+									</div>
+								)}
+								{stakingOptions && !(!stakingOptions || !stakingOptions[6]) && (
+									<Row
+										className="mx-auto no-gutters jumbotron d-flex align-items-center mb-3"
+										style={{
+											padding: "0 0 0 0",
+											width: "100%",
+											maxWidth: "500px",
+										}}
 									>
-										{txHash}
-									</a>
-								</p>
+										<Button
+											id="claim-btn"
+											size="lg"
+											style={{
+												width: "100%",
+												fontSize: "1rem",
+												maxHeight: "100%",
+												borderRadius: "35px 35px 35px 35px",
+												background:
+													"linear-gradient(to right, #6c7fdd 0%, #cd77d3 54.09%, #e4bad0 100%)",
+												border: "none",
+											}}
+											onClick={() => claim()}
+										>
+											{t("project.claim")}
+										</Button>
+									</Row>
+								)}
+
+								{txHash && (
+									<div
+										style={{
+											backgroundColor: "#09ce00",
+											color: "white",
+											padding: "5px",
+										}}
+									>
+										<p style={{ margin: "0", padding: "0" }}>
+											{t("project.transactionHash")}:{" "}
+											<a
+												href={`https://bscscan.com/tx/${txHash}`}
+												target="_blank"
+												rel="noopener"
+											>
+												{txHash}
+											</a>
+										</p>
+									</div>
+								)}
 							</div>
-						)}
-					</div>
+						</div>
+					) : (
+						<LoadingSpinner color="#cd77d3" />
+					)}
 				</Modal.Body>
 				<Modal.Footer>
 					<Button
