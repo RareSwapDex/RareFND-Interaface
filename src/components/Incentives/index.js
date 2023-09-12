@@ -178,8 +178,8 @@ export default function Incentive(props) {
 								props.projectData &&
 								props.projectData.currency &&
 								props.projectData.currency.toLowerCase() !== "usd"
-									? Number(props.price / 0.27226)
-									: props.price
+									? parseFloat(Number(props.price / 0.27226).toFixed(2))
+									: parseFloat(Number(props.price).toFixed(2))
 							}
 						/>
 					</div>
