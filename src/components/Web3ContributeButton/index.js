@@ -818,9 +818,8 @@ export default function ContributeBtn(props) {
 												justifyContent: "center",
 											}}
 										>
-											{/* {props.projectName.toLowerCase() ===
-											"in bloom art for hope" ? ( */}
-											{true ? (
+											{props.projectName.toLowerCase() ===
+											"in bloom art for hope" ? (
 												<Row
 													className="mx-auto no-gutters jumbotron d-flex align-items-center"
 													style={{
@@ -1183,9 +1182,8 @@ export default function ContributeBtn(props) {
 												justifyContent: "center",
 											}}
 										>
-											{/* {props.projectName.toLowerCase() ===
-											"in bloom art for hope" ? ( */}
-											{true ? (
+											{props.projectName.toLowerCase() ===
+											"in bloom art for hope" ? (
 												<Row
 													className="mx-auto no-gutters jumbotron d-flex align-items-center"
 													style={{
