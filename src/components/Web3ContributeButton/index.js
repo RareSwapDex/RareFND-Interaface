@@ -408,13 +408,15 @@ export default function ContributeBtn(props) {
 			setContributionEmailErr(t("project.emailRequired"));
 		} else if (donationMethod === "donate-card") {
 			if (
-				props.projectName.toLowerCase() !== "in bloom art for hope" &&
+				// props.projectName.toLowerCase() !== "in bloom art for hope" &&
+				false &&
 				selectedCurrency === "USD" &&
 				contribution_amount < 28
 			) {
 				popupInfo(`${t("project.amountNotEnough")}`);
 			} else if (
-				props.projectName.toLowerCase() !== "in bloom art for hope" &&
+				// props.projectName.toLowerCase() !== "in bloom art for hope" &&
+				false &&
 				selectedCurrency !== "USD" &&
 				usd_amount < 28
 			) {
@@ -434,7 +436,8 @@ export default function ContributeBtn(props) {
 				document.getElementById("submit-email-form").disabled = true;
 				if (
 					usd_amount >= 5000 ||
-					props.projectName.toLowerCase() === "in bloom art for hope"
+					// props.projectName.toLowerCase() === "in bloom art for hope"
+					true
 				) {
 					donateByStripe(usd_amount);
 				} else {
@@ -815,8 +818,9 @@ export default function ContributeBtn(props) {
 												justifyContent: "center",
 											}}
 										>
-											{props.projectName.toLowerCase() ===
-											"in bloom art for hope" ? (
+											{/* {props.projectName.toLowerCase() ===
+											"in bloom art for hope" ? ( */}
+											{true ? (
 												<Row
 													className="mx-auto no-gutters jumbotron d-flex align-items-center"
 													style={{
@@ -1179,8 +1183,9 @@ export default function ContributeBtn(props) {
 												justifyContent: "center",
 											}}
 										>
-											{props.projectName.toLowerCase() ===
-											"in bloom art for hope" ? (
+											{/* {props.projectName.toLowerCase() ===
+											"in bloom art for hope" ? ( */}
+											{true ? (
 												<Row
 													className="mx-auto no-gutters jumbotron d-flex align-items-center"
 													style={{
